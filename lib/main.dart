@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/global.dart';
+import 'package:past_paper_master/pages/filter.dart';
+import 'package:past_paper_master/pages/sidebar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,58 +15,44 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     globalContext = context;
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Past Paper Master',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        body: Row(
+      children: [
+        Container(
+          width: 312,
+          decoration: BoxDecoration(
+            border: Border(
+                right: BorderSide(color: MColors.grey.shade200, width: 1)),
+            color: MColors.white,
+          ),
+          child: SidebarView(),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+        Expanded(
+          child: Container(
+              color: MColors.grey.shade50,
+              child: ListView(
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                          top: 32, bottom: 48, left: 32, right: 32),
+                      child: PaperFilterPage()),
+                ],
+              )),
+        )
+      ],
+    ));
   }
 }
