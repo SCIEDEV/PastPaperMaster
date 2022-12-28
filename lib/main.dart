@@ -3,6 +3,8 @@ import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/global.dart';
 import 'package:past_paper_master/pages/filter.dart';
 import 'package:past_paper_master/pages/sidebar.dart';
+import 'package:past_paper_master/provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,10 @@ class MyApp extends StatelessWidget {
       title: 'Past Paper Master',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
-      home: const MyHomePage(),
+      home: ChangeNotifierProvider(
+        create: (context) => GeneralStates(),
+        child: const MyHomePage(),
+      ),
     );
   }
 }
