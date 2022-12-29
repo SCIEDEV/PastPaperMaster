@@ -178,6 +178,5 @@ class MLongButton extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
