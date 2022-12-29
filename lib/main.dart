@@ -3,6 +3,7 @@ import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/global.dart';
 import 'package:past_paper_master/pages/filter.dart';
 import 'package:past_paper_master/pages/sidebar.dart';
+import 'package:past_paper_master/pages/browse.dart';
 import 'package:past_paper_master/provider.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,17 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
+  static List<Widget> _pages = [
+    const PaperFilterPage(),
+    const BrowsePage(),
+    const PaperFilterPage(),
+    const PaperFilterPage(),
+    const PaperFilterPage(),
+    const PaperFilterPage(),
+    const PaperFilterPage(),
+    const PaperFilterPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +65,8 @@ class MyHomePage extends StatelessWidget {
                   Container(
                       padding: EdgeInsets.only(
                           top: 32, bottom: 48, left: 32, right: 32),
-                      child: PaperFilterPage()),
+                      child:
+                          _pages[context.watch<GeneralStates>().selectedTab]),
                 ],
               )),
         )

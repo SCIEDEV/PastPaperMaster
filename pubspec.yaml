@@ -23,6 +23,7 @@ dev_dependencies:
   flutter_svg: ^1.1.6
   ionicons: ^0.2.1
   provider: ^6.0.5
+  flutter_feather_icons: ^2.0.0
 
 
 flutter:
