@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
-import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
 import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
