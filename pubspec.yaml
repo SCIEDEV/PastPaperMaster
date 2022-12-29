@@ -24,12 +24,14 @@ dev_dependencies:
   ionicons: ^0.2.1
   provider: ^6.0.5
   flutter_feather_icons: ^2.0.0
+  rive: ^0.10.0
 
 
 flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/rive/
   fonts:
     - family: Inter
       fonts:

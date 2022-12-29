@@ -3,6 +3,7 @@ import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/textstyle.dart';
 import 'package:past_paper_master/twotones.dart';
+import 'package:rive/rive.dart';
 
 class BrowsePage extends StatelessWidget {
   const BrowsePage({super.key});
@@ -92,9 +93,17 @@ class NoEntriesPlaceholder extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            twoToneIcon('folder-browse', false, width: 48, height: 48),
+            Container(
+              width: 64,
+              height: 64,
+              child: RiveAnimation.asset(
+                'assets/rive/empty_folder.riv',
+                artboard: 'empty directory',
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(
-              height: 16,
+              height: 8,
               width: double.infinity,
             ),
             Text(
