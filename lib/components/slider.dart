@@ -22,12 +22,12 @@ class _MRangeSliderState extends State<MRangeSlider> {
           showValueIndicator: ShowValueIndicator.always,
           activeTrackColor: MColors.accent,
           trackHeight: 8,
-          rangeThumbShape: RoundRangeSliderThumbShape(
+          rangeThumbShape: const RoundRangeSliderThumbShape(
               enabledThumbRadius: 12, elevation: 2.0, pressedElevation: 1.0),
           overlayShape: SliderComponentShape.noOverlay,
           rangeValueIndicatorShape: const CustomValueIndicatorShape(),
           valueIndicatorColor: MColors.white,
-          valueIndicatorTextStyle: MTextStyles.sm_md_grey_700,
+          valueIndicatorTextStyle: MTextStyles.smMdGrey700,
           inactiveTrackColor: MColors.grey.shade200,
           inactiveTickMarkColor: MColors.grey.shade300,
           thumbColor: MColors.white,

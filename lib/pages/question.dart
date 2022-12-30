@@ -11,7 +11,7 @@ class SearchQuestionsPage extends StatelessWidget {
       children: [
         Text(
           'Search Questions',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 36),
       ],

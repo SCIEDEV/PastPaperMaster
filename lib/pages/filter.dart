@@ -15,17 +15,17 @@ class PaperFilterPage extends StatelessWidget {
       children: [
         Text(
           'Paper Filter',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 32),
         Text(
           'Filter conditions',
-          style: MTextStyles.lg_md_grey_900,
+          style: MTextStyles.lgMdGrey900,
         ),
         const SizedBox(height: 4),
         Text(
           'Fill in all conditions that you are using to filter your papers here.',
-          style: MTextStyles.sm_rg_grey_500,
+          style: MTextStyles.smRgGrey500,
         ),
         Divider(
           color: MColors.grey.shade300,
@@ -35,6 +35,7 @@ class PaperFilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
@@ -42,24 +43,24 @@ class PaperFilterPage extends StatelessWidget {
                     children: [
                       Text(
                         'Syllabus',
-                        style: MTextStyles.sm_md_grey_700,
+                        style: MTextStyles.smMdGrey700,
                       ),
                       Text(
                         'Your exam board and corresponding subject.',
-                        style: MTextStyles.sm_rg_grey_500,
+                        style: MTextStyles.smRgGrey500,
                       ),
                     ]),
               ),
-              flex: 4,
             ),
             Expanded(
+              flex: 7,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: [
+                      children: const [
                         MButtonGroup(titles: ['CAIE', 'Edexcel']),
-                        const SizedBox(width: 16),
+                        SizedBox(width: 16),
                         MButtonGroup(titles: ['(I)GCSE', 'A(S) Level']),
                       ],
                     ),
@@ -72,9 +73,8 @@ class PaperFilterPage extends StatelessWidget {
                       size: 20,
                     ),
                   ]),
-              flex: 7,
             ),
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
           ],
         ),
         Divider(
@@ -85,6 +85,7 @@ class PaperFilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
@@ -92,21 +93,21 @@ class PaperFilterPage extends StatelessWidget {
                     children: [
                       Text(
                         'Time range',
-                        style: MTextStyles.sm_md_grey_700,
+                        style: MTextStyles.smMdGrey700,
                       ),
                       Text(
                         'Year and season range of filtered papers.',
-                        style: MTextStyles.sm_rg_grey_500,
+                        style: MTextStyles.smRgGrey500,
                       ),
                     ]),
               ),
-              flex: 4,
             ),
             Expanded(
+              flex: 7,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MRangeSlider(),
+                    const MRangeSlider(),
                     const SizedBox(height: 16),
                     MLongButton(
                         onPressed: () {},
@@ -115,9 +116,8 @@ class PaperFilterPage extends StatelessWidget {
                         size: 20,
                         placeholder: true),
                   ]),
-              flex: 7,
             ),
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
           ],
         ),
         Divider(
@@ -128,6 +128,7 @@ class PaperFilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
@@ -135,17 +136,17 @@ class PaperFilterPage extends StatelessWidget {
                     children: [
                       Text(
                         'Paper type',
-                        style: MTextStyles.sm_md_grey_700,
+                        style: MTextStyles.smMdGrey700,
                       ),
                       Text(
                         'Paper numbers and document types of filtered papers.',
-                        style: MTextStyles.sm_rg_grey_500,
+                        style: MTextStyles.smRgGrey500,
                       ),
                     ]),
               ),
-              flex: 4,
             ),
             Expanded(
+              flex: 7,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -163,9 +164,8 @@ class PaperFilterPage extends StatelessWidget {
                         size: 20,
                         placeholder: true),
                   ]),
-              flex: 7,
             ),
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
           ],
         ),
         Divider(
@@ -176,7 +176,7 @@ class PaperFilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            MBadge(title: 'Some fields are not filled in'),
+            const MBadge(title: 'Some fields are not filled in'),
             const SizedBox(width: 12),
             MButton(
               onPressed: () {},

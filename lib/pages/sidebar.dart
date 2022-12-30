@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class SidebarView extends StatelessWidget {
   const SidebarView({super.key});
 
-  static List<dynamic> _sidebarDataTop = [
+  static final List<dynamic> _sidebarDataTop = [
     {'icon': 'file-filter', 'title': 'Paper Filter'},
     {'icon': 'folder-browse', 'title': 'Browse'},
     {'icon': 'checkout', 'title': 'Checkout'},
@@ -16,7 +16,7 @@ class SidebarView extends StatelessWidget {
     {'icon': 'code', 'title': 'Pseudocode Runner'},
   ];
 
-  static List<dynamic> _sidebarDataBottom = [
+  static final List<dynamic> _sidebarDataBottom = [
     {'icon': 'settings', 'title': 'Settings'},
     {'icon': 'info', 'title': 'About'},
   ];
@@ -36,7 +36,7 @@ class SidebarView extends StatelessWidget {
                   title: item['title'],
                   index: _sidebarDataTop.indexOf(item))
           ],
-          Spacer(),
+          const Spacer(),
           ...[
             for (var item in _sidebarDataBottom)
               SidebarItem(
@@ -48,13 +48,14 @@ class SidebarView extends StatelessWidget {
                       _sidebarDataTop.length + _sidebarDataBottom.indexOf(item))
           ],
           if (context.watch<GeneralStates>().showAlphaBanner) ...[
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: MColors.accent.shade50,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -73,7 +74,7 @@ class SidebarView extends StatelessWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         TextButton(
                           onPressed: () {
                             context.read<GeneralStates>().showAlphaBanner =
@@ -85,15 +86,6 @@ class SidebarView extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500)),
                         ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text('View details',
-                              style: TextStyle(
-                                  color: MColors.accent.shade700,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500)),
-                        )
                       ],
                     )
                   ],
@@ -134,7 +126,7 @@ class SidebarItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
         ),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         child: Row(children: [
           twoToneIcon(iconName, isActive),
           const SizedBox(width: 12),

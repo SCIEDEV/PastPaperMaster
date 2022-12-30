@@ -4,7 +4,7 @@ import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 
 class MButton extends StatelessWidget {
-  MButton(
+  const MButton(
       {required this.onPressed,
       this.title = 'Button',
       this.primary = false,
@@ -18,7 +18,7 @@ class MButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: onPressed,
-      constraints: BoxConstraints(minWidth: 0, minHeight: 0),
+      constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       fillColor: primary ? MColors.accent.shade500 : MColors.white,
       elevation: primary ? 1 : 0.5,
@@ -26,7 +26,7 @@ class MButton extends StatelessWidget {
       hoverElevation: 0,
       focusElevation: 0,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: primary
@@ -68,16 +68,16 @@ class _MButtonGroupState extends State<MButtonGroup> {
                 _selected = i;
               });
             },
-            constraints: BoxConstraints(minWidth: 0, minHeight: 0),
+            constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-              topLeft: i == 0 ? Radius.circular(8) : Radius.zero,
-              bottomLeft: i == 0 ? Radius.circular(8) : Radius.zero,
+              topLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
+              bottomLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
               topRight: i == widget.titles.length - 1
-                  ? Radius.circular(8)
+                  ? const Radius.circular(8)
                   : Radius.zero,
               bottomRight: i == widget.titles.length - 1
-                  ? Radius.circular(8)
+                  ? const Radius.circular(8)
                   : Radius.zero,
             )),
             fillColor: _selected == i ? MColors.accent.shade500 : MColors.white,
@@ -86,16 +86,16 @@ class _MButtonGroupState extends State<MButtonGroup> {
             hoverElevation: 0,
             focusElevation: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topLeft: i == 0 ? Radius.circular(8) : Radius.zero,
-                  bottomLeft: i == 0 ? Radius.circular(8) : Radius.zero,
+                  topLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
+                  bottomLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
                   topRight: i == widget.titles.length - 1
-                      ? Radius.circular(8)
+                      ? const Radius.circular(8)
                       : Radius.zero,
                   bottomRight: i == widget.titles.length - 1
-                      ? Radius.circular(8)
+                      ? const Radius.circular(8)
                       : Radius.zero,
                 ),
                 border: _selected == i
@@ -142,7 +142,7 @@ class MLongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: onPressed,
-      constraints: BoxConstraints(minWidth: 0, minHeight: 0),
+      constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       fillColor: MColors.white,
       elevation: 0.5,
@@ -150,7 +150,7 @@ class MLongButton extends StatelessWidget {
       hoverElevation: 0,
       focusElevation: 0,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: MColors.grey.shade300, width: 1),
@@ -168,7 +168,7 @@ class MLongButton extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400),
             ),
-            Spacer(),
+            const Spacer(),
             Icon(
               Ionicons.chevron_forward_outline,
               color: MColors.grey.shade500,

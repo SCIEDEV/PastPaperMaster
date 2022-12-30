@@ -13,7 +13,7 @@ class DownloadsPage extends StatelessWidget {
       children: [
         Text(
           'Downloads',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 36),
         Container(
@@ -21,7 +21,7 @@ class DownloadsPage extends StatelessWidget {
               color: MColors.white,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: MColors.grey.shade200, width: 1),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Color(0x19101828),
                     offset: Offset(0, 4),
@@ -34,7 +34,7 @@ class DownloadsPage extends StatelessWidget {
                     spreadRadius: -2),
               ]),
           child: Column(
-            children: [
+            children: const [
               DownloadsTableHeader(),
               NoDownloadsPlaceholder(),
             ],
@@ -55,23 +55,23 @@ class DownloadsTableHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: MColors.grey.shade50,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(8), topRight: Radius.circular(8)),
       ),
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
       child: Row(children: [
         Expanded(
+            flex: 1,
             child: Text(
               'Document name',
-              style: MTextStyles.xs_md_grey_500,
-            ),
-            flex: 1),
+              style: MTextStyles.xsMdGrey500,
+            )),
         Expanded(
+            flex: 1,
             child: Text(
               'Document type',
-              style: MTextStyles.xs_md_grey_500,
-            ),
-            flex: 1),
+              style: MTextStyles.xsMdGrey500,
+            )),
       ]),
     );
   }
@@ -87,19 +87,19 @@ class NoDownloadsPlaceholder extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           color: MColors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
           border: Border.all(
               color: MColors.grey.shade200,
               width: 1,
               strokeAlign: StrokeAlign.outside),
         ),
-        padding: EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            const SizedBox(
               width: 64,
               height: 64,
               child: RiveAnimation.asset(
@@ -108,21 +108,21 @@ class NoDownloadsPlaceholder extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
               width: double.infinity,
             ),
             Text(
               'Download queue is empty',
-              style: MTextStyles.md_md_grey_900,
+              style: MTextStyles.mdMdGrey900,
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
               width: double.infinity,
             ),
             Text(
               'No documents have been downloaded yet.',
-              style: MTextStyles.sm_rg_grey_500,
+              style: MTextStyles.smRgGrey500,
             ),
           ],
         ));

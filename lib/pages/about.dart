@@ -15,7 +15,7 @@ class AboutPage extends StatelessWidget {
       children: [
         Text(
           'About Past Paper Master',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 36),
         Column(
@@ -29,20 +29,20 @@ class AboutPage extends StatelessWidget {
             const SizedBox(height: 16, width: double.infinity),
             Text(
               'Past Paper Master',
-              style: MTextStyles.dxs_md_grey_900,
+              style: MTextStyles.dxsMdGrey900,
             ),
             const SizedBox(height: 16),
-            MBadge(
+            const MBadge(
                 title:
-                    '${kAppStage} ${kMajorVersion}.${kMinorVersion}.${kPatchVersion}'),
+                    '$kAppStage $kMajorVersion.$kMinorVersion.$kPatchVersion'),
             const SizedBox(height: 16),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Created with ❤️ by', style: MTextStyles.sm_rg_grey_900),
-                Text(' Micfong ', style: MTextStyles.sm_sb_grey_900),
-                Text('as a part of', style: MTextStyles.sm_rg_grey_900),
-                Text(' SCIE.DEV', style: MTextStyles.sm_sb_grey_900),
+                Text('Created with ❤️ by', style: MTextStyles.smRgGrey900),
+                Text(' Micfong ', style: MTextStyles.smSbGrey900),
+                Text('as a part of', style: MTextStyles.smRgGrey900),
+                Text(' SCIE.DEV', style: MTextStyles.smSbGrey900),
               ],
             ),
             Divider(
@@ -53,66 +53,66 @@ class AboutPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
+                  flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 24),
                     child: Text(
                       'Version information',
-                      style: MTextStyles.sm_md_grey_700,
+                      style: MTextStyles.smMdGrey700,
                     ),
                   ),
-                  flex: 4,
                 ),
                 Expanded(
+                  flex: 4,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Version number',
-                          style: MTextStyles.sm_rg_grey_500,
+                          style: MTextStyles.smRgGrey500,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Build number',
-                          style: MTextStyles.sm_rg_grey_500,
+                          style: MTextStyles.smRgGrey500,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Database version',
-                          style: MTextStyles.sm_rg_grey_500,
+                          style: MTextStyles.smRgGrey500,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Last commit',
-                          style: MTextStyles.sm_rg_grey_500,
+                          style: MTextStyles.smRgGrey500,
                         ),
                       ]),
-                  flex: 4,
                 ),
                 Expanded(
+                  flex: 7,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${kAppStageShort}${kMajorVersion}.${kMinorVersion}.${kPatchVersion}',
-                          style: MTextStyles.sm_rg_grey_900,
+                          '$kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion',
+                          style: MTextStyles.smRgGrey900,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          '${kBuildNumber}',
-                          style: MTextStyles.sm_rg_grey_900,
+                          '$kBuildNumber',
+                          style: MTextStyles.smRgGrey900,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          '${kDatabaseVersion}',
-                          style: MTextStyles.sm_rg_grey_900,
+                          '$kDatabaseVersion',
+                          style: MTextStyles.smRgGrey900,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          '${kLastCommitHash}',
-                          style: MTextStyles.sm_rg_grey_900,
+                          kLastCommitHash,
+                          style: MTextStyles.smRgGrey900,
                         ),
                       ]),
-                  flex: 7,
                 ),
               ],
             ),
@@ -124,30 +124,30 @@ class AboutPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
+                  flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 24),
                     child: Text(
                       'Sponsor me',
-                      style: MTextStyles.sm_md_grey_700,
+                      style: MTextStyles.smMdGrey700,
                     ),
                   ),
-                  flex: 4,
                 ),
                 Expanded(
+                  flex: 10,
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MButton(onPressed: () {}, title: 'Open Collective'),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         MButton(onPressed: () {}, title: 'WeChat'),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         MButton(onPressed: () {}, title: 'Alipay'),
                       ]),
-                  flex: 10,
                 ),
                 Expanded(
-                  child: Container(),
                   flex: 1,
+                  child: Container(),
                 ),
               ],
             ),

@@ -14,13 +14,14 @@ class SettingsPage extends StatelessWidget {
       children: [
         Text(
           'Settings',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 36),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
@@ -28,35 +29,35 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Version updates',
-                        style: MTextStyles.sm_md_grey_700,
+                        style: MTextStyles.smMdGrey700,
                       ),
                       Text(
                         'Check for updates to receive the latest features and bug fixes.',
-                        style: MTextStyles.sm_rg_grey_500,
+                        style: MTextStyles.smRgGrey500,
                       ),
                     ]),
               ),
-              flex: 4,
             ),
             Expanded(
+              flex: 7,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                     MButton(onPressed: () {}, title: 'Check for updates'),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Your version: ${kBuildNumber}-${kDatabaseVersion}',
-                          style: MTextStyles.sm_rg_grey_500,
+                          'Your version: $kBuildNumber-$kDatabaseVersion',
+                          style: MTextStyles.smRgGrey500,
                         ),
                         Text(
                           'Lastest version: 13-2',
-                          style: MTextStyles.sm_rg_grey_500,
+                          style: MTextStyles.smRgGrey500,
                         ),
                       ],
                     ),
@@ -66,10 +67,10 @@ class SettingsPage extends StatelessWidget {
                     height: 60,
                   ),
                   Text('A newer database is available!',
-                      style: MTextStyles.sm_md_grey_700),
+                      style: MTextStyles.smMdGrey700),
                   const SizedBox(height: 8),
                   Text('This database update includes papers until June 2022.',
-                      style: MTextStyles.sm_rg_grey_500),
+                      style: MTextStyles.smRgGrey500),
                   const SizedBox(height: 8),
                   MButton(
                     onPressed: () {},
@@ -81,11 +82,11 @@ class SettingsPage extends StatelessWidget {
                     height: 60,
                   ),
                   Text('A newer release is available!',
-                      style: MTextStyles.sm_md_grey_700),
+                      style: MTextStyles.smMdGrey700),
                   const SizedBox(height: 8),
                   Text(
                       'This release includes minor bug fixes and improvements.',
-                      style: MTextStyles.sm_rg_grey_500),
+                      style: MTextStyles.smRgGrey500),
                   const SizedBox(height: 8),
                   MButton(
                     onPressed: () {},
@@ -94,9 +95,8 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              flex: 7,
             ),
-            Expanded(child: Container(), flex: 1)
+            Expanded(flex: 1, child: Container())
           ],
         ),
         Divider(
@@ -107,6 +107,7 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
@@ -114,26 +115,25 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Download path',
-                        style: MTextStyles.sm_md_grey_700,
+                        style: MTextStyles.smMdGrey700,
                       ),
                       Text(
                         'Path where papers are downloaded to.',
-                        style: MTextStyles.sm_rg_grey_500,
+                        style: MTextStyles.smRgGrey500,
                       ),
                     ]),
               ),
-              flex: 4,
             ),
             Expanded(
+              flex: 7,
               child: MLongButton(
                 onPressed: () {},
                 title: 'Download path',
                 iconName: 'download',
                 placeholder: true,
               ),
-              flex: 7,
             ),
-            Expanded(child: Container(), flex: 1)
+            Expanded(flex: 1, child: Container())
           ],
         ),
       ],

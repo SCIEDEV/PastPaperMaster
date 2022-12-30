@@ -19,7 +19,7 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
-    WindowOptions windowOptions = WindowOptions(
+    WindowOptions windowOptions = const WindowOptions(
       title: 'Past Paper Master',
       size: Size(1024, 800),
       minimumSize: Size(990, 645),
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
-  static List<Widget> _pages = [
+  static final List<Widget> _pages = [
     const PaperFilterPage(),
     const BrowsePage(),
     const CheckoutPage(),
@@ -76,7 +76,7 @@ class MyHomePage extends StatelessWidget {
                 right: BorderSide(color: MColors.grey.shade200, width: 1)),
             color: MColors.white,
           ),
-          child: SidebarView(),
+          child: const SidebarView(),
         ),
         Expanded(
           child: Container(
@@ -84,7 +84,7 @@ class MyHomePage extends StatelessWidget {
               child: ListView(
                 children: [
                   Container(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 32, bottom: 48, left: 32, right: 32),
                       child:
                           _pages[context.watch<GeneralStates>().selectedTab]),

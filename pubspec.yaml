@@ -13,17 +13,18 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   window_manager: ^0.2.8
   flutter_svg: ^1.1.6
   ionicons: ^0.2.1
   provider: ^6.0.5
   flutter_feather_icons: ^2.0.0
   rive: ^0.10.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
+
 
 
 flutter:

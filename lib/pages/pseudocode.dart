@@ -11,7 +11,7 @@ class PseudocodeRunnerPage extends StatelessWidget {
       children: [
         Text(
           'Pseudocode Runner',
-          style: MTextStyles.dsm_md_grey_900,
+          style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 36),
       ],
