@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
-import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/textstyle.dart';
 import 'package:rive/rive.dart';
 
-class BrowsePage extends StatelessWidget {
-  const BrowsePage({super.key});
+class CheckoutPage extends StatelessWidget {
+  const CheckoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +12,10 @@ class BrowsePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Browse',
+          'Checkout',
           style: MTextStyles.dsm_md_grey_900,
         ),
-        const SizedBox(height: 24),
-        const Breadcrumbs(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 36),
         Container(
           decoration: BoxDecoration(
               color: MColors.white,
@@ -38,8 +35,8 @@ class BrowsePage extends StatelessWidget {
               ]),
           child: Column(
             children: [
-              BrowseTableHeader(),
-              NoEntriesPlaceholder(),
+              CheckoutTableHeader(),
+              NoCheckoutPlaceholder(),
             ],
           ),
         ),
@@ -48,8 +45,8 @@ class BrowsePage extends StatelessWidget {
   }
 }
 
-class BrowseTableHeader extends StatelessWidget {
-  const BrowseTableHeader({
+class CheckoutTableHeader extends StatelessWidget {
+  const CheckoutTableHeader({
     Key? key,
   }) : super(key: key);
 
@@ -65,7 +62,7 @@ class BrowseTableHeader extends StatelessWidget {
       child: Row(children: [
         Expanded(
             child: Text(
-              'Entry name',
+              'Document name',
               style: MTextStyles.xs_md_grey_500,
             ),
             flex: 1),
@@ -80,8 +77,8 @@ class BrowseTableHeader extends StatelessWidget {
   }
 }
 
-class NoEntriesPlaceholder extends StatelessWidget {
-  const NoEntriesPlaceholder({
+class NoCheckoutPlaceholder extends StatelessWidget {
+  const NoCheckoutPlaceholder({
     Key? key,
   }) : super(key: key);
 
@@ -107,7 +104,7 @@ class NoEntriesPlaceholder extends StatelessWidget {
               height: 64,
               child: RiveAnimation.asset(
                 'assets/rive/empty_folder.riv',
-                artboard: 'empty directory',
+                artboard: 'empty checkout',
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -116,7 +113,7 @@ class NoEntriesPlaceholder extends StatelessWidget {
               width: double.infinity,
             ),
             Text(
-              'No entries found',
+              'Nothing to checkout',
               style: MTextStyles.md_md_grey_900,
             ),
             SizedBox(
@@ -124,11 +121,7 @@ class NoEntriesPlaceholder extends StatelessWidget {
               width: double.infinity,
             ),
             Text(
-              'Return to last page using the breadcrumbs above.',
-              style: MTextStyles.sm_rg_grey_500,
-            ),
-            Text(
-              'You may report this as an error to SCIE.DEV.',
+              'Seems like you haven\'t added any documents to checkout.',
               style: MTextStyles.sm_rg_grey_500,
             ),
           ],

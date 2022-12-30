@@ -1,13 +1,30 @@
+import 'dart:io';
+import 'package:past_paper_master/pages/download.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/global.dart';
+import 'package:past_paper_master/pages/checkout.dart';
 import 'package:past_paper_master/pages/filter.dart';
 import 'package:past_paper_master/pages/sidebar.dart';
 import 'package:past_paper_master/pages/browse.dart';
 import 'package:past_paper_master/provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+    WindowOptions windowOptions = WindowOptions(
+      title: 'Past Paper Master',
+      size: Size(1024, 800),
+      minimumSize: Size(990, 645),
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
   runApp(const MyApp());
 }
 
@@ -35,8 +52,8 @@ class MyHomePage extends StatelessWidget {
   static List<Widget> _pages = [
     const PaperFilterPage(),
     const BrowsePage(),
-    const PaperFilterPage(),
-    const PaperFilterPage(),
+    const CheckoutPage(),
+    const DownloadsPage(),
     const PaperFilterPage(),
     const PaperFilterPage(),
     const PaperFilterPage(),

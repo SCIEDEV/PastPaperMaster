@@ -19,7 +19,6 @@ dev_dependencies:
     sdk: flutter
 
   window_manager: ^0.2.8
-  flutter_placeholder_textlines: ^1.2.0
   flutter_svg: ^1.1.6
   ionicons: ^0.2.1
   provider: ^6.0.5

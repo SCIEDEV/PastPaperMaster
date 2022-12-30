@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
-import 'package:past_paper_master/twotones.dart';
+import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 
 class MButton extends StatelessWidget {
