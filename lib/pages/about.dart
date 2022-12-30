@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
+import 'package:past_paper_master/global.dart';
 import 'package:past_paper_master/textstyle.dart';
 import 'package:past_paper_master/colors.dart';
 
@@ -31,7 +32,9 @@ class AboutPage extends StatelessWidget {
               style: MTextStyles.dxs_md_grey_900,
             ),
             const SizedBox(height: 16),
-            MBadge(title: 'Alpha Version 0.1.0'),
+            MBadge(
+                title:
+                    '${kAppStage} ${kMajorVersion}.${kMinorVersion}.${kPatchVersion}'),
             const SizedBox(height: 16),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -90,22 +93,22 @@ class AboutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'α 0.1.0',
+                          '${kAppStageShort}${kMajorVersion}.${kMinorVersion}.${kPatchVersion}',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '12',
+                          '${kBuildNumber}',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '1',
+                          '${kDatabaseVersion}',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '9baadb3ad75209244ded5b636f2bd624c3890a91',
+                          '${kLastCommitHash}',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                       ]),
