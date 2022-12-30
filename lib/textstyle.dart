@@ -12,6 +12,16 @@ class MTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle sm_rg_grey_900 = TextStyle(
+    color: MColors.grey.shade900,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
+  static TextStyle sm_sb_grey_900 = TextStyle(
+    color: MColors.grey.shade900,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
   static TextStyle sm_md_grey_700 = TextStyle(
     color: MColors.grey.shade700,
     fontSize: 14,
@@ -40,6 +50,11 @@ class MTextStyles {
   static TextStyle lg_md_grey_900 = TextStyle(
     color: MColors.grey.shade900,
     fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+  static TextStyle dxs_md_grey_900 = TextStyle(
+    color: MColors.grey.shade900,
+    fontSize: 24,
     fontWeight: FontWeight.w500,
   );
   static TextStyle dsm_md_grey_900 = TextStyle(

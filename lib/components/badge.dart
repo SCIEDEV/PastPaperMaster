@@ -15,6 +15,7 @@ class MBadge extends StatelessWidget {
         ),
         padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 10),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               decoration: BoxDecoration(

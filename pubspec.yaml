@@ -31,6 +31,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/rive/
+    - assets/images/
   fonts:
     - family: Inter
       fonts:
