@@ -74,6 +74,11 @@ class AboutPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
+                          'Database version',
+                          style: MTextStyles.sm_rg_grey_500,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
                           'Last commit',
                           style: MTextStyles.sm_rg_grey_500,
                         ),
@@ -90,12 +95,17 @@ class AboutPage extends StatelessWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '11',
+                          '12',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '2c62f36946183bd4c1aa47152c445a5ada873f56',
+                          '1',
+                          style: MTextStyles.sm_rg_grey_900,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          '9baadb3ad75209244ded5b636f2bd624c3890a91',
                           style: MTextStyles.sm_rg_grey_900,
                         ),
                       ]),
