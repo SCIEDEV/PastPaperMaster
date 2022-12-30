@@ -1,5 +1,9 @@
 import 'dart:io';
+import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
+import 'package:past_paper_master/pages/pseudocode.dart';
+import 'package:past_paper_master/pages/question.dart';
+import 'package:past_paper_master/pages/settings.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
@@ -54,10 +58,10 @@ class MyHomePage extends StatelessWidget {
     const BrowsePage(),
     const CheckoutPage(),
     const DownloadsPage(),
-    const PaperFilterPage(),
-    const PaperFilterPage(),
-    const PaperFilterPage(),
-    const PaperFilterPage(),
+    const SearchQuestionsPage(),
+    const PseudocodeRunnerPage(),
+    const SettingsPage(),
+    const AboutPage(),
   ];
 
   @override
