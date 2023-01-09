@@ -13,7 +13,7 @@ class MBadge extends StatelessWidget {
           color: MColors.accent.shade50,
           borderRadius: BorderRadius.circular(16),
         ),
-        padding: EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 10),
+        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -24,7 +24,7 @@ class MBadge extends StatelessWidget {
               ),
               width: 6,
               height: 6,
-              margin: EdgeInsets.all(2),
+              margin: const EdgeInsets.all(2),
             ),
             const SizedBox(width: 6),
             Text(title,
