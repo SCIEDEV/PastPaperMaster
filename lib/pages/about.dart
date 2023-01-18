@@ -39,9 +39,12 @@ class AboutPage extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Created with ❤️ by', style: MTextStyles.smRgGrey900),
-                Text(' Micfong ', style: MTextStyles.smSbGrey900),
-                Text('as a part of', style: MTextStyles.smRgGrey900),
+                Text('Created by ', style: MTextStyles.smRgGrey900),
+                Image.asset(
+                  'assets/images/micfong.png',
+                  height: 12,
+                ),
+                Text(' as a part of', style: MTextStyles.smRgGrey900),
                 Text(' SCIE.DEV', style: MTextStyles.smSbGrey900),
               ],
             ),

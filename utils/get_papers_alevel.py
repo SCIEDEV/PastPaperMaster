@@ -7,10 +7,10 @@ syllabus = "A Level"
 
 if syllabus == "IGCSE":
     url = "https://papers.gceguide.com/Cambridge%20IGCSE/"
-    filename = "igcse.json"
+    filename = "assets/json/igcse.json"
 else:
     url = "https://papers.gceguide.com/A%20Levels/"
-    filename = "alevel.json"
+    filename = "assets/json/alevel.json"
 
 result = {}
 try:

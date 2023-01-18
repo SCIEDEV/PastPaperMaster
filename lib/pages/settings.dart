@@ -52,11 +52,11 @@ class SettingsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Your version: $kBuildNumber-$kDatabaseVersion',
+                          'Your version: $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion ($kBuildNumber-$kDatabaseVersion)',
                           style: MTextStyles.smRgGrey500,
                         ),
                         Text(
-                          'Lastest version: 13-2',
+                          'Lastest version: α 0.1.0 (13-2)',
                           style: MTextStyles.smRgGrey500,
                         ),
                       ],

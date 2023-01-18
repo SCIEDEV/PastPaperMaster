@@ -3,6 +3,7 @@ import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
+import 'package:past_paper_master/pages/subjects.dart';
 import 'package:past_paper_master/textstyle.dart';
 
 class PaperFilterPage extends StatelessWidget {
@@ -65,12 +66,11 @@ class PaperFilterPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    MLongButton(
+                    const MLongDropdownButton(
                       title: 'Select subject',
-                      onPressed: () {},
-                      placeholder: true,
                       iconName: 'book',
                       size: 20,
+                      items: igcseSubjects,
                     ),
                   ]),
             ),

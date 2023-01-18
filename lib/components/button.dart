@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:past_paper_master/colors.dart';
 import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:past_paper_master/textstyle.dart';
 
 class MButton extends StatelessWidget {
   const MButton(
@@ -176,6 +178,159 @@ class MLongButton extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MLongDropdownButton extends StatefulWidget {
+  const MLongDropdownButton(
+      {super.key,
+      required this.title,
+      required this.iconName,
+      required this.size,
+      required this.items});
+
+  final String title;
+  final String iconName;
+  final double size;
+  final List<String> items;
+
+  @override
+  State<MLongDropdownButton> createState() => _MLongDropdownButtonState();
+}
+
+class _MLongDropdownButtonState extends State<MLongDropdownButton> {
+  String? selectedValue;
+  final TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2(
+        isExpanded: true,
+        customButton: RawMaterialButton(
+          onPressed: null,
+          constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          fillColor: MColors.white,
+          elevation: 0.5,
+          disabledElevation: 0.5,
+          highlightElevation: 0,
+          hoverElevation: 0,
+          focusElevation: 0,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: MColors.grey.shade300, width: 1),
+            ),
+            child: Row(
+              children: [
+                twoToneIcon(widget.iconName, false,
+                    width: widget.size, height: widget.size),
+                const SizedBox(width: 8),
+                Text(
+                  selectedValue == null ? widget.title : selectedValue!,
+                  style: TextStyle(
+                      color: selectedValue == null
+                          ? MColors.grey.shade500
+                          : MColors.grey.shade900,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
+                const Spacer(),
+                Icon(
+                  Ionicons.chevron_forward_outline,
+                  color: MColors.grey.shade500,
+                  size: 16,
+                )
+              ],
+            ),
+          ),
+        ),
+        hint: Text(
+          'Select subject',
+          style: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).hintColor,
+          ),
+        ),
+        items: widget.items
+            .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item, style: MTextStyles.mdRgGrey900),
+                ))
+            .toList(),
+        value: selectedValue,
+        onChanged: (value) {
+          setState(() {
+            selectedValue = value as String;
+          });
+        },
+        buttonHeight: 40,
+        dropdownElevation: 0,
+        itemHeight: 40,
+        dropdownMaxHeight: 360,
+        dropdownDecoration: BoxDecoration(
+            color: MColors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: MColors.grey.shade200, width: 1),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x19101828),
+                  offset: Offset(0, 4),
+                  blurRadius: 8,
+                  spreadRadius: -2),
+              BoxShadow(
+                  color: Color(0x10101828),
+                  offset: Offset(0, 2),
+                  blurRadius: 4,
+                  spreadRadius: -2),
+            ]),
+        searchController: textEditingController,
+        searchInnerWidget: Padding(
+          padding: const EdgeInsets.only(
+            top: 12,
+            bottom: 4,
+            right: 8,
+            left: 8,
+          ),
+          child: TextFormField(
+            controller: textEditingController,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
+              ),
+              hintText: 'Type here to search...',
+              hintStyle: MTextStyles.smRgGrey500,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ),
+        searchMatchFn: (item, searchValue) {
+          return (item.value
+              .toString()
+              .toLowerCase()
+              .contains(searchValue.toLowerCase()));
+        },
+        dropdownPadding: const EdgeInsets.only(bottom: 6),
+        onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            textEditingController.clear();
+          }
+        },
       ),
     );
   }
