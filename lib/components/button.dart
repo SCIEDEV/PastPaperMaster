@@ -3,9 +3,7 @@ import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
-import 'package:provider/provider.dart';
 
 class MButton extends StatelessWidget {
   const MButton(
@@ -194,12 +192,16 @@ class MLongDropdownButton extends StatefulWidget {
       required this.title,
       required this.iconName,
       required this.size,
-      required this.items});
+      required this.items,
+      required this.value,
+      required this.onChanged});
 
   final String title;
   final String iconName;
   final double size;
   final List<String> items;
+  final String? value;
+  final Function(BuildContext, String?) onChanged;
 
   @override
   State<MLongDropdownButton> createState() => _MLongDropdownButtonState();
@@ -216,7 +218,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    String? selectedValue = context.watch<FilterCN>().subject;
+    String? selectedValue = widget.value;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
@@ -281,7 +283,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
         value: selectedValue,
         onChanged: (value) {
           setState(() {
-            context.read<FilterCN>().subject = value;
+            widget.onChanged(context, value);
           });
         },
         buttonHeight: 40,
@@ -340,6 +342,193 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
         onMenuStateChange: (isOpen) {
           if (!isOpen) {
             textEditingController.clear();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class MLongComboDropdownButton extends StatefulWidget {
+  const MLongComboDropdownButton(
+      {super.key,
+      required this.title,
+      required this.iconName,
+      required this.size,
+      required this.items,
+      required this.onChanged,
+      required this.initValue});
+
+  final String title;
+  final String iconName;
+  final double size;
+  final List<String> items;
+  final Function(BuildContext, String?) onChanged;
+  final List<String> initValue;
+
+  @override
+  State<MLongComboDropdownButton> createState() =>
+      _MLongComboDropdownButtonState();
+}
+
+class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
+  // final TextEditingController textEditingController = TextEditingController();
+
+  // @override
+  // void dispose() {
+  //   textEditingController.dispose();
+  //   super.dispose();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> selectedValue = widget.initValue;
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2(
+        isExpanded: true,
+        scrollbarAlwaysShow: true,
+        customButton: RawMaterialButton(
+          onPressed: null,
+          constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          fillColor: MColors.white,
+          elevation: 0.5,
+          disabledElevation: 0.5,
+          highlightElevation: 0,
+          hoverElevation: 0,
+          focusElevation: 0,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: MColors.grey.shade300, width: 1),
+            ),
+            child: Row(
+              children: [
+                twoToneIcon(widget.iconName, false,
+                    width: widget.size, height: widget.size),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 99,
+                  child: Text(
+                    selectedValue.isEmpty
+                        ? widget.title
+                        : "${selectedValue.length} selected",
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(
+                        color: selectedValue.isEmpty
+                            ? MColors.grey.shade500
+                            : MColors.grey.shade900,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+                const Spacer(),
+                Icon(
+                  Ionicons.chevron_forward_outline,
+                  color: MColors.grey.shade500,
+                  size: 16,
+                )
+              ],
+            ),
+          ),
+        ),
+        items: widget.items
+            .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  enabled: false,
+                  child: StatefulBuilder(builder: (_, menuSetState) {
+                    bool isSelected = selectedValue.contains(item);
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = !isSelected;
+                          widget.onChanged(context, item);
+                        });
+                        menuSetState(() {});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            isSelected
+                                ? const Icon(Icons.check, size: 20)
+                                : Container(
+                                    width: 20,
+                                  ),
+                            const SizedBox(
+                              width: 8,
+                              height: double.infinity,
+                            ),
+                            Text(item, style: MTextStyles.mdRgGrey900),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ))
+            .toList(),
+        value: selectedValue.isEmpty ? null : selectedValue.last,
+        selectedItemHighlightColor: MColors.transparent,
+        onChanged: (value) {},
+        buttonHeight: 40,
+        dropdownElevation: 0,
+        itemHeight: 40,
+        dropdownMaxHeight: 360,
+        dropdownDecoration: BoxDecoration(
+            color: MColors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: MColors.grey.shade200, width: 1),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x19101828),
+                  offset: Offset(0, 4),
+                  blurRadius: 8,
+                  spreadRadius: -2),
+              BoxShadow(
+                  color: Color(0x10101828),
+                  offset: Offset(0, 2),
+                  blurRadius: 4,
+                  spreadRadius: -2),
+            ]),
+        // searchController: textEditingController,
+        // searchInnerWidget: Padding(
+        //   padding: const EdgeInsets.only(
+        //     top: 12,
+        //     bottom: 4,
+        //     right: 8,
+        //     left: 8,
+        //   ),
+        //   child: TextFormField(
+        //     controller: textEditingController,
+        //     style: MTextStyles.mdMdGrey900,
+        //     decoration: InputDecoration(
+        //       isDense: true,
+        //       contentPadding: const EdgeInsets.symmetric(
+        //         horizontal: 8,
+        //         vertical: 8,
+        //       ),
+        //       hintText: 'Type here to search...',
+        //       hintStyle: MTextStyles.smRgGrey500,
+        //       border: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(8),
+        //         borderSide: BorderSide.none,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // searchMatchFn: (item, searchValue) {
+        //   return (item.value
+        //       .toString()
+        //       .toLowerCase()
+        //       .contains(searchValue.toLowerCase()));
+        // },
+        itemPadding: EdgeInsets.zero,
+        dropdownPadding: const EdgeInsets.only(bottom: 6),
+        onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            // textEditingController.clear();
           }
         },
       ),

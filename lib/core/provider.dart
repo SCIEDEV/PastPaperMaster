@@ -37,4 +37,36 @@ class FilterCN extends ChangeNotifier {
     _level = value;
     notifyListeners();
   }
+
+  List<String> _seasons = [];
+  List<String> get seasons => _seasons;
+  set seasons(List<String> value) {
+    _seasons = value;
+    notifyListeners();
+  }
+
+  void toggleSeason(String season) {
+    if (_seasons.contains(season)) {
+      _seasons.remove(season);
+    } else {
+      _seasons.add(season);
+    }
+    notifyListeners();
+  }
+
+  List<String> _paperNumbers = [];
+  List<String> get paperNumbers => _paperNumbers;
+  set paperNumbers(List<String> value) {
+    _paperNumbers = value;
+    notifyListeners();
+  }
+
+  void togglePaperNumber(String paperNumber) {
+    if (_paperNumbers.contains(paperNumber)) {
+      _paperNumbers.remove(paperNumber);
+    } else {
+      _paperNumbers.add(paperNumber);
+    }
+    notifyListeners();
+  }
 }

@@ -63,7 +63,8 @@ class PaperFilterPage extends StatelessWidget {
                     Row(
                       children: [
                         MButtonGroup(
-                            titles: const ['CAIE', 'Edexcel'],
+                            // TODO: [Micfong] implement Edexcel subjects
+                            titles: const ['CAIE'],
                             onPressed: (context, index) {
                               context.read<FilterCN>().board =
                                   ['CAIE', 'Edexcel'][index];
@@ -71,10 +72,10 @@ class PaperFilterPage extends StatelessWidget {
                             }),
                         const SizedBox(width: 16),
                         MButtonGroup(
-                            titles: const ['(I)GCSE', 'A(S) Level'],
+                            titles: const ['IGCSE', 'A(S) Level'],
                             onPressed: (context, index) {
                               context.read<FilterCN>().level =
-                                  ['(I)GCSE', 'A(S) Level'][index];
+                                  ['IGCSE', 'A(S) Level'][index];
                               context.read<FilterCN>().subject = null;
                             }),
                       ],
@@ -84,9 +85,13 @@ class PaperFilterPage extends StatelessWidget {
                       title: 'Select subject',
                       iconName: 'book',
                       size: 20,
-                      items: (context.watch<FilterCN>().level == '(I)GCSE')
+                      items: (context.watch<FilterCN>().level == 'IGCSE')
                           ? igcseSubjects
                           : alevelSubjects,
+                      onChanged: (context, value) {
+                        context.read<FilterCN>().subject = value;
+                      },
+                      value: context.watch<FilterCN>().subject,
                     ),
                   ]),
             ),
@@ -125,12 +130,22 @@ class PaperFilterPage extends StatelessWidget {
                   children: [
                     const MRangeSlider(),
                     const SizedBox(height: 16),
-                    MLongButton(
-                        onPressed: () {},
-                        title: 'Select seasons',
-                        iconName: 'calendar',
-                        size: 20,
-                        placeholder: true),
+                    MLongComboDropdownButton(
+                      title: 'Select seasons',
+                      iconName: 'calendar',
+                      size: 20,
+                      items: const [
+                        'February / March (m)',
+                        'May / June (s)',
+                        'October / November (w)'
+                      ],
+                      onChanged: (context, value) {
+                        if (value != null) {
+                          context.read<FilterCN>().toggleSeason(value);
+                        }
+                      },
+                      initValue: context.read<FilterCN>().seasons,
+                    ),
                   ]),
             ),
             const Spacer(flex: 1),
@@ -166,12 +181,31 @@ class PaperFilterPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MLongButton(
-                        onPressed: () {},
-                        title: 'Select paper numbers',
-                        iconName: 'list',
-                        size: 20,
-                        placeholder: true),
+                    // MLongButton(
+                    //     onPressed: () {},
+                    //     title: 'Select paper numbers',
+                    //     iconName: 'list',
+                    //     size: 20,
+                    //     placeholder: true),
+                    MLongComboDropdownButton(
+                      title: 'Select paper numbers',
+                      iconName: 'list',
+                      size: 20,
+                      items: const [
+                        'Paper 1',
+                        'Paper 2',
+                        'Paper 3',
+                        'Paper 4',
+                        'Paper 5',
+                        'Paper 6',
+                      ],
+                      onChanged: (context, value) {
+                        if (value != null) {
+                          context.read<FilterCN>().togglePaperNumber(value);
+                        }
+                      },
+                      initValue: context.read<FilterCN>().paperNumbers,
+                    ),
                     const SizedBox(height: 16),
                     MLongButton(
                         onPressed: () {},
