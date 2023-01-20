@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/textstyle.dart';
+import 'package:past_paper_master/core/textstyle.dart';
 
 class PseudocodeRunnerPage extends StatelessWidget {
   const PseudocodeRunnerPage({super.key});

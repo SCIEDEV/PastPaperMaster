@@ -1,18 +1,17 @@
 name: past_paper_master
 description: Past Paper Master.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: ">=2.18.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
   window_manager: ^0.2.8
   flutter_svg: ^1.1.6
   ionicons: ^0.2.1
@@ -20,6 +19,8 @@ dependencies:
   flutter_feather_icons: ^2.0.0
   rive: ^0.10.0
   dropdown_button2: ^1.9.2
+  path_provider: ^2.0.11
+  shared_preferences: ^2.0.16
 
 dev_dependencies:
   flutter_test:
@@ -54,30 +55,3 @@ flutter:
           weight: 800
         - asset: fonts/Inter-Black.otf
           weight: 900
-        - asset: fonts/Inter-ThinItalic.otf
-          weight: 100
-          style: italic
-        - asset: fonts/Inter-ExtraLightItalic.otf
-          weight: 200
-          style: italic
-        - asset: fonts/Inter-LightItalic.otf
-          weight: 300
-          style: italic
-        - asset: fonts/Inter-Italic.otf
-          weight: 400
-          style: italic
-        - asset: fonts/Inter-MediumItalic.otf
-          weight: 500
-          style: italic
-        - asset: fonts/Inter-SemiBoldItalic.otf
-          weight: 600
-          style: italic
-        - asset: fonts/Inter-BoldItalic.otf
-          weight: 700
-          style: italic
-        - asset: fonts/Inter-ExtraBoldItalic.otf
-          weight: 800
-          style: italic
-        - asset: fonts/Inter-BlackItalic.otf
-          weight: 900
-          style: italic

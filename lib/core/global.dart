@@ -15,3 +15,7 @@ const int kPatchVersion = 0;
 const int kBuildNumber = 13;
 const int kDatabaseVersion = 1;
 const String kLastCommitHash = 'c0c1ebcbe91fc8ba9fd36af42c6652e5ff248e91';
+
+const String kBundledDataPath = 'assets/json/';
+const String kLocalDataPath = '/json/';
+late String appSupportPath;

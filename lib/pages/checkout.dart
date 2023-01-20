@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
-import 'package:past_paper_master/textstyle.dart';
+import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/textstyle.dart';
 import 'package:rive/rive.dart';
 
 class CheckoutPage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
-import 'package:past_paper_master/provider.dart';
+import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/components/twotones.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +30,7 @@ class SidebarView extends StatelessWidget {
           ...[
             for (var item in _sidebarDataTop)
               SidebarItem(
-                  isActive: context.watch<GeneralStates>().selectedTab ==
+                  isActive: context.watch<GeneralCN>().selectedTab ==
                       _sidebarDataTop.indexOf(item),
                   iconName: item['icon'],
                   title: item['title'],
@@ -40,14 +40,14 @@ class SidebarView extends StatelessWidget {
           ...[
             for (var item in _sidebarDataBottom)
               SidebarItem(
-                  isActive: context.watch<GeneralStates>().selectedTab ==
+                  isActive: context.watch<GeneralCN>().selectedTab ==
                       _sidebarDataTop.length + _sidebarDataBottom.indexOf(item),
                   iconName: item['icon'],
                   title: item['title'],
                   index:
                       _sidebarDataTop.length + _sidebarDataBottom.indexOf(item))
           ],
-          if (context.watch<GeneralStates>().showAlphaBanner) ...[
+          if (context.watch<GeneralCN>().showAlphaBanner) ...[
             const SizedBox(height: 24),
             Container(
                 decoration: BoxDecoration(
@@ -77,8 +77,7 @@ class SidebarView extends StatelessWidget {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            context.read<GeneralStates>().showAlphaBanner =
-                                false;
+                            context.read<GeneralCN>().showAlphaBanner = false;
                           },
                           child: Text('Dismiss',
                               style: TextStyle(
@@ -114,7 +113,7 @@ class SidebarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
-        context.read<GeneralStates>().selectedTab = index;
+        context.read<GeneralCN>().selectedTab = index;
       },
       fillColor: isActive ? MColors.accent.shade50 : MColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),

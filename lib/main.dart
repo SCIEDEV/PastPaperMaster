@@ -1,18 +1,20 @@
 import 'dart:io';
+import 'package:past_paper_master/core/dirinit.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
 import 'package:past_paper_master/pages/pseudocode.dart';
 import 'package:past_paper_master/pages/question.dart';
 import 'package:past_paper_master/pages/settings.dart';
+import 'package:past_paper_master/pages/subjects.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
-import 'package:past_paper_master/global.dart';
+import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/pages/checkout.dart';
 import 'package:past_paper_master/pages/filter.dart';
 import 'package:past_paper_master/pages/sidebar.dart';
 import 'package:past_paper_master/pages/browse.dart';
-import 'package:past_paper_master/provider.dart';
+import 'package:past_paper_master/core/provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -29,6 +31,9 @@ void main() async {
       await windowManager.focus();
     });
   }
+  await initDirectoryData();
+  await updateIgcseSubjects();
+  await updateAlevelSubjects();
   runApp(const MyApp());
 }
 
@@ -39,14 +44,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     globalContext = context;
     return MaterialApp(
-      title: 'Past Paper Master',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
-      home: ChangeNotifierProvider(
-        create: (context) => GeneralStates(),
-        child: const MyHomePage(),
-      ),
-    );
+        title: 'Past Paper Master',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
+// TODO: [Micfong] restrict each provider's scope to its own page for better performance
+//       however I'm too lazy to do this now :D
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => GeneralCN()),
+            ChangeNotifierProvider(create: (_) => FilterCN()),
+          ],
+          child: const MyHomePage(),
+        ));
   }
 }
 
@@ -86,8 +95,7 @@ class MyHomePage extends StatelessWidget {
                   Container(
                       padding: const EdgeInsets.only(
                           top: 32, bottom: 48, left: 32, right: 32),
-                      child:
-                          _pages[context.watch<GeneralStates>().selectedTab]),
+                      child: _pages[context.watch<GeneralCN>().selectedTab]),
                 ],
               )),
         )

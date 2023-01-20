@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
+import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/pages/subjects.dart';
-import 'package:past_paper_master/textstyle.dart';
+import 'package:past_paper_master/core/textstyle.dart';
+import 'package:provider/provider.dart';
 
 class PaperFilterPage extends StatelessWidget {
   const PaperFilterPage({super.key});
@@ -59,18 +61,32 @@ class PaperFilterPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        MButtonGroup(titles: ['CAIE', 'Edexcel']),
-                        SizedBox(width: 16),
-                        MButtonGroup(titles: ['(I)GCSE', 'A(S) Level']),
+                      children: [
+                        MButtonGroup(
+                            titles: const ['CAIE', 'Edexcel'],
+                            onPressed: (context, index) {
+                              context.read<FilterCN>().board =
+                                  ['CAIE', 'Edexcel'][index];
+                              context.read<FilterCN>().subject = null;
+                            }),
+                        const SizedBox(width: 16),
+                        MButtonGroup(
+                            titles: const ['(I)GCSE', 'A(S) Level'],
+                            onPressed: (context, index) {
+                              context.read<FilterCN>().level =
+                                  ['(I)GCSE', 'A(S) Level'][index];
+                              context.read<FilterCN>().subject = null;
+                            }),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const MLongDropdownButton(
+                    MLongDropdownButton(
                       title: 'Select subject',
                       iconName: 'book',
                       size: 20,
-                      items: igcseSubjects,
+                      items: (context.watch<FilterCN>().level == '(I)GCSE')
+                          ? igcseSubjects
+                          : alevelSubjects,
                     ),
                   ]),
             ),

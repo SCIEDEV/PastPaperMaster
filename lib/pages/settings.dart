@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/button.dart';
-import 'package:past_paper_master/textstyle.dart';
-import 'package:past_paper_master/global.dart';
+import 'package:past_paper_master/core/textstyle.dart';
+import 'package:past_paper_master/core/global.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

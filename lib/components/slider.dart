@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'dart:math' as math;
 
-import 'package:past_paper_master/textstyle.dart';
+import 'package:past_paper_master/core/textstyle.dart';
 
 class MRangeSlider extends StatefulWidget {
   const MRangeSlider({super.key});

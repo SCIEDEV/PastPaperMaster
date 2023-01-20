@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:past_paper_master/textstyle.dart';
+import 'package:past_paper_master/core/provider.dart';
+import 'package:past_paper_master/core/textstyle.dart';
+import 'package:provider/provider.dart';
 
 class MButton extends StatelessWidget {
   const MButton(
@@ -48,9 +50,11 @@ class MButton extends StatelessWidget {
 }
 
 class MButtonGroup extends StatefulWidget {
-  const MButtonGroup({super.key, required this.titles});
+  const MButtonGroup(
+      {super.key, required this.titles, required this.onPressed});
 
   final List<String> titles;
+  final Function(BuildContext, int) onPressed;
 
   @override
   State<MButtonGroup> createState() => _MButtonGroupState();
@@ -68,6 +72,7 @@ class _MButtonGroupState extends State<MButtonGroup> {
             onPressed: () {
               setState(() {
                 _selected = i;
+                widget.onPressed(context, i);
               });
             },
             constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -201,7 +206,6 @@ class MLongDropdownButton extends StatefulWidget {
 }
 
 class _MLongDropdownButtonState extends State<MLongDropdownButton> {
-  String? selectedValue;
   final TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -212,6 +216,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
+    String? selectedValue = context.watch<FilterCN>().subject;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
@@ -236,14 +241,19 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
                 twoToneIcon(widget.iconName, false,
                     width: widget.size, height: widget.size),
                 const SizedBox(width: 8),
-                Text(
-                  selectedValue == null ? widget.title : selectedValue!,
-                  style: TextStyle(
-                      color: selectedValue == null
-                          ? MColors.grey.shade500
-                          : MColors.grey.shade900,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
+                Expanded(
+                  flex: 99,
+                  child: Text(
+                    selectedValue ?? widget.title,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(
+                        color: selectedValue == null
+                            ? MColors.grey.shade500
+                            : MColors.grey.shade900,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
                 const Spacer(),
                 Icon(
@@ -271,7 +281,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
         value: selectedValue,
         onChanged: (value) {
           setState(() {
-            selectedValue = value as String;
+            context.read<FilterCN>().subject = value;
           });
         },
         buttonHeight: 40,
@@ -304,10 +314,11 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
           ),
           child: TextFormField(
             controller: textEditingController,
+            style: MTextStyles.mdMdGrey900,
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
+                horizontal: 8,
                 vertical: 8,
               ),
               hintText: 'Type here to search...',

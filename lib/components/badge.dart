@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/colors.dart';
+import 'package:past_paper_master/core/colors.dart';
 
 class MBadge extends StatelessWidget {
   const MBadge({super.key, required this.title});
