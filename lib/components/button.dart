@@ -357,7 +357,8 @@ class MLongComboDropdownButton extends StatefulWidget {
       required this.size,
       required this.items,
       required this.onChanged,
-      required this.initValue});
+      required this.initValue,
+      this.fieldName = 'item'});
 
   final String title;
   final String iconName;
@@ -365,6 +366,7 @@ class MLongComboDropdownButton extends StatefulWidget {
   final List<String> items;
   final Function(BuildContext, String?) onChanged;
   final List<String> initValue;
+  final String fieldName;
 
   @override
   State<MLongComboDropdownButton> createState() =>
@@ -413,7 +415,7 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                   child: Text(
                     selectedValue.isEmpty
                         ? widget.title
-                        : "${selectedValue.length} selected",
+                        : "${selectedValue.length} ${widget.fieldName}${selectedValue.length == 1 ? '' : 's'} selected",
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: TextStyle(
@@ -492,45 +494,9 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                   blurRadius: 4,
                   spreadRadius: -2),
             ]),
-        // searchController: textEditingController,
-        // searchInnerWidget: Padding(
-        //   padding: const EdgeInsets.only(
-        //     top: 12,
-        //     bottom: 4,
-        //     right: 8,
-        //     left: 8,
-        //   ),
-        //   child: TextFormField(
-        //     controller: textEditingController,
-        //     style: MTextStyles.mdMdGrey900,
-        //     decoration: InputDecoration(
-        //       isDense: true,
-        //       contentPadding: const EdgeInsets.symmetric(
-        //         horizontal: 8,
-        //         vertical: 8,
-        //       ),
-        //       hintText: 'Type here to search...',
-        //       hintStyle: MTextStyles.smRgGrey500,
-        //       border: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(8),
-        //         borderSide: BorderSide.none,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // searchMatchFn: (item, searchValue) {
-        //   return (item.value
-        //       .toString()
-        //       .toLowerCase()
-        //       .contains(searchValue.toLowerCase()));
-        // },
         itemPadding: EdgeInsets.zero,
         dropdownPadding: const EdgeInsets.only(bottom: 6),
-        onMenuStateChange: (isOpen) {
-          if (!isOpen) {
-            // textEditingController.clear();
-          }
-        },
+        onMenuStateChange: (isOpen) {},
       ),
     );
   }

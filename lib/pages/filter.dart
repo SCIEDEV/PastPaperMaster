@@ -145,6 +145,7 @@ class PaperFilterPage extends StatelessWidget {
                         }
                       },
                       initValue: context.read<FilterCN>().seasons,
+                      fieldName: 'season',
                     ),
                   ]),
             ),
@@ -181,12 +182,6 @@ class PaperFilterPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // MLongButton(
-                    //     onPressed: () {},
-                    //     title: 'Select paper numbers',
-                    //     iconName: 'list',
-                    //     size: 20,
-                    //     placeholder: true),
                     MLongComboDropdownButton(
                       title: 'Select paper numbers',
                       iconName: 'list',
@@ -205,14 +200,25 @@ class PaperFilterPage extends StatelessWidget {
                         }
                       },
                       initValue: context.read<FilterCN>().paperNumbers,
+                      fieldName: 'paper number',
                     ),
                     const SizedBox(height: 16),
-                    MLongButton(
-                        onPressed: () {},
-                        title: 'Select document types',
-                        iconName: 'grid',
-                        size: 20,
-                        placeholder: true),
+                    MLongComboDropdownButton(
+                      title: 'Select document types',
+                      iconName: 'grid',
+                      size: 20,
+                      items: const [
+                        'Question paper',
+                        'Mark scheme',
+                      ],
+                      onChanged: (context, value) {
+                        if (value != null) {
+                          context.read<FilterCN>().togglePaperType(value);
+                        }
+                      },
+                      initValue: context.read<FilterCN>().paperTypes,
+                      fieldName: 'paper type',
+                    ),
                   ]),
             ),
             const Spacer(flex: 1),

@@ -69,4 +69,20 @@ class FilterCN extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  List<String> _paperTypes = [];
+  List<String> get paperTypes => _paperTypes;
+  set paperTypes(List<String> value) {
+    _paperTypes = value;
+    notifyListeners();
+  }
+
+  void togglePaperType(String paperType) {
+    if (_paperTypes.contains(paperType)) {
+      _paperTypes.remove(paperType);
+    } else {
+      _paperTypes.add(paperType);
+    }
+    notifyListeners();
+  }
 }
