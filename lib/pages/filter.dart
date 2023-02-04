@@ -62,8 +62,8 @@ class PaperFilterPage extends StatelessWidget {
                   children: [
                     Row(
                       children: [
+                        // TODO: [Micfong] implement Edexcel subjects
                         MButtonGroup(
-                            // TODO: [Micfong] implement Edexcel subjects
                             titles: const ['CAIE'],
                             onPressed: (context, index) {
                               context.read<FilterCN>().board =

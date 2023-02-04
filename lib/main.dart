@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
 
-// TODO: [Micfong] restrict each provider's scope to its own page for better performance
+        // TODO: [Micfong] restrict each provider's scope to its own page for better performance
         home: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => GeneralCN()),
