@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/textstyle.dart';
+import 'package:rive/rive.dart';
 
 class SearchQuestionsPage extends StatelessWidget {
   const SearchQuestionsPage({super.key});
@@ -7,13 +8,22 @@ class SearchQuestionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Search Questions',
-          style: MTextStyles.dsmMdGrey900,
+        SizedBox(height: 36),
+        SizedBox(
+          width: 256,
+          height: 256,
+          child: RiveAnimation.asset(
+            'assets/rive/qsearch.riv',
+            fit: BoxFit.fitWidth,
+          ),
         ),
-        const SizedBox(height: 36),
+        SizedBox(height: 24),
+        Text(
+          'Coming soon',
+          style: MTextStyles.mdMdGrey900,
+        ),
       ],
     );
   }
