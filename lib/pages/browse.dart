@@ -28,7 +28,11 @@ class BrowsePage extends StatelessWidget {
             const Spacer(),
             MButton(
               title: "Add to Checkout",
-              onPressed: () {},
+              onPressed: () {
+                Set<CheckoutItem> selection =
+                    context.read<BrowseCN>().selection;
+                context.read<CheckoutCN>().items.addAll(selection);
+              },
             ),
             const SizedBox(width: 8),
             MButton(
@@ -71,8 +75,7 @@ class BrowsePage extends StatelessWidget {
                   documentType: l[i].type,
                   isLast: i == l.length - 1,
                   isDocument: l[i].isDocument,
-                  isSelected:
-                      context.watch<BrowseCN>().selection.contains(l[i].name),
+                  isSelected: context.watch<BrowseCN>().isSelected(l[i].name),
                 ),
               ],
             ],

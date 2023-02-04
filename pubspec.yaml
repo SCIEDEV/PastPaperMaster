@@ -21,7 +21,8 @@ dependencies:
   dropdown_button2: ^1.9.2
   path_provider: ^2.0.11
   shared_preferences: ^2.0.16
-
+  uuid: ^3.0.6
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

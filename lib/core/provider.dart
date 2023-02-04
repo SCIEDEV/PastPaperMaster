@@ -87,6 +87,20 @@ class FilterCN extends ChangeNotifier {
   }
 }
 
+class CheckoutItem {
+  final String name;
+  final List<String> path;
+  CheckoutItem(this.name, this.path);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CheckoutItem && name == other.name && path == other.path;
+
+  @override
+  int get hashCode => name.hashCode ^ path.hashCode;
+}
+
 class BrowseCN extends ChangeNotifier {
   List<String> _path = [];
   List<String> get path => _path;
@@ -100,29 +114,93 @@ class BrowseCN extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> _selection = [];
-  List<String> get selection => _selection;
-  set selection(List<String> value) {
+  Set<CheckoutItem> _selection = {};
+  Set<CheckoutItem> get selection => _selection;
+  set selection(Set<CheckoutItem> value) {
     _selection = value;
     notifyListeners();
   }
 
-  void addSelection(String selection) {
+  void addSelection(CheckoutItem selection) {
     _selection.add(selection);
     notifyListeners();
   }
 
-  void removeSelection(String selection) {
+  void removeSelection(CheckoutItem selection) {
     _selection.remove(selection);
     notifyListeners();
   }
 
-  void toggleSelection(String selection) {
-    if (_selection.contains(selection)) {
-      _selection.remove(selection);
+  bool isSelected(String name) {
+    return _selection.any((element) => element.name == name);
+  }
+
+  void toggleSelection(String name) {
+    if (_selection.any((element) => element.name == name)) {
+      _selection.removeWhere((element) => element.name == name);
     } else {
-      _selection.add(selection);
+      _selection.add(CheckoutItem(name, _path));
     }
+    notifyListeners();
+  }
+}
+
+class CheckoutCN extends ChangeNotifier {
+  Set<CheckoutItem> _items = {};
+  Set<CheckoutItem> get items => _items;
+  set items(Set<CheckoutItem> value) {
+    _items = value;
+    notifyListeners();
+  }
+
+  void addItem(CheckoutItem item) {
+    if (_items.any((element) =>
+        (element.path == item.path && element.name == item.name))) {
+      return;
+    }
+    _items.add(item);
+    notifyListeners();
+  }
+
+  void removeItem(CheckoutItem item) {
+    _items.remove(item);
+    notifyListeners();
+  }
+
+  Set<CheckoutItem> _selected = {};
+  Set<CheckoutItem> get selected => _selected;
+  set selected(Set<CheckoutItem> value) {
+    _selected = value;
+    notifyListeners();
+  }
+
+  void addSelected(CheckoutItem item) {
+    _selected.add(item);
+    notifyListeners();
+  }
+
+  void toggleSelected(CheckoutItem item) {
+    if (_selected.contains(item)) {
+      _selected.remove(item);
+    } else {
+      _selected.add(item);
+    }
+    notifyListeners();
+  }
+
+  void selectAll() {
+    _selected.addAll(_items);
+    notifyListeners();
+  }
+
+  void selectNone() {
+    _selected.clear();
+    notifyListeners();
+  }
+
+  void deleteSelection() {
+    _items.removeWhere((element) => _selected.contains(element));
+    _selected.clear();
     notifyListeners();
   }
 }

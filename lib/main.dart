@@ -49,13 +49,14 @@ class MyApp extends StatelessWidget {
         title: 'Past Paper Master',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
+
 // TODO: [Micfong] restrict each provider's scope to its own page for better performance
-//       however I'm too lazy to do this now :D
         home: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => GeneralCN()),
             ChangeNotifierProvider(create: (_) => FilterCN()),
             ChangeNotifierProvider(create: (_) => BrowseCN()),
+            ChangeNotifierProvider(create: (_) => CheckoutCN()),
           ],
           child: const MyHomePage(),
         ));
