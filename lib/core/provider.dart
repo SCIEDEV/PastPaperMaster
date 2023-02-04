@@ -31,7 +31,7 @@ class FilterCN extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _level = '';
+  String _level = "IGCSE";
   String get level => _level;
   set level(String value) {
     _level = value;
@@ -82,6 +82,46 @@ class FilterCN extends ChangeNotifier {
       _paperTypes.remove(paperType);
     } else {
       _paperTypes.add(paperType);
+    }
+    notifyListeners();
+  }
+}
+
+class BrowseCN extends ChangeNotifier {
+  List<String> _path = [];
+  List<String> get path => _path;
+  set path(List<String> value) {
+    _path = value;
+    notifyListeners();
+  }
+
+  void addPath(String path) {
+    _path.add(path);
+    notifyListeners();
+  }
+
+  List<String> _selection = [];
+  List<String> get selection => _selection;
+  set selection(List<String> value) {
+    _selection = value;
+    notifyListeners();
+  }
+
+  void addSelection(String selection) {
+    _selection.add(selection);
+    notifyListeners();
+  }
+
+  void removeSelection(String selection) {
+    _selection.remove(selection);
+    notifyListeners();
+  }
+
+  void toggleSelection(String selection) {
+    if (_selection.contains(selection)) {
+      _selection.remove(selection);
+    } else {
+      _selection.add(selection);
     }
     notifyListeners();
   }

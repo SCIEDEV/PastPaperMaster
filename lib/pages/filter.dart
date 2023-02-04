@@ -4,7 +4,7 @@ import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
 import 'package:past_paper_master/core/provider.dart';
-import 'package:past_paper_master/pages/subjects.dart';
+import 'package:past_paper_master/core/subjects.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +81,8 @@ class PaperFilterPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
+
+                    // ? [Micfong] this stuff sometimes freezes :(
                     MLongDropdownButton(
                       title: 'Select subject',
                       iconName: 'book',
@@ -210,6 +212,11 @@ class PaperFilterPage extends StatelessWidget {
                       items: const [
                         'Question paper',
                         'Mark scheme',
+                        'Examiner report',
+                        'Grade thresholds',
+                        'Specimen paper',
+                        'Specimen mark scheme',
+                        'Others',
                       ],
                       onChanged: (context, value) {
                         if (value != null) {

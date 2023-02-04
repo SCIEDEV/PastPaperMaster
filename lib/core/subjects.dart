@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import '../core/global.dart';
+import 'global.dart';
 
 List<String> igcseSubjects = [];
 
@@ -29,4 +29,21 @@ Future<void> updateAlevelSubjects() async {
     subjects.add(subject);
   }
   alevelSubjects = subjects;
+}
+
+Map<String, dynamic> igcseSubjectsMap = {};
+Map<String, dynamic> alevelSubjectsMap = {};
+
+Future<void> updateIgcseSubjectsMap() async {
+  // read from application support
+  String realDataPath = '$appSupportPath$kLocalDataPath';
+  String data = await File('${realDataPath}igcse.json').readAsString();
+  igcseSubjectsMap = jsonDecode(data);
+}
+
+Future<void> updateAlevelSubjectsMap() async {
+  // read from application support
+  String realDataPath = '$appSupportPath$kLocalDataPath';
+  String data = await File('${realDataPath}alevel.json').readAsString();
+  alevelSubjectsMap = jsonDecode(data);
 }

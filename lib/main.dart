@@ -5,7 +5,7 @@ import 'package:past_paper_master/pages/download.dart';
 import 'package:past_paper_master/pages/pseudocode.dart';
 import 'package:past_paper_master/pages/question.dart';
 import 'package:past_paper_master/pages/settings.dart';
-import 'package:past_paper_master/pages/subjects.dart';
+import 'package:past_paper_master/core/subjects.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/colors.dart';
@@ -34,6 +34,8 @@ void main() async {
   await initDirectoryData();
   await updateIgcseSubjects();
   await updateAlevelSubjects();
+  await updateIgcseSubjectsMap();
+  await updateAlevelSubjectsMap();
   runApp(const MyApp());
 }
 
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (_) => GeneralCN()),
             ChangeNotifierProvider(create: (_) => FilterCN()),
+            ChangeNotifierProvider(create: (_) => BrowseCN()),
           ],
           child: const MyHomePage(),
         ));

@@ -37,6 +37,11 @@ class MTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle smMdGrey900 = TextStyle(
+    color: MColors.grey.shade900,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
   static TextStyle mdRgGrey900 = TextStyle(
     color: MColors.grey.shade900,
     fontSize: 16,

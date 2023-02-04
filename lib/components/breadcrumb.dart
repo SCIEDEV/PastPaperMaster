@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/core/colors.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:provider/provider.dart';
+import 'package:past_paper_master/core/provider.dart';
 
 class Breadcrumbs extends StatelessWidget {
   const Breadcrumbs({super.key});
@@ -12,7 +14,9 @@ class Breadcrumbs extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         RawMaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<BrowseCN>().path = [];
+            },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
@@ -21,32 +25,26 @@ class Breadcrumbs extends StatelessWidget {
         const SizedBox(width: 4),
         Icon(FeatherIcons.chevronRight, color: MColors.grey.shade300, size: 16),
         const SizedBox(width: 4),
-        RawMaterialButton(
-          onPressed: () {},
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Text(
-            'Mathematics (9709)',
-            style: MTextStyles.smMdGrey500,
+        for (var i = 0; i < context.watch<BrowseCN>().path.length; i++) ...[
+          RawMaterialButton(
+            onPressed: () {
+              context.read<BrowseCN>().path =
+                  context.read<BrowseCN>().path.sublist(0, i + 1);
+            },
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+              context.watch<BrowseCN>().path[i],
+              style: MTextStyles.smMdGrey500,
+            ),
           ),
-        ),
-        const SizedBox(width: 4),
-        Icon(FeatherIcons.chevronRight, color: MColors.grey.shade300, size: 16),
-        const SizedBox(width: 4),
-        RawMaterialButton(
-          onPressed: () {},
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Text(
-            '2013',
-            style: MTextStyles.smMdAccent700,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Icon(FeatherIcons.chevronRight, color: MColors.grey.shade300, size: 16),
-        const SizedBox(width: 4),
+          const SizedBox(width: 4),
+          Icon(FeatherIcons.chevronRight,
+              color: MColors.grey.shade300, size: 16),
+          const SizedBox(width: 4),
+        ],
       ],
     );
   }
