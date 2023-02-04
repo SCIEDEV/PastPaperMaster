@@ -13,7 +13,6 @@ class SidebarView extends StatelessWidget {
     {'icon': 'checkout', 'title': 'Checkout'},
     {'icon': 'download', 'title': 'Downloads'},
     {'icon': 'question-search', 'title': 'Search Questions'},
-    {'icon': 'code', 'title': 'Pseudocode Runner'},
   ];
 
   static final List<dynamic> _sidebarDataBottom = [

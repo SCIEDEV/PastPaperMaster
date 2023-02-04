@@ -10,8 +10,8 @@ class SearchQuestionsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 36),
-        SizedBox(
+        const SizedBox(height: 36),
+        const SizedBox(
           width: 256,
           height: 256,
           child: RiveAnimation.asset(
@@ -19,7 +19,7 @@ class SearchQuestionsPage extends StatelessWidget {
             fit: BoxFit.fitWidth,
           ),
         ),
-        SizedBox(height: 24),
+        const SizedBox(height: 24),
         Text(
           'Coming soon',
           style: MTextStyles.mdMdGrey900,

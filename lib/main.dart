@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:past_paper_master/core/dirinit.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
-import 'package:past_paper_master/pages/pseudocode.dart';
 import 'package:past_paper_master/pages/question.dart';
 import 'package:past_paper_master/pages/settings.dart';
 import 'package:past_paper_master/core/subjects.dart';
@@ -84,7 +83,6 @@ class MyHomePage extends StatelessWidget {
     const CheckoutPage(),
     const DownloadsPage(),
     const SearchQuestionsPage(),
-    const PseudocodeRunnerPage(),
     const SettingsPage(),
     const AboutPage(),
   ];
