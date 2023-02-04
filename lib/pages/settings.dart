@@ -1,8 +1,12 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/core/global.dart';
+import 'package:provider/provider.dart';
+import 'package:past_paper_master/core/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -127,10 +131,22 @@ class SettingsPage extends StatelessWidget {
             Expanded(
               flex: 7,
               child: MLongButton(
-                onPressed: () {},
-                title: 'Download path',
+                onPressed: () async {
+                  String? selectedDirectory = await FilePicker.platform
+                      .getDirectoryPath(dialogTitle: "Select download path");
+                  if (selectedDirectory != null) {
+                    // ignore: use_build_context_synchronously
+                    globalContext.read<DownloadCN>().downloadPath =
+                        selectedDirectory;
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setString('downloadPath', selectedDirectory);
+                  }
+                },
+                title: context.watch<DownloadCN>().downloadPath == ''
+                    ? 'Download path'
+                    : context.read<DownloadCN>().downloadPath,
                 iconName: 'download',
-                placeholder: true,
+                placeholder: context.read<DownloadCN>().downloadPath == '',
               ),
             ),
             Expanded(flex: 1, child: Container())

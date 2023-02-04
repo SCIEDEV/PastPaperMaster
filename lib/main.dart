@@ -16,6 +16,7 @@ import 'package:past_paper_master/pages/sidebar.dart';
 import 'package:past_paper_master/pages/browse.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -31,6 +32,13 @@ void main() async {
       await windowManager.focus();
     });
   }
+  final prefs = await SharedPreferences.getInstance();
+  final String? downloadPath = prefs.getString('downloadPath');
+  if (downloadPath != null) {
+    kDownloadPath = downloadPath;
+  } else {
+    prefs.setString('downloadPath', '');
+  }
   await initDirectoryData();
   await updateIgcseSubjects();
   await updateAlevelSubjects();
@@ -44,7 +52,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    globalContext = context;
     return MaterialApp(
         title: 'Past Paper Master',
         debugShowCheckedModeBanner: false,
@@ -57,6 +64,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => FilterCN()),
             ChangeNotifierProvider(create: (_) => BrowseCN()),
             ChangeNotifierProvider(create: (_) => CheckoutCN()),
+            ChangeNotifierProvider(create: (_) => DownloadCN()),
           ],
           child: const MyHomePage(),
         ));
@@ -79,6 +87,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
     return Scaffold(
         body: Row(
       children: [

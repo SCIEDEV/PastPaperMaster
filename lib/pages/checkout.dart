@@ -55,7 +55,29 @@ class CheckoutPage extends StatelessWidget {
             // ),
             // const SizedBox(width: 8),
             MButton(
-              onPressed: () {},
+              onPressed: () {
+                if (context.read<DownloadCN>().downloadPath == '') {
+                  // show alertdialog
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("No download path selected"),
+                      content: const Text(
+                          "Please select a download path in the settings page."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Dismiss"),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  // context.read<DownloadCN>().downloadSelection();
+                }
+              },
               title: "Download Selection",
               primary: true,
             ),

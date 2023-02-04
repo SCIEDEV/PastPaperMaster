@@ -57,6 +57,11 @@ class MTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle mdMdWhite900 = const TextStyle(
+    color: MColors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
   static TextStyle lgMdGrey900 = TextStyle(
     color: MColors.grey.shade900,
     fontSize: 18,
