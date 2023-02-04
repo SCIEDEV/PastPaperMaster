@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:past_paper_master/core/dirinit.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
@@ -33,6 +34,9 @@ void main() async {
     });
   }
   final prefs = await SharedPreferences.getInstance();
+  if (kDebugMode) {
+    await prefs.remove('downloadPath');
+  }
   final String? downloadPath = prefs.getString('downloadPath');
   if (downloadPath != null) {
     kDownloadPath = downloadPath;

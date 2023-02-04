@@ -164,14 +164,19 @@ class MLongButton extends StatelessWidget {
           children: [
             twoToneIcon(iconName, false, width: size, height: size),
             const SizedBox(width: 8),
-            Text(
-              title,
-              style: TextStyle(
-                  color: placeholder
-                      ? MColors.grey.shade500
-                      : MColors.grey.shade900,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400),
+            Expanded(
+              flex: 99,
+              child: Text(
+                title,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                style: TextStyle(
+                    color: placeholder
+                        ? MColors.grey.shade500
+                        : MColors.grey.shade900,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
             const Spacer(),
             Icon(
