@@ -4,6 +4,7 @@ import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/core/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -128,7 +129,7 @@ class AboutPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 24),
                     child: Text(
-                      'Sponsor me',
+                      'Sponsorship & Support',
                       style: MTextStyles.smMdGrey700,
                     ),
                   ),
@@ -138,11 +139,12 @@ class AboutPage extends StatelessWidget {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MButton(onPressed: () {}, title: 'Open Collective'),
-                        const SizedBox(width: 8),
-                        MButton(onPressed: () {}, title: 'WeChat'),
-                        const SizedBox(width: 8),
-                        MButton(onPressed: () {}, title: 'Alipay'),
+                        MButton(
+                            onPressed: () {
+                              safeLaunchUrl(
+                                  'https://github.com/SCIEDEV/PastPaperMaster');
+                            },
+                            title: 'GitHub'),
                       ]),
                 ),
                 Expanded(
@@ -155,5 +157,12 @@ class AboutPage extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+Future<void> safeLaunchUrl(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (!await launchUrl(uri)) {
+    throw 'Could not launch $uri';
   }
 }
