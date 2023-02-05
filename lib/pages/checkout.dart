@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:rive/rive.dart';
 import 'package:provider/provider.dart';
@@ -45,17 +46,6 @@ class CheckoutPage extends StatelessWidget {
               title: "Delete Selection",
             ),
             const Spacer(),
-            // MButton(
-            //   onPressed: () {
-            //     print("===");
-            //     var items = context.read<CheckoutCN>().items;
-            //     for (var i in items) {
-            //       print("${i.name} -> ${i.path} @ ${i.hashCode}");
-            //     }
-            //   },
-            //   title: "Print all",
-            // ),
-            // const SizedBox(width: 8),
             MButton(
               onPressed: () {
                 if (context.read<DownloadCN>().downloadPath == '') {
@@ -77,9 +67,24 @@ class CheckoutPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  context
-                      .read<DownloadCN>()
-                      .addDownloads(context.read<CheckoutCN>().selected);
+                  Set<CheckoutItem> selection =
+                      context.read<CheckoutCN>().selected;
+                  context.read<DownloadCN>().addDownloads(selection);
+
+                  ScaffoldMessenger.of(globalContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          "${selection.length} papers added to download queue."),
+                      action: SnackBarAction(
+                        label: "Dismiss",
+                        onPressed: () {
+                          ScaffoldMessenger.of(globalContext)
+                              .hideCurrentSnackBar();
+                        },
+                      ),
+                    ),
+                  );
+
                   context.read<CheckoutCN>().deleteSelection();
                 }
               },

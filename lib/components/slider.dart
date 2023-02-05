@@ -3,6 +3,8 @@ import 'package:past_paper_master/core/colors.dart';
 import 'dart:math' as math;
 
 import 'package:past_paper_master/core/textstyle.dart';
+import 'package:provider/provider.dart';
+import 'package:past_paper_master/core/provider.dart';
 
 class MRangeSlider extends StatefulWidget {
   const MRangeSlider({super.key});
@@ -17,6 +19,8 @@ class _MRangeSliderState extends State<MRangeSlider> {
 
   @override
   Widget build(BuildContext context) {
+    _start = context.read<FilterCN>().startYear.toDouble();
+    _end = context.read<FilterCN>().endYear.toDouble();
     return SliderTheme(
         data: SliderThemeData(
           showValueIndicator: ShowValueIndicator.always,
@@ -43,6 +47,8 @@ class _MRangeSliderState extends State<MRangeSlider> {
               setState(() {
                 _start = newValues.start;
                 _end = newValues.end;
+                context.read<FilterCN>().startYear = _start.round();
+                context.read<FilterCN>().endYear = _end.round();
               });
             }));
   }

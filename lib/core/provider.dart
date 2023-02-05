@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:dio/dio.dart';
 
@@ -287,10 +288,41 @@ class DownloadCN extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cancelAll() {
+    _downloadQueue.clear();
+    _failed.clear();
+    _totalShown = downloading.length;
+    notifyListeners();
+  }
+
+  void retryAllFailed() {
+    _downloadQueue.addAll(_failed);
+    _failed.clear();
+    startDownload();
+    notifyListeners();
+  }
+
+  bool _completeSnackbarShown = true;
+
   Future<void> startDownload() async {
     if (_downloadQueue.isEmpty) {
+      if (!_completeSnackbarShown) {
+        ScaffoldMessenger.of(globalContext).showSnackBar(
+          SnackBar(
+            content: const Text("All downloads completed."),
+            action: SnackBarAction(
+              label: "Dismiss",
+              onPressed: () {
+                ScaffoldMessenger.of(globalContext).hideCurrentSnackBar();
+              },
+            ),
+          ),
+        );
+      }
+      _completeSnackbarShown = true;
       return;
     }
+    _completeSnackbarShown = false;
     if (_currentThreads >= kMaxThreads) {
       return;
     }
@@ -302,7 +334,7 @@ class DownloadCN extends ChangeNotifier {
     item.downloading = true;
     _downloading.add(item);
     notifyListeners();
-    Dio().download(
+    Dio(BaseOptions(connectTimeout: 5000, receiveTimeout: 3000)).download(
       item.url,
       "$_downloadPath/${item.name}",
       onReceiveProgress: (count, total) {
@@ -320,6 +352,21 @@ class DownloadCN extends ChangeNotifier {
       notifyListeners();
       if (_downloadQueue.isNotEmpty) {
         startDownload();
+      } else {
+        if (!_completeSnackbarShown) {
+          ScaffoldMessenger.of(globalContext).showSnackBar(
+            SnackBar(
+              content: const Text("All downloads completed."),
+              action: SnackBarAction(
+                label: "Dismiss",
+                onPressed: () {
+                  ScaffoldMessenger.of(globalContext).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        }
+        _completeSnackbarShown = true;
       }
     }).catchError((error) {
       if (kDebugMode) {

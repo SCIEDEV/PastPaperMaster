@@ -3,6 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/breadcrumb.dart';
+import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:rive/rive.dart';
 import 'package:past_paper_master/core/subjects.dart';
@@ -32,6 +33,20 @@ class BrowsePage extends StatelessWidget {
                 Set<CheckoutItem> selection =
                     context.read<BrowseCN>().selection;
                 context.read<CheckoutCN>().items.addAll(selection);
+
+                ScaffoldMessenger.of(globalContext).showSnackBar(
+                  SnackBar(
+                    content:
+                        Text("${selection.length} papers added to checkout."),
+                    action: SnackBarAction(
+                      label: "Dismiss",
+                      onPressed: () {
+                        ScaffoldMessenger.of(globalContext)
+                            .hideCurrentSnackBar();
+                      },
+                    ),
+                  ),
+                );
               },
             ),
             const SizedBox(width: 8),
@@ -57,7 +72,23 @@ class BrowsePage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  // context.read<DownloadCN>().downloadSelection();
+                  Set<CheckoutItem> selection =
+                      context.read<BrowseCN>().selection;
+                  context.read<DownloadCN>().addDownloads(selection);
+
+                  ScaffoldMessenger.of(globalContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          "${selection.length} papers added to download queue."),
+                      action: SnackBarAction(
+                        label: "Dismiss",
+                        onPressed: () {
+                          ScaffoldMessenger.of(globalContext)
+                              .hideCurrentSnackBar();
+                        },
+                      ),
+                    ),
+                  );
                 }
               },
               primary: true,

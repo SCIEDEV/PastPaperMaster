@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/colors.dart';
-import 'package:past_paper_master/components/badge.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
+import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/subjects.dart';
 import 'package:past_paper_master/core/textstyle.dart';
@@ -64,14 +64,14 @@ class PaperFilterPage extends StatelessWidget {
                     Row(
                       children: [
                         // TODO: [Micfong] implement Edexcel subjects
-                        MButtonGroup(
-                            titles: const ['CAIE'],
-                            onPressed: (context, index) {
-                              context.read<FilterCN>().board =
-                                  ['CAIE', 'Edexcel'][index];
-                              context.read<FilterCN>().subject = null;
-                            }),
-                        const SizedBox(width: 16),
+                        // MButtonGroup(
+                        //     titles: const ['CAIE'],
+                        //     onPressed: (context, index) {
+                        //       context.read<FilterCN>().board =
+                        //           ['CAIE', 'Edexcel'][index];
+                        //       context.read<FilterCN>().subject = null;
+                        //     }),
+                        // const SizedBox(width: 16),
                         MButtonGroup(
                             titles: const ['IGCSE', 'A(S) Level'],
                             onPressed: (context, index) {
@@ -276,6 +276,19 @@ class PaperFilterPage extends StatelessWidget {
                       print("${item.name} ${item.path} ${item.hashCode}");
                     }
                   }
+                  ScaffoldMessenger.of(globalContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          "${result.papers.length} papers added to checkout."),
+                      action: SnackBarAction(
+                        label: "Dismiss",
+                        onPressed: () {
+                          ScaffoldMessenger.of(globalContext)
+                              .hideCurrentSnackBar();
+                        },
+                      ),
+                    ),
+                  );
                 }
               },
               title: 'Add to Checkout',
@@ -303,7 +316,55 @@ class PaperFilterPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  // context.read<DownloadCN>().downloadSelection();
+                  var instance = context.read<FilterCN>();
+                  PaperFilterResult result = _getPapers(
+                    instance.level,
+                    instance.subject ?? "",
+                    instance.startYear,
+                    instance.endYear,
+                    instance.seasons,
+                    instance.paperNumbers,
+                    instance.paperTypes,
+                  );
+                  if (result.successful == false) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Failed to filter papers"),
+                        content: Text(result.failMessage),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("Dismiss"),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    context.read<DownloadCN>().addDownloads(result.papers);
+                    if (kDebugMode) {
+                      var items = context.read<CheckoutCN>().items;
+                      for (var item in items) {
+                        print("${item.name} ${item.path} ${item.hashCode}");
+                      }
+                    }
+
+                    ScaffoldMessenger.of(globalContext).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "${result.papers.length} papers added to download queue."),
+                        action: SnackBarAction(
+                          label: "Dismiss",
+                          onPressed: () {
+                            ScaffoldMessenger.of(globalContext)
+                                .hideCurrentSnackBar();
+                          },
+                        ),
+                      ),
+                    );
+                  }
                 }
               },
               title: 'Download',

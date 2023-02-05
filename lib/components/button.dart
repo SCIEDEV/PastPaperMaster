@@ -4,6 +4,8 @@ import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:past_paper_master/core/textstyle.dart';
+import 'package:past_paper_master/core/provider.dart';
+import 'package:provider/provider.dart';
 
 class MButton extends StatelessWidget {
   const MButton(
@@ -48,8 +50,11 @@ class MButton extends StatelessWidget {
 }
 
 class MButtonGroup extends StatefulWidget {
-  const MButtonGroup(
-      {super.key, required this.titles, required this.onPressed});
+  const MButtonGroup({
+    super.key,
+    required this.titles,
+    required this.onPressed,
+  });
 
   final List<String> titles;
   final Function(BuildContext, int) onPressed;
@@ -59,17 +64,19 @@ class MButtonGroup extends StatefulWidget {
 }
 
 class _MButtonGroupState extends State<MButtonGroup> {
-  int _selected = 0;
+  // _MButtonGroupState({this.selected = 0});
+  int selected = 0;
 
   @override
   Widget build(BuildContext context) {
+    selected = context.read<FilterCN>().level == 'IGCSE' ? 0 : 1;
     return Row(
       children: [
         for (var i = 0; i < widget.titles.length; i++)
           RawMaterialButton(
             onPressed: () {
               setState(() {
-                _selected = i;
+                selected = i;
                 widget.onPressed(context, i);
               });
             },
@@ -85,8 +92,8 @@ class _MButtonGroupState extends State<MButtonGroup> {
                   ? const Radius.circular(8)
                   : Radius.zero,
             )),
-            fillColor: _selected == i ? MColors.accent.shade500 : MColors.white,
-            elevation: _selected == i ? 1 : 0.5,
+            fillColor: selected == i ? MColors.accent.shade500 : MColors.white,
+            elevation: selected == i ? 1 : 0.5,
             highlightElevation: 0,
             hoverElevation: 0,
             focusElevation: 0,
@@ -103,7 +110,7 @@ class _MButtonGroupState extends State<MButtonGroup> {
                       ? const Radius.circular(8)
                       : Radius.zero,
                 ),
-                border: _selected == i
+                border: selected == i
                     ? Border.all(
                         color: MColors.accent.shade500,
                         width: 1,
@@ -117,7 +124,7 @@ class _MButtonGroupState extends State<MButtonGroup> {
                 widget.titles[i],
                 style: TextStyle(
                     color:
-                        _selected == i ? MColors.white : MColors.grey.shade700,
+                        selected == i ? MColors.white : MColors.grey.shade700,
                     fontSize: 14,
                     fontWeight: FontWeight.w500),
               ),

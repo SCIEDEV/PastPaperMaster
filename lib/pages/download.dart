@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
@@ -13,9 +15,27 @@ class DownloadsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Downloads',
-          style: MTextStyles.dsmMdGrey900,
+        Row(
+          children: [
+            Text(
+              'Downloads',
+              style: MTextStyles.dsmMdGrey900,
+            ),
+            const Spacer(),
+            MButton(
+              onPressed: () {
+                context.read<DownloadCN>().cancelAll();
+              },
+              title: "Cancel All",
+            ),
+            const SizedBox(width: 8),
+            MButton(
+              onPressed: () {
+                context.read<DownloadCN>().retryAllFailed();
+              },
+              title: "Retry Failed Downloads",
+            ),
+          ],
         ),
         const SizedBox(height: 36),
         Container(
@@ -112,6 +132,7 @@ class DownloadsTableHeader extends StatelessWidget {
               'Progress',
               style: MTextStyles.xsMdGrey500,
             )),
+        const SizedBox(width: 16),
       ]),
     );
   }
@@ -172,6 +193,9 @@ class DownloadEntryRow extends StatelessWidget {
                       ? MTextStyles.smMdAccent700
                       : MTextStyles.smRgGrey500,
                 )),
+            isInProgress
+                ? const SizedBox(width: 16)
+                : Icon(FeatherIcons.x, color: MColors.grey.shade500, size: 16),
           ],
         ),
       ),
@@ -223,7 +247,7 @@ class NoDownloadsPlaceholder extends StatelessWidget {
               width: double.infinity,
             ),
             Text(
-              'No documents have been downloaded yet.',
+              'Seems like all download tasks have been completed.',
               style: MTextStyles.smRgGrey500,
             ),
           ],
