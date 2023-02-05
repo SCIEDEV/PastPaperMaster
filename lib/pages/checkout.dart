@@ -15,7 +15,9 @@ class CheckoutPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Checkout',
+          context.watch<CheckoutCN>().items.isEmpty
+              ? 'Checkout'
+              : "Checkout - ${context.watch<CheckoutCN>().items.length} item${context.read<CheckoutCN>().items.length == 1 ? '' : 's'}",
           style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 24),

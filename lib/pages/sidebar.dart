@@ -58,14 +58,14 @@ class SidebarView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Public Alpha Test',
+                    Text('Public Beta Test',
                         style: TextStyle(
                             color: MColors.accent.shade700,
                             fontSize: 14,
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 4),
                     Text(
-                        'Thank you for participating in Past Paper Master public alpha test!',
+                        'Thank you for participating in Past Paper Master public beta test!',
                         style: TextStyle(
                             color: MColors.accent.shade600,
                             fontSize: 14,

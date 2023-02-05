@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 /// This should always be set to the `context` which `MaterialApp` lies in.
 late BuildContext globalContext;
 
-const String kAppStage = 'Alpha Version';
-const String kAppStageShort = 'α ';
+const String kAppStage = 'Beta Version';
+const String kAppStageShort = 'β ';
 const int kMajorVersion = 0;
 const int kMinorVersion = 1;
 const int kPatchVersion = 0;

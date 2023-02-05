@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/badge.dart';
@@ -242,13 +243,71 @@ class PaperFilterPage extends StatelessWidget {
             const MBadge(title: 'Some fields are not filled in'),
             const SizedBox(width: 12),
             MButton(
-              onPressed: () {},
+              onPressed: () {
+                var instance = context.read<FilterCN>();
+                PaperFilterResult result = _getPapers(
+                  instance.level,
+                  instance.subject ?? "",
+                  instance.startYear,
+                  instance.endYear,
+                  instance.seasons,
+                  instance.paperNumbers,
+                  instance.paperTypes,
+                );
+                if (result.successful == false) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Failed to filter papers"),
+                      content: Text(result.failMessage),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Dismiss"),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  context.read<CheckoutCN>().items.addAll(result.papers);
+                  if (kDebugMode) {
+                    var items = context.read<CheckoutCN>().items;
+                    for (var item in items) {
+                      print("${item.name} ${item.path} ${item.hashCode}");
+                    }
+                  }
+                }
+              },
               title: 'Add to Checkout',
               primary: false,
             ),
             const SizedBox(width: 12),
             MButton(
-              onPressed: () {},
+              onPressed: () {
+                if (context.read<DownloadCN>().downloadPath == '') {
+                  // show alertdialog
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("No download path selected"),
+                      content: const Text(
+                          "Please select a download path in the settings page."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Dismiss"),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  // context.read<DownloadCN>().downloadSelection();
+                }
+              },
               title: 'Download',
               primary: true,
             )
@@ -257,4 +316,160 @@ class PaperFilterPage extends StatelessWidget {
       ],
     );
   }
+}
+
+class PaperFilterResult {
+  bool successful;
+  Set<CheckoutItem> papers;
+  String failMessage;
+
+  PaperFilterResult(this.successful, this.papers, this.failMessage);
+}
+
+PaperFilterResult _getPapers(
+    String level,
+    String subject,
+    int startYear,
+    int endYear,
+    List<String> seasons,
+    List<String> paperNumbers,
+    List<String> paperTypes) {
+  PaperFilterResult ret = PaperFilterResult(true, {}, '');
+  Map<String, dynamic> paperMap;
+
+  if (kDebugMode) {
+    print('level: $level');
+    print('subject: $subject');
+    print('startYear: $startYear');
+    print('endYear: $endYear');
+    print('seasons: $seasons');
+    print('paperNumbers: $paperNumbers');
+    print('paperTypes: $paperTypes');
+  }
+
+  if (subject == '') {
+    ret.successful = false;
+    ret.failMessage = 'Please select a subject.';
+    return ret;
+  }
+
+  if (seasons.isEmpty) {
+    ret.successful = false;
+    ret.failMessage = 'Please select at least one season.';
+    return ret;
+  }
+
+  if (paperNumbers.isEmpty) {
+    ret.successful = false;
+    ret.failMessage = 'Please select at least one paper number.';
+    return ret;
+  }
+
+  if (paperTypes.isEmpty) {
+    ret.successful = false;
+    ret.failMessage = 'Please select at least one paper type.';
+    return ret;
+  }
+
+  if (level == 'IGCSE') {
+    paperMap = igcseSubjectsMap;
+  } else {
+    paperMap = alevelSubjectsMap;
+  }
+
+  if (!paperMap.containsKey(subject)) {
+    ret.successful = false;
+    ret.failMessage = '''Filtering is not yet supported for this subject.
+
+You may download the papers from Browse page instead.''';
+    return ret;
+  }
+
+  dynamic temp = paperMap[subject];
+  if (temp is List) {
+    ret.successful = false;
+    ret.failMessage = '''Filtering is not yet supported for this subject.
+
+You may download the papers from Browse page instead.''';
+    return ret;
+  }
+
+  List<dynamic> keys = temp.keys.toList();
+  if (kDebugMode) {
+    print(temp.keys);
+  }
+  if (keys.any((e) => temp[e].isEmpty)) {
+    ret.successful = false;
+    ret.failMessage = '''Filtering is not yet supported for this subject.
+
+You may download the papers from Browse page instead.''';
+    return ret;
+  }
+
+  Map<String, String> seasonConvert = {
+    'm': 'February / March (m)',
+    's': 'May / June (s)',
+    'w': 'October / November (w)',
+  };
+
+  Map<String, String> paperTypeConvert = {
+    'qp': 'Question paper',
+    'ms': 'Mark scheme',
+    'er': 'Examiner report',
+    'gt': 'Grade thresholds',
+    'sp': 'Specimen paper',
+    'sm': 'Specimen mark scheme',
+  };
+  for (int year = startYear; year <= endYear; year++) {
+    if (temp.containsKey(year.toString())) {
+      List<dynamic> papers = temp[year.toString()];
+      for (var paper in papers) {
+        var orginalPaper = paper;
+        paper = paper.replaceAll(RegExp(r'\..+$'), '');
+        List<String> components = paper.split('_');
+        if (kDebugMode) {
+          print(paper);
+          print(components);
+        }
+        String season = seasonConvert[components[1][0]] ?? '';
+        if (season == '' || !seasons.contains(season)) {
+          if (kDebugMode) {
+            print('Season validation failed: $season -> $seasons');
+          }
+          continue;
+        }
+        String paperType = paperTypeConvert[components[2]] ?? '';
+        if (paperType == '' || !paperTypes.contains(paperType)) {
+          if (!(components[2] == 'ot' && paperTypes.contains('Others'))) {
+            if (kDebugMode) {
+              print('Paper type validation failed');
+            }
+            continue;
+          }
+        }
+        if (components.length == 4) {
+          if (!paperNumbers.contains("Paper ${components[3][0]}")) {
+            if (kDebugMode) {
+              print('Paper number validation failed');
+            }
+            continue;
+          }
+        }
+        CheckoutItem item = CheckoutItem(orginalPaper, []);
+        item.path.add(level);
+        item.path.add(subject);
+        item.path.add(year.toString());
+        ret.papers.add(item);
+      }
+    }
+  }
+
+  if (kDebugMode) {
+    print("Papers: ${ret.papers.length}");
+    for (var paper in ret.papers) {
+      print(paper.name);
+    }
+  }
+
+  return ret;
 }

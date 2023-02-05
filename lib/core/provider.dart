@@ -40,6 +40,20 @@ class FilterCN extends ChangeNotifier {
     notifyListeners();
   }
 
+  int _startYear = 2018;
+  int get startYear => _startYear;
+  set startYear(int value) {
+    _startYear = value;
+    notifyListeners();
+  }
+
+  int _endYear = 2022;
+  int get endYear => _endYear;
+  set endYear(int value) {
+    _endYear = value;
+    notifyListeners();
+  }
+
   List<String> _seasons = [];
   List<String> get seasons => _seasons;
   set seasons(List<String> value) {
@@ -90,17 +104,19 @@ class FilterCN extends ChangeNotifier {
 }
 
 class CheckoutItem {
-  final String name;
-  final List<String> path;
+  String name;
+
+  /// This path does not contain the filename.
+  List<String> path;
+
   CheckoutItem(this.name, this.path);
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CheckoutItem && name == other.name && path == other.path;
+      identical(this, other) || other is CheckoutItem && name == other.name;
 
   @override
-  int get hashCode => name.hashCode ^ path.hashCode;
+  int get hashCode => name.hashCode ^ path.last.hashCode;
 }
 
 class BrowseCN extends ChangeNotifier {
@@ -156,10 +172,10 @@ class CheckoutCN extends ChangeNotifier {
   }
 
   void addItem(CheckoutItem item) {
-    if (_items.any((element) =>
-        (element.path == item.path && element.name == item.name))) {
-      return;
-    }
+    // if (_items.any((element) =>
+    //     (element.path == item.path && element.name == item.name))) {
+    //   return;
+    // }
     _items.add(item);
     notifyListeners();
   }

@@ -138,7 +138,14 @@ List<BrowseEntry> _getEntries(List<String> path) {
       }
     } else {
       for (var i = 0; i < temp.keys.length; i++) {
-        ret.add(BrowseEntry(name: temp.keys.elementAt(i), type: "Folder"));
+        if (temp.keys.elementAt(i).contains('.')) {
+          ret.add(BrowseEntry(
+              name: temp.keys.elementAt(i),
+              type: "Document",
+              isDocument: true));
+        } else {
+          ret.add(BrowseEntry(name: temp.keys.elementAt(i), type: "Folder"));
+        }
       }
     }
     return ret;
