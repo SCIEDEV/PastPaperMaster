@@ -114,11 +114,11 @@ class _MButtonGroupState extends State<MButtonGroup> {
                     ? Border.all(
                         color: MColors.accent.shade500,
                         width: 1,
-                        strokeAlign: StrokeAlign.center)
+                        strokeAlign: BorderSide.strokeAlignCenter)
                     : Border.all(
                         color: MColors.grey.shade300,
                         width: 1,
-                        strokeAlign: StrokeAlign.center),
+                        strokeAlign: BorderSide.strokeAlignCenter),
               ),
               child: Text(
                 widget.titles[i],

@@ -12,9 +12,9 @@ const String kAppStageShort = 'β ';
 const int kMajorVersion = 0;
 const int kMinorVersion = 1;
 const int kPatchVersion = 0;
-const int kBuildNumber = 31;
+const int kBuildNumber = 33;
 const int kDatabaseVersion = 1;
-const String kLastCommitHash = 'b9be3dd31a37e8d7610d9a7c90dd4fa8c3cc9efb';
+const String kLastCommitHash = '17ea6d68fc6da0c55c23a7a231ee55bd6444e616';
 
 const String kBundledDataPath = 'assets/json/';
 const String kLocalDataPath = '/json/';

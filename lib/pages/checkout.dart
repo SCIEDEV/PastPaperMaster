@@ -250,7 +250,7 @@ class NoCheckoutPlaceholder extends StatelessWidget {
           border: Border.all(
               color: MColors.grey.shade200,
               width: 1,
-              strokeAlign: StrokeAlign.outside),
+              strokeAlign: BorderSide.strokeAlignOutside),
         ),
         padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
         child: Column(
