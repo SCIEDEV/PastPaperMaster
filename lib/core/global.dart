@@ -21,3 +21,4 @@ const String kLocalDataPath = '/json/';
 late String appSupportPath;
 
 String kDownloadPath = '';
+const int kMaxThreads = 3;

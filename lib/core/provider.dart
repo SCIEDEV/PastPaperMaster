@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:past_paper_master/core/global.dart';
+import 'package:dio/dio.dart';
 
 class GeneralCN extends ChangeNotifier {
   int _selectedTab = 0;
@@ -226,9 +227,9 @@ class CheckoutCN extends ChangeNotifier {
 // Here comes the hardest ones...
 
 class DownloadItem {
-  final String name;
-  final List<String> path;
-  final String url;
+  String name;
+  List<String> path;
+  String url;
   double progress = 0;
   bool downloading = false;
   DownloadItem(this.name, this.path, this.url);
@@ -236,13 +237,10 @@ class DownloadItem {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DownloadItem &&
-          name == other.name &&
-          path == other.path &&
-          url == other.url;
+      other is DownloadItem && name == other.name && url == other.url;
 
   @override
-  int get hashCode => name.hashCode ^ path.hashCode ^ url.hashCode;
+  int get hashCode => name.hashCode ^ url.hashCode;
 }
 
 class DownloadCN extends ChangeNotifier {
@@ -250,6 +248,13 @@ class DownloadCN extends ChangeNotifier {
   Queue<DownloadItem> get downloadQueue => _downloadQueue;
   set downloadQueue(Queue<DownloadItem> value) {
     _downloadQueue = value;
+    notifyListeners();
+  }
+
+  List<DownloadItem> _downloading = [];
+  List<DownloadItem> get downloading => _downloading;
+  set downloading(List<DownloadItem> value) {
+    _downloading = value;
     notifyListeners();
   }
 
@@ -271,6 +276,88 @@ class DownloadCN extends ChangeNotifier {
   String get downloadPath => _downloadPath;
   set downloadPath(String value) {
     _downloadPath = value;
+    notifyListeners();
+  }
+
+  int _currentThreads = 0;
+  int _totalShown = 0;
+  int get totalShown => _totalShown;
+  set totalShown(int value) {
+    _totalShown = value;
+    notifyListeners();
+  }
+
+  Future<void> startDownload() async {
+    if (_downloadQueue.isEmpty) {
+      return;
+    }
+    if (_currentThreads >= kMaxThreads) {
+      return;
+    }
+    DownloadItem item = _downloadQueue.removeFirst();
+    _currentThreads++;
+    if (_downloadQueue.isNotEmpty) {
+      startDownload();
+    }
+    item.downloading = true;
+    _downloading.add(item);
+    notifyListeners();
+    Dio().download(
+      item.url,
+      "$_downloadPath/${item.name}",
+      onReceiveProgress: (count, total) {
+        item.progress = count / total;
+        _downloading.firstWhere((element) => element.url == item.url).progress =
+            item.progress;
+        notifyListeners();
+      },
+    ).then((value) {
+      _currentThreads--;
+      item.downloading = false;
+      _downloading.removeWhere((element) => element.url == item.url);
+      _completed.add(item);
+      totalShown--;
+      notifyListeners();
+      if (_downloadQueue.isNotEmpty) {
+        startDownload();
+      }
+    }).catchError((error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      _currentThreads--;
+      item.downloading = false;
+      _downloading.removeWhere((element) => element.url == item.url);
+      _failed.add(item);
+      notifyListeners();
+      if (_downloadQueue.isNotEmpty) {
+        startDownload();
+      }
+    });
+  }
+
+  void addDownloads(Set<CheckoutItem> items) {
+    for (var item in items) {
+      var newDownload = DownloadItem("", [], "");
+      newDownload.name = item.name;
+      newDownload.path = item.path;
+      newDownload.url = "https://papers.gceguide.com/";
+      if (item.path[0] == "IGCSE") {
+        newDownload.url += "Cambridge%20IGCSE/";
+      } else if (item.path[0] == "A Level") {
+        newDownload.url += "A%20Levels/";
+      } else {
+        // Hopefully we won't reach here :(
+        throw Exception("Invalid document path");
+      }
+      for (var i = 1; i < item.path.length; i++) {
+        newDownload.url += "${item.path[i]}/";
+      }
+      newDownload.url += item.name;
+      _downloadQueue.add(newDownload);
+      totalShown++;
+    }
+    startDownload();
     notifyListeners();
   }
 }

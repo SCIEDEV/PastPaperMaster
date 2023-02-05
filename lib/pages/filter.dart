@@ -240,8 +240,6 @@ class PaperFilterPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const MBadge(title: 'Some fields are not filled in'),
-            const SizedBox(width: 12),
             MButton(
               onPressed: () {
                 var instance = context.read<FilterCN>();

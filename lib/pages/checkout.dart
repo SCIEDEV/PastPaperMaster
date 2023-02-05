@@ -77,7 +77,10 @@ class CheckoutPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  // context.read<DownloadCN>().downloadSelection();
+                  context
+                      .read<DownloadCN>()
+                      .addDownloads(context.read<CheckoutCN>().selected);
+                  context.read<CheckoutCN>().deleteSelection();
                 }
               },
               title: "Download Selection",
