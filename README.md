@@ -15,7 +15,7 @@ Past Paper Master is a WIP successor of [Past Paper Finder](https://github.com/S
 
 ## Installing
 
-You may download Past Paper Finder from the official website, or you can build from source as well ;)
+You may download Past Paper Finder from the [official website](https://ppm-mu.vercel.app/), from [GitHub releases](https://github.com/SCIEDEV/PastPaperMaster/releases), or you can build from source as well ;)
 
 ## Screenshots
 
