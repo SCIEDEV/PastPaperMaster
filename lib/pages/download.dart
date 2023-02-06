@@ -159,7 +159,9 @@ class DownloadEntryRow extends StatelessWidget {
                   bottomRight: Radius.circular(8),
                   bottomLeft: Radius.circular(8))
               : BorderRadius.zero),
-      onPressed: () {},
+      onPressed: () {
+        // TODO: [Micfong] I forgot to implement this...
+      },
       fillColor: isInProgress ? MColors.accent.shade50 : MColors.white,
       elevation: 0,
       focusElevation: 0,

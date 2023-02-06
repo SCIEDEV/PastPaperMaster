@@ -33,7 +33,7 @@ void main() async {
   }
   final prefs = await SharedPreferences.getInstance();
   // if (kDebugMode) {
-  //   await prefs.remove('downloadPath');
+  await prefs.remove('downloadPath');
   // }
   final String? downloadPath = prefs.getString('downloadPath');
   if (downloadPath != null) {

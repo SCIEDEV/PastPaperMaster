@@ -334,7 +334,7 @@ class DownloadCN extends ChangeNotifier {
     item.downloading = true;
     _downloading.add(item);
     notifyListeners();
-    Dio(BaseOptions(connectTimeout: 5000, receiveTimeout: 3000)).download(
+    Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 120000)).download(
       item.url,
       "$_downloadPath/${item.name}",
       onReceiveProgress: (count, total) {
