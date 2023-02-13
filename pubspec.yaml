@@ -3,7 +3,7 @@ description: Past Paper Master.
 
 publish_to: "none"
 
-version: 0.1.2+38
+version: 0.1.2+39
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
