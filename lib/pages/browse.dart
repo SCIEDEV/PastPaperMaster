@@ -282,6 +282,7 @@ class BrowseEntryRow extends StatelessWidget {
   }
 }
 
+// TODO: add a select-all button
 class BrowseTableHeader extends StatelessWidget {
   const BrowseTableHeader({
     Key? key,

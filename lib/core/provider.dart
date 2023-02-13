@@ -391,11 +391,11 @@ class DownloadCN extends ChangeNotifier {
       newDownload.url = "https://papers.gceguide.com/";
       if (item.path[0] == "IGCSE") {
         newDownload.url += "Cambridge%20IGCSE/";
-      } else if (item.path[0] == "A Level") {
+      } else if (item.path[0] == "A(S) Level") {
         newDownload.url += "A%20Levels/";
       } else {
         // Hopefully we won't reach here :(
-        throw Exception("Invalid document path");
+        throw Exception("Invalid document path: ${item.path[0]}");
       }
       for (var i = 1; i < item.path.length; i++) {
         newDownload.url += "${item.path[i]}/";
