@@ -23,7 +23,7 @@ dependencies:
   shared_preferences: ^2.0.16
   uuid: ^3.0.6
   file_picker: ^5.0.1
-  dio: ^4.0.6
+  dio: ^5.0.3
   url_launcher: ^6.1.5
 
 dev_dependencies:
