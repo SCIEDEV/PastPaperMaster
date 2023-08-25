@@ -7,10 +7,10 @@ syllabus = "IGCSE"
 
 if syllabus == "IGCSE":
     url = "https://papers.gceguide.com/Cambridge%20IGCSE/"
-    filename = "assets/json/igcse.json"
+    filename = "igcse.json"
 else:
     url = "https://papers.gceguide.com/A%20Levels/"
-    filename = "assets/json/alevel.json"
+    filename = "alevel.json"
 
 result = {}
 try:
@@ -21,7 +21,6 @@ except FileNotFoundError:
     with open(filename, "w") as f:
         json.dump(result, f)
 starting = len(result)
-
 strhtml = r.get(url)
 soup = BeautifulSoup(strhtml.text, "lxml")
 data = soup.select('#paperslist > li > a')

@@ -18,8 +18,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = const WindowOptions(
       title: 'Past Paper Master',
@@ -57,7 +57,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Past Paper Master',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: MColors.accent, fontFamily: 'Inter'),
+        theme: ThemeData(
+          primarySwatch: MColors.accent,
+          fontFamily: 'Inter',
+          brightness: Brightness.light,
+        ),
 
         // TODO: [Micfong] restrict each provider's scope to its own page for better performance
         home: MultiProvider(
