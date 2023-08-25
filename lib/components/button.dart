@@ -233,6 +233,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
     String? selectedValue = widget.value;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
+        searchInnerWidgetHeight: 20,
         isExpanded: true,
         customButton: RawMaterialButton(
           onPressed: null,

@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import path_provider_macos
+import path_provider_foundation
 import rive_common
 import screen_retriever
 import shared_preferences_foundation
