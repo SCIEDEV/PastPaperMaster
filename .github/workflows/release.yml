@@ -1,0 +1,31 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  windows_x64_build:
+    name: Windows x64 releases
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'beta'
+      - name: Flutter build
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows
+  
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${env:GITHUB_REF#refs/tags/}"
+          tar -a -c -f "win-PastPaperMaster-$tag.zip" "build/windows/Release"
+          gh release create "$tag" \
+            --title="$tag" \
+            --draft \
+            --notes-file=".github/docs/release-notes.md" \
+            "win-PastPaperMaster-$tag.zip"
+        
