@@ -23,9 +23,5 @@ jobs:
         run: |
           tag="${env:GITHUB_REF#refs/tags/}"
           tar -a -c -f "win-PastPaperMaster-$tag.zip" "build/windows/Release"
-          gh release create "$tag" \
-            --title="$tag" \
-            --draft \
-            --notes-file=".github/docs/release-notes.md" \
-            "win-PastPaperMaster-$tag.zip"
+          gh release create "$tag" -t="$tag" -d -F=".github/docs/release-notes.md" "win-PastPaperMaster-$tag.zip"
         
