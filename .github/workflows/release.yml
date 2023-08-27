@@ -12,16 +12,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'beta'
-      - name: Flutter build
-        run: |
-          flutter config --enable-windows-desktop
-          flutter build windows
+      - run: flutter config --enable-windows-desktop
+      - run: flutter build windows
   
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $tag="${env:GITHUB_REF#refs/tags/}"
-          tar -a -c -f "win-PastPaperMaster-$tag.zip" "build/windows/Release"
-          gh release create "$tag" -t="$tag" -d -F=".github/docs/release-notes.md" "win-PastPaperMaster-$tag.zip"
+          $tag = ${env:GITHUB_REF#refs/tags/}
+          tar -a -c -f "win-PastPaperMaster-$tag.zip" "build/windows/runner/Release"
+          gh release create $tag -t="Draft release" -d -F=".github/docs/release-notes.md" "win-PastPaperMaster-$tag.zip"
         
