@@ -19,7 +19,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $tag = ${env:GITHUB_REF#refs/tags/}
-          tar -a -c -f "win-PastPaperMaster-$tag.zip" "build/windows/runner/Release"
-          gh release create $tag -t="Draft release" -d -F=".github/docs/release-notes.md" "win-PastPaperMaster-$tag.zip"
+          tar -a -c -f "win-PastPaperMaster-b47.zip" "build/windows/runner/Release"
+          gh release create -t="Draft release build 47" -d -F=".github/docs/release-notes.md" "Build 47" "win-PastPaperMaster-b47.zip"
         
