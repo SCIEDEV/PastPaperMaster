@@ -2,7 +2,7 @@
 
 - Updated pastpaper lists for A Level and IGCSE.
 - Updated dependencies for security.
-- Added GitHub Actions workflow to test each commit.
+- Added GitHub Actions workflow to test each commit, and automatically release new versions. (thanks @WangEdward)
 
 See [commit history](https://github.com/SCIEDEV/PastPaperMaster/commits/main) for further information.
 

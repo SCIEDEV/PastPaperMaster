@@ -90,4 +90,5 @@ jobs:
         artifacts: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
-        
+        draft: true
+        bodyFile: ".github/docs/release-notes.md"
