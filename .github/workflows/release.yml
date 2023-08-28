@@ -32,8 +32,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: set version number
-      run: echo "VERSION_NUM=`echo $(echo ${{ github.ref }} | cut -d / -f 3)`" >> $GITHUB_ENV
+    - name: set version number (unix)
+      run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
+      if: ${{ matrix.runner == 'ubuntu-latest' }} or ${{ matrix.runner == 'macos-latest' }}
+    - name: set version number (windows)
+      run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
+      if: ${{ matrix.runner == 'windows-latest' }}
+
     - name: Install Flutter
       uses: subosito/flutter-action@v2.10.0
       with:
@@ -84,4 +89,5 @@ jobs:
       with:
         artifacts: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
         token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
         
