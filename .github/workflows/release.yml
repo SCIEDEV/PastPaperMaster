@@ -70,7 +70,7 @@ jobs:
     - name: Zip artifact (Windows)
       if: ${{ matrix.runner == 'windows-latest' }}
       shell: pwsh
-      run: Compress-Archive "${{ matrix.artifact }}" "ppm-${{ matrix.target }}-${VERSION_NUM}.zip"
+      run: Compress-Archive "${{ matrix.artifact }}" "ppm-${{ matrix.target }}-$Env:VERSION_NUM.zip"
     - name: Zip artifact (Linux)
       if: ${{ matrix.runner == 'ubuntu-latest' }}
       shell: bash
