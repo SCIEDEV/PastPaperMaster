@@ -24,11 +24,12 @@ Future<void> initDirectoryData() async {
     await Directory(realDataPath).create();
   }
   for (String file in files) {
-    if (!await File('$realDataPath$file').exists()) {
-      copied = true;
-      String data = await rootBundle.loadString('$bundledDataPath$file');
-      File('$realDataPath$file').writeAsString(data);
-    }
+    // TODO: should retain data in the future for direct past paper list updates
+    // if (!await File('$realDataPath$file').exists()) {
+    copied = true;
+    String data = await rootBundle.loadString('$bundledDataPath$file');
+    File('$realDataPath$file').writeAsString(data);
+    // }
   }
 
   if (copied) {

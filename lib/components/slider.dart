@@ -39,8 +39,8 @@ class _MRangeSliderState extends State<MRangeSlider> {
         child: RangeSlider(
             values: RangeValues(_start, _end),
             min: 2000,
-            max: 2022,
-            divisions: 22,
+            max: 2023,
+            divisions: 23,
             labels:
                 RangeLabels(_start.round().toString(), _end.round().toString()),
             onChanged: (RangeValues newValues) {
