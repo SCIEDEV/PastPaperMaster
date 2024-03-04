@@ -3,7 +3,7 @@ description: Past Paper Master.
 
 publish_to: "none"
 
-version: 0.1.4+61
+version: 0.1.5+62
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
@@ -17,7 +17,7 @@ dependencies:
   ionicons: ^0.2.1
   provider: ^6.0.5
   flutter_feather_icons: ^2.0.0
-  rive: ^0.10.0
+  rive: ^0.11.17
   dropdown_button2: ^1.9.2
   path_provider: ^2.0.11
   shared_preferences: ^2.0.16
