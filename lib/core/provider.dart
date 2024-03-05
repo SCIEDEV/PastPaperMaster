@@ -122,6 +122,33 @@ class CheckoutItem {
 }
 
 class BrowseCN extends ChangeNotifier {
+  String getViewingDocumentUrl() {
+    String url = "https://papers.gceguide.com/";
+    if (_path.isEmpty) {
+      return url;
+    }
+    if (_path[0] == "IGCSE") {
+      url += "Cambridge%20IGCSE/";
+    } else if (_path[0] == "A(S) Level") {
+      url += "A%20Levels/";
+    } else {
+      // Hopefully we won't reach here :(
+      throw Exception("Invalid document path: ${_path[0]}");
+    }
+    for (var i = 1; i < _path.length; i++) {
+      url += "${_path[i]}/";
+    }
+    url += viewingPdfName;
+    return url;
+  }
+
+  String _viewingPdfName = "";
+  String get viewingPdfName => _viewingPdfName;
+  set viewingPdfName(String value) {
+    _viewingPdfName = value;
+    notifyListeners();
+  }
+
   List<String> _path = [];
   List<String> get path => _path;
   set path(List<String> value) {

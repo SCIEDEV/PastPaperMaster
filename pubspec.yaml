@@ -3,7 +3,7 @@ description: Past Paper Master.
 
 publish_to: "none"
 
-version: 0.1.5+62
+version: 0.1.6+65
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
@@ -21,10 +21,12 @@ dependencies:
   dropdown_button2: ^1.9.2
   path_provider: ^2.0.11
   shared_preferences: ^2.0.16
-  uuid: ^3.0.6
+  uuid: ^4.3.3
   file_picker: ^5.0.1
   dio: ^5.0.3
   url_launcher: ^6.1.5
+
+  pdfrx: ^1.0.11
 
 dev_dependencies:
   flutter_test:

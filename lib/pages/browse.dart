@@ -5,6 +5,7 @@ import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/textstyle.dart';
+import 'package:pdfrx/pdfrx.dart';
 import 'package:rive/rive.dart';
 import 'package:past_paper_master/core/subjects.dart';
 import 'package:provider/provider.dart';
@@ -151,7 +152,7 @@ List<BrowseEntry> _getEntries(List<String> path) {
   if (path.isEmpty) {
     return [
       BrowseEntry(name: "IGCSE", type: "Qualification"),
-      BrowseEntry(name: "A Level", type: "Qualification"),
+      BrowseEntry(name: "A(S) Level", type: "Qualification"),
     ];
   }
   dynamic temp;
@@ -180,7 +181,7 @@ List<BrowseEntry> _getEntries(List<String> path) {
       }
     }
     return ret;
-  } else if (path[0] == "A Level") {
+  } else if (path[0] == "A(S) Level") {
     temp = alevelSubjectsMap;
     for (var i = 1; i < path.length; i++) {
       if (!temp.containsKey(path[i])) return [];
@@ -268,11 +269,135 @@ class BrowseEntryRow extends StatelessWidget {
                   style: MTextStyles.smRgGrey500,
                 )),
             isDocument
-                ? (isSelected
-                    ? Icon(Icons.square_rounded,
-                        color: MColors.accent.shade500, size: 16)
-                    : Icon(Icons.check_box_outline_blank,
-                        color: MColors.grey.shade500, size: 16))
+                ? Row(
+                    children: [
+                      // add a pressable view icon that does not change row height
+                      SizedBox(
+                          width: 28,
+                          height: 28,
+                          child: RawMaterialButton(
+                              onPressed: () {
+                                context.read<BrowseCN>().viewingPdfName =
+                                    entryName;
+                                String viewingPdfName =
+                                    'File Preview · ${context.read<BrowseCN>().viewingPdfName}';
+                                String viewingPdfUrl = context
+                                    .read<BrowseCN>()
+                                    .getViewingDocumentUrl();
+                                Navigator.push(context, MaterialPageRoute<void>(
+                                  builder: (BuildContext context) {
+                                    return Scaffold(
+                                      appBar: AppBar(
+                                        title: Text(viewingPdfName),
+                                        titleTextStyle: MTextStyles.lgMdGrey900,
+                                        backgroundColor: MColors.grey.shade50,
+                                        // add a back button
+                                        leading: RawMaterialButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Icon(FeatherIcons.chevronLeft,
+                                              color: MColors.grey.shade700,
+                                              size: 24),
+                                        ),
+                                        centerTitle: false,
+                                      ),
+                                      body: PdfViewer.uri(
+                                        params: PdfViewerParams(
+                                          enableTextSelection: true,
+                                          maxScale: 10.0,
+                                          backgroundColor: MColors.grey.shade50,
+                                          errorBannerBuilder: (context, error,
+                                                  stackTrace, documentRef) =>
+                                              Container(
+                                                  decoration: BoxDecoration(
+                                                    color: MColors.white,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    8),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                    border: Border.all(
+                                                        color: MColors
+                                                            .grey.shade200,
+                                                        width: 1,
+                                                        strokeAlign: BorderSide
+                                                            .strokeAlignOutside),
+                                                  ),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 48,
+                                                      horizontal: 24),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 64,
+                                                        height: 64,
+                                                        child:
+                                                            RiveAnimation.asset(
+                                                          'assets/rive/empty_folder.riv',
+                                                          artboard:
+                                                              'empty download',
+                                                          fit: BoxFit.fitWidth,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                        width: double.infinity,
+                                                      ),
+                                                      Text(
+                                                        'Cannot view document',
+                                                        style: MTextStyles
+                                                            .mdMdGrey900,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 4,
+                                                        width: double.infinity,
+                                                      ),
+                                                      Text(
+                                                        'The document is not a PDF, or a network error occurred.',
+                                                        style: MTextStyles
+                                                            .smRgGrey500,
+                                                      ),
+                                                      Text(
+                                                        'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
+                                                        style: MTextStyles
+                                                            .smRgGrey500,
+                                                      ),
+                                                      Text(error.toString(),
+                                                          style: MTextStyles
+                                                              .smRgGrey200),
+                                                    ],
+                                                  )),
+                                        ),
+                                        Uri.parse(viewingPdfUrl),
+                                      ),
+                                    );
+                                  },
+                                ));
+                              },
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
+                              child: Icon(FeatherIcons.eye,
+                                  color: MColors.grey.shade500, size: 16))),
+                      const SizedBox(width: 4),
+                      (isSelected
+                          ? Icon(Icons.square_rounded,
+                              color: MColors.accent.shade500, size: 16)
+                          : Icon(Icons.check_box_outline_blank,
+                              color: MColors.grey.shade500, size: 16)),
+                    ],
+                  )
                 : Icon(FeatherIcons.chevronRight,
                     color: MColors.grey.shade500, size: 16),
           ],

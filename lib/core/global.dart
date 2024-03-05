@@ -11,10 +11,10 @@ const String kAppStage = 'Beta Version';
 const String kAppStageShort = 'β ';
 const int kMajorVersion = 0;
 const int kMinorVersion = 1;
-const int kPatchVersion = 5;
-const int kBuildNumber = 62;
+const int kPatchVersion = 6;
+const int kBuildNumber = 65;
 const int kDatabaseVersion = 1;
-const String kLastCommitHash = '2de6960169c8cee952e5895a1fadf238ef4f3bc4';
+const String kLastCommitHash = 'a7b61ce9d5afb797beef9053c148946115e3921d';
 
 const String kBundledDataPath = 'assets/json/';
 const String kLocalDataPath = '/json/';
