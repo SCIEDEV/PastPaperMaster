@@ -16,7 +16,7 @@ jobs:
           - target: windows
             runner: windows-latest
             channel: 'beta'  
-            artifact: build/windows/runner/Release
+            artifact: build/windows/x64/runner/Release
           - target: linux
             runner: ubuntu-latest
             channel: 'stable'  
