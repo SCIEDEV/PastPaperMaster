@@ -435,7 +435,7 @@ class BrowseTableHeader extends StatelessWidget {
               'Entry type',
               style: MTextStyles.xsMdGrey500,
             )),
-        const SizedBox(width: 16),
+        const SizedBox(width: 48),
       ]),
     );
   }

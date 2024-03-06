@@ -53,15 +53,21 @@ class CheckoutPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
+                      backgroundColor: MColors.white,
+                      titleTextStyle: MTextStyles.lgMdGrey900,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       title: const Text("No download path selected"),
-                      content: const Text(
-                          "Please select a download path in the settings page."),
+                      content: Text(
+                          "Please select a download path in the settings page.",
+                          style: MTextStyles.smRgGrey500),
                       actions: [
-                        TextButton(
+                        MButton(
+                          title: 'Dismiss',
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text("Dismiss"),
                         ),
                       ],
                     ),

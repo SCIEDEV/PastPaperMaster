@@ -19,10 +19,10 @@ You may download Past Paper Finder from the [official website](https://ppm-mu.ve
 
 ## Screenshots
 
-<img src="markdown/s1.png" alt="Screenhsot 1" width="512"/></h1>
-<img src="markdown/s2.png" alt="Screenhsot 2" width="512"/></h1>
-<img src="markdown/s3.png" alt="Screenhsot 3" width="512"/></h1>
-<img src="markdown/s4.png" alt="Screenhsot 4" width="512"/></h1>
+<img src="markdown/s1.png" alt="Screenshot 1" width="512"/></h1>
+<img src="markdown/s2.png" alt="Screenshot 2" width="512"/></h1>
+<img src="markdown/s3.png" alt="Screenshot 3" width="512"/></h1>
+<img src="markdown/s4.png" alt="Screenshot 4" width="512"/></h1>
 
 
 ## Sponsor

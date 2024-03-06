@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: MColors.accent,
           fontFamily: 'Inter',
+          useMaterial3: false,
           brightness: Brightness.light,
         ),
 
