@@ -48,50 +48,60 @@ class SidebarView extends StatelessWidget {
           ],
           if (context.watch<GeneralCN>().showAlphaBanner) ...[
             const SizedBox(height: 24),
-            Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: MColors.accent.shade50,
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Public Beta Test',
-                        style: TextStyle(
-                            color: MColors.accent.shade700,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 4),
-                    Text(
-                        'Thank you for participating in Past Paper Master public beta test!',
-                        style: TextStyle(
-                            color: MColors.accent.shade600,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400)),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            context.read<GeneralCN>().showAlphaBanner = false;
-                          },
-                          child: Text('Dismiss',
-                              style: TextStyle(
-                                  color: MColors.accent.shade500,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                      ],
-                    )
-                  ],
-                ))
+            const PublicBetaTestBlock()
           ]
         ],
       ),
     );
+  }
+}
+
+class PublicBetaTestBlock extends StatelessWidget {
+  const PublicBetaTestBlock({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: MColors.accent.shade50,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Public Beta Test',
+                style: TextStyle(
+                    color: MColors.accent.shade700,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            const SizedBox(height: 4),
+            Text(
+                'Thank you for participating in Past Paper Master public beta test!',
+                style: TextStyle(
+                    color: MColors.accent.shade600,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400)),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    context.read<GeneralCN>().showAlphaBanner = false;
+                  },
+                  child: Text('Dismiss',
+                      style: TextStyle(
+                          color: MColors.accent.shade500,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500)),
+                ),
+              ],
+            )
+          ],
+        ));
   }
 }
 

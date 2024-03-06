@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:past_paper_master/components/button.dart';
+import 'package:past_paper_master/components/dialogs.dart';
+import 'package:past_paper_master/core/box_decorations.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/core/global.dart';
@@ -16,126 +18,138 @@ class BrowsePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Text(
-              context.watch<BrowseCN>().selection.isEmpty
-                  ? 'Browse'
-                  : '${context.watch<BrowseCN>().selection.length} selected',
-              style: MTextStyles.dsmMdGrey900,
-            ),
-            const Spacer(),
-            MButton(
-              title: "Add to Checkout",
-              onPressed: () {
-                Set<CheckoutItem> selection =
-                    context.read<BrowseCN>().selection;
-                context.read<CheckoutCN>().items.addAll(selection);
-
-                ScaffoldMessenger.of(globalContext).showSnackBar(
-                  SnackBar(
-                    content:
-                        Text("${selection.length} papers added to checkout."),
-                    action: SnackBarAction(
-                      label: "Dismiss",
-                      onPressed: () {
-                        ScaffoldMessenger.of(globalContext)
-                            .hideCurrentSnackBar();
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(width: 8),
-            MButton(
-              title: "Download",
-              onPressed: () {
-                if (context.read<DownloadCN>().downloadPath == '') {
-                  // show alertdialog
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text("No download path selected"),
-                      content: const Text(
-                          "Please select a download path in the settings page."),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text("Dismiss"),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  Set<CheckoutItem> selection =
-                      context.read<BrowseCN>().selection;
-                  context.read<DownloadCN>().addDownloads(selection);
-
-                  ScaffoldMessenger.of(globalContext).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          "${selection.length} papers added to download queue."),
-                      action: SnackBarAction(
-                        label: "Dismiss",
-                        onPressed: () {
-                          ScaffoldMessenger.of(globalContext)
-                              .hideCurrentSnackBar();
-                        },
-                      ),
-                    ),
-                  );
-                }
-              },
-              primary: true,
-            )
+            BrowsePageHeading(),
+            Spacer(),
+            MButtonAddToCheckout(),
+            SizedBox(width: 8),
+            MButtonDownload()
           ],
         ),
-        const SizedBox(height: 24),
-        const Breadcrumbs(),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-              color: MColors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: MColors.grey.shade200, width: 1),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x19101828),
-                    offset: Offset(0, 4),
-                    blurRadius: 8,
-                    spreadRadius: -2),
-                BoxShadow(
-                    color: Color(0x10101828),
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                    spreadRadius: -2),
-              ]),
-          child: Column(
-            children: [
-              const BrowseTableHeader(),
-              if (_getEntries(context.watch<BrowseCN>().path).isEmpty)
-                const NoEntriesPlaceholder(),
-              for (var i = 0, l = _getEntries(context.read<BrowseCN>().path);
-                  i < l.length;
-                  i++) ...[
-                BrowseEntryRow(
-                  entryName: l[i].name,
-                  documentType: l[i].type,
-                  isLast: i == l.length - 1,
-                  isDocument: l[i].isDocument,
-                  isSelected: context.watch<BrowseCN>().isSelected(l[i].name),
-                ),
-              ],
-            ],
-          ),
-        ),
+        SizedBox(height: 24),
+        Breadcrumbs(),
+        SizedBox(height: 16),
+        BrowsePageTable(),
       ],
+    );
+  }
+}
+
+class BrowsePageTable extends StatelessWidget {
+  const BrowsePageTable({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var l = _getEntries(context.watch<BrowseCN>().path);
+    return Container(
+      decoration: MBoxDec.largeBoxDecoration,
+      child: Column(
+        children: [
+          const BrowseTableHeader(),
+          if (_getEntries(context.watch<BrowseCN>().path).isEmpty)
+            const NoEntriesPlaceholder(),
+          ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: l.length,
+              itemBuilder: ((context, i) => BrowseEntryRow(
+                    entryName: l[i].name,
+                    documentType: l[i].type,
+                    isLast: i == l.length - 1,
+                    isDocument: l[i].isDocument,
+                    isSelected: context.watch<BrowseCN>().isSelected(l[i].name),
+                  )))
+        ],
+      ),
+    );
+  }
+}
+
+class BrowsePageHeading extends StatelessWidget {
+  const BrowsePageHeading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      context.watch<BrowseCN>().selection.isEmpty
+          ? 'Browse'
+          : '${context.watch<BrowseCN>().selection.length} selected',
+      style: MTextStyles.dsmMdGrey900,
+    );
+  }
+}
+
+class MButtonDownload extends StatelessWidget {
+  const MButtonDownload({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MButton(
+      title: "Download",
+      onPressed: () {
+        if (context.read<DownloadCN>().downloadPath == '') {
+          // show alertdialog
+          showDialog(
+              context: context,
+              builder: (context) => const MAlertDialogNoDownloadPath());
+        } else {
+          Set<CheckoutItem> selection = context.read<BrowseCN>().selection;
+          context.read<DownloadCN>().addDownloads(selection);
+
+          ScaffoldMessenger.of(globalContext).showSnackBar(
+            SnackBar(
+              content:
+                  Text("${selection.length} papers added to download queue."),
+              action: SnackBarAction(
+                label: "Dismiss",
+                onPressed: () {
+                  ScaffoldMessenger.of(globalContext).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+        }
+      },
+      primary: true,
+    );
+  }
+}
+
+class MButtonAddToCheckout extends StatelessWidget {
+  const MButtonAddToCheckout({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MButton(
+      title: "Add to Checkout",
+      onPressed: () {
+        Set<CheckoutItem> selection = context.read<BrowseCN>().selection;
+        context.read<CheckoutCN>().items.addAll(selection);
+
+        ScaffoldMessenger.of(globalContext).showSnackBar(
+          SnackBar(
+            content: Text("${selection.length} papers added to checkout."),
+            action: SnackBarAction(
+              label: "Dismiss",
+              onPressed: () {
+                ScaffoldMessenger.of(globalContext).hideCurrentSnackBar();
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -277,113 +291,7 @@ class BrowseEntryRow extends StatelessWidget {
                           height: 28,
                           child: RawMaterialButton(
                               onPressed: () {
-                                context.read<BrowseCN>().viewingPdfName =
-                                    entryName;
-                                String viewingPdfName =
-                                    'File Preview · ${context.read<BrowseCN>().viewingPdfName}';
-                                String viewingPdfUrl = context
-                                    .read<BrowseCN>()
-                                    .getViewingDocumentUrl();
-                                Navigator.push(context, MaterialPageRoute<void>(
-                                  builder: (BuildContext context) {
-                                    return Scaffold(
-                                      appBar: AppBar(
-                                        title: Text(viewingPdfName),
-                                        titleTextStyle: MTextStyles.lgMdGrey900,
-                                        backgroundColor: MColors.grey.shade50,
-                                        // add a back button
-                                        leading: RawMaterialButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Icon(FeatherIcons.chevronLeft,
-                                              color: MColors.grey.shade700,
-                                              size: 24),
-                                        ),
-                                        centerTitle: false,
-                                      ),
-                                      body: PdfViewer.uri(
-                                        params: PdfViewerParams(
-                                          enableTextSelection: true,
-                                          maxScale: 10.0,
-                                          backgroundColor: MColors.grey.shade50,
-                                          errorBannerBuilder: (context, error,
-                                                  stackTrace, documentRef) =>
-                                              Container(
-                                                  decoration: BoxDecoration(
-                                                    color: MColors.white,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    8),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    8)),
-                                                    border: Border.all(
-                                                        color: MColors
-                                                            .grey.shade200,
-                                                        width: 1,
-                                                        strokeAlign: BorderSide
-                                                            .strokeAlignOutside),
-                                                  ),
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 48,
-                                                      horizontal: 24),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const SizedBox(
-                                                        width: 64,
-                                                        height: 64,
-                                                        child:
-                                                            RiveAnimation.asset(
-                                                          'assets/rive/empty_folder.riv',
-                                                          artboard:
-                                                              'empty download',
-                                                          fit: BoxFit.fitWidth,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 8,
-                                                        width: double.infinity,
-                                                      ),
-                                                      Text(
-                                                        'Cannot view document',
-                                                        style: MTextStyles
-                                                            .mdMdGrey900,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 4,
-                                                        width: double.infinity,
-                                                      ),
-                                                      Text(
-                                                        'The document is not a PDF, or a network error occurred.',
-                                                        style: MTextStyles
-                                                            .smRgGrey500,
-                                                      ),
-                                                      Text(
-                                                        'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
-                                                        style: MTextStyles
-                                                            .smRgGrey500,
-                                                      ),
-                                                      Text(error.toString(),
-                                                          style: MTextStyles
-                                                              .smRgGrey200),
-                                                    ],
-                                                  )),
-                                        ),
-                                        Uri.parse(viewingPdfUrl),
-                                      ),
-                                    );
-                                  },
-                                ));
+                                showPdfPreview(context);
                               },
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
@@ -404,6 +312,92 @@ class BrowseEntryRow extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showPdfPreview(BuildContext context) {
+    context.read<BrowseCN>().viewingPdfName = entryName;
+    String viewingPdfName =
+        'File Preview · ${context.read<BrowseCN>().viewingPdfName}';
+    String viewingPdfUrl = context.read<BrowseCN>().getViewingDocumentUrl();
+    Navigator.push(context, MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(viewingPdfName),
+            titleTextStyle: MTextStyles.lgMdGrey900,
+            backgroundColor: MColors.grey.shade50,
+            // add a back button
+            leading: RawMaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(FeatherIcons.chevronLeft,
+                  color: MColors.grey.shade700, size: 24),
+            ),
+            centerTitle: false,
+          ),
+          body: PdfViewer.uri(
+            params: PdfViewerParams(
+              enableTextSelection: true,
+              maxScale: 10.0,
+              backgroundColor: MColors.grey.shade50,
+              errorBannerBuilder: (context, error, stackTrace, documentRef) =>
+                  Container(
+                      decoration: BoxDecoration(
+                        color: MColors.white,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8)),
+                        border: Border.all(
+                            color: MColors.grey.shade200,
+                            width: 1,
+                            strokeAlign: BorderSide.strokeAlignOutside),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 48, horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 64,
+                            height: 64,
+                            child: RiveAnimation.asset(
+                              'assets/rive/empty_folder.riv',
+                              artboard: 'empty download',
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                            width: double.infinity,
+                          ),
+                          Text(
+                            'Cannot view document',
+                            style: MTextStyles.mdMdGrey900,
+                          ),
+                          const SizedBox(
+                            height: 4,
+                            width: double.infinity,
+                          ),
+                          Text(
+                            'The document is not a PDF, or a network error occurred.',
+                            style: MTextStyles.smRgGrey500,
+                          ),
+                          Text(
+                            'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
+                            style: MTextStyles.smRgGrey500,
+                          ),
+                          Text(error.toString(),
+                              style: MTextStyles.smRgGrey200),
+                        ],
+                      )),
+            ),
+            Uri.parse(viewingPdfUrl),
+          ),
+        );
+      },
+    ));
   }
 }
 

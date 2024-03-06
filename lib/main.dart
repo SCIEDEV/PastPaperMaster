@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:markdown_widget/widget/all.dart';
 import 'package:once/once.dart';
-import 'package:past_paper_master/components/button.dart';
+import 'package:past_paper_master/components/dialogs.dart';
 import 'package:past_paper_master/core/dirinit.dart';
-import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
 import 'package:past_paper_master/pages/question.dart';
@@ -102,27 +99,7 @@ class MyHomePage extends StatelessWidget {
     Future.delayed(
         Duration.zero,
         () => Once.runOnEveryNewBuild(
-            callback: () => showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    backgroundColor: MColors.white,
-                    titleTextStyle: MTextStyles.lgMdGrey900,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    title: const Text(
-                        "Past Paper Master updated to $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion (build $kBuildNumber)"),
-                    content: const MarkdownBlock(data: kReleaseNotes),
-                    actions: [
-                      MButton(
-                        title: 'Dismiss',
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                )));
+            callback: () => showReleaseNotesDialog(context)));
 
     return Scaffold(
         body: Row(

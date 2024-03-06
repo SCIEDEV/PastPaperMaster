@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:past_paper_master/components/button.dart';
+import 'package:past_paper_master/core/box_decorations.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
@@ -39,22 +40,7 @@ class DownloadsPage extends StatelessWidget {
         ),
         const SizedBox(height: 36),
         Container(
-          decoration: BoxDecoration(
-              color: MColors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: MColors.grey.shade200, width: 1),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x19101828),
-                    offset: Offset(0, 4),
-                    blurRadius: 8,
-                    spreadRadius: -2),
-                BoxShadow(
-                    color: Color(0x10101828),
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                    spreadRadius: -2),
-              ]),
+          decoration: MBoxDec.largeBoxDecoration,
           child: Column(
             children: [
               const DownloadsTableHeader(),

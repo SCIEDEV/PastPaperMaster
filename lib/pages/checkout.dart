@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/components/button.dart';
+import 'package:past_paper_master/components/dialogs.dart';
+import 'package:past_paper_master/core/box_decorations.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/textstyle.dart';
@@ -52,25 +54,7 @@ class CheckoutPage extends StatelessWidget {
                   // show alertdialog
                   showDialog(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      backgroundColor: MColors.white,
-                      titleTextStyle: MTextStyles.lgMdGrey900,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      title: const Text("No download path selected"),
-                      content: Text(
-                          "Please select a download path in the settings page.",
-                          style: MTextStyles.smRgGrey500),
-                      actions: [
-                        MButton(
-                          title: 'Dismiss',
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
+                    builder: (context) => const MAlertDialogNoDownloadPath(),
                   );
                 } else {
                   Set<CheckoutItem> selection =
@@ -101,22 +85,7 @@ class CheckoutPage extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Container(
-          decoration: BoxDecoration(
-              color: MColors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: MColors.grey.shade200, width: 1),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x19101828),
-                    offset: Offset(0, 4),
-                    blurRadius: 8,
-                    spreadRadius: -2),
-                BoxShadow(
-                    color: Color(0x10101828),
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                    spreadRadius: -2),
-              ]),
+          decoration: MBoxDec.largeBoxDecoration,
           child: Column(
             children: [
               const CheckoutTableHeader(),
