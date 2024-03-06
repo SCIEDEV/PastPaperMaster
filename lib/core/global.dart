@@ -8,6 +8,15 @@ import 'package:flutter/material.dart';
 late BuildContext globalContext;
 
 const String kAppStage = 'Beta Version';
+
+const String kReleaseNotes = '''
+- Fixes minor layout issues
+- Fixes subject search field
+- Reverts to Material 2 design
+
+See [full changelog](https://github.com/SCIEDEV/PastPaperMaster/releases) and [commit history](https://github.com/SCIEDEV/PastPaperMaster/commits/main/) for changes in previous versions.
+''';
+
 const String kAppStageShort = 'β ';
 const String kVersionTag = 'v0.1.7-beta';
 const int kMajorVersion = 0;

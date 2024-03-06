@@ -1,5 +1,7 @@
 PODS:
   - FlutterMacOS (1.0.0)
+  - package_info_plus (0.0.1):
+    - FlutterMacOS
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -20,6 +22,7 @@ PODS:
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - pdfrx (from `Flutter/ephemeral/.symlinks/plugins/pdfrx/darwin`)
   - rive_common (from `Flutter/ephemeral/.symlinks/plugins/rive_common/macos`)
@@ -31,6 +34,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   FlutterMacOS:
     :path: Flutter/ephemeral
+  package_info_plus:
+    :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   pdfrx:
@@ -48,11 +53,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   pdfrx: 79d416d7c08f5cd60547aa7351f07ccec9544000
   rive_common: acedcab7802c0ece4b0d838b71d7deb637e1309a
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
-  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 

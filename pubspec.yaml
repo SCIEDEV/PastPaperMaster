@@ -27,6 +27,8 @@ dependencies:
   url_launcher: ^6.1.5
 
   pdfrx: ^1.0.11
+  once: ^1.6.0
+  markdown_widget: ^2.3.2+6
 
 dev_dependencies:
   flutter_test:

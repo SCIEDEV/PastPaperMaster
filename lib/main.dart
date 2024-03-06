@@ -1,5 +1,10 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:markdown_widget/widget/all.dart';
+import 'package:once/once.dart';
+import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/dirinit.dart';
+import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:past_paper_master/pages/download.dart';
 import 'package:past_paper_master/pages/question.dart';
@@ -32,9 +37,8 @@ void main() async {
     });
   }
   final prefs = await SharedPreferences.getInstance();
-  // if (kDebugMode) {
+  Once.clearAll();
   await prefs.remove('downloadPath');
-  // }
   final String? downloadPath = prefs.getString('downloadPath');
   if (downloadPath != null) {
     kDownloadPath = downloadPath;
@@ -94,6 +98,32 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalContext = context;
+
+    Future.delayed(
+        Duration.zero,
+        () => Once.runOnEveryNewBuild(
+            callback: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: MColors.white,
+                    titleTextStyle: MTextStyles.lgMdGrey900,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    title: const Text(
+                        "Past Paper Master updated to $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion (build $kBuildNumber)"),
+                    content: const MarkdownBlock(data: kReleaseNotes),
+                    actions: [
+                      MButton(
+                        title: 'Dismiss',
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                )));
+
     return Scaffold(
         body: Row(
       children: [
