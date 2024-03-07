@@ -324,8 +324,15 @@ class BrowseEntryRow extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(viewingPdfName),
+            elevation: 8.0,
+            shadowColor: const Color(0x19101828),
             titleTextStyle: MTextStyles.lgMdGrey900,
-            backgroundColor: MColors.grey.shade50,
+            shape: Border(
+                bottom: BorderSide(
+              color: MColors.grey.shade200,
+              width: 1,
+            )),
+            backgroundColor: MColors.white,
             // add a back button
             leading: RawMaterialButton(
               onPressed: () {
