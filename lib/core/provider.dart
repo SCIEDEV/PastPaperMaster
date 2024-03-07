@@ -371,6 +371,13 @@ class DownloadCN extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cancelItem(DownloadItem item) {
+    _downloadQueue.removeWhere((element) => element == item);
+    _failed.removeWhere((element) => element == item);
+    _totalShown = downloading.length + failed.length + downloadQueue.length;
+    notifyListeners();
+  }
+
   void retryAllFailed() {
     _downloadQueue.addAll(_failed);
     _failed.clear();

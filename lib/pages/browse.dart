@@ -127,7 +127,6 @@ class MButtonDownload extends StatelessWidget {
   }
 }
 
-// TODO: change this to a "View Selection" button that shows a list of selected papers
 class MButtonClearSelection extends StatelessWidget {
   const MButtonClearSelection({
     super.key,
@@ -432,7 +431,6 @@ class BrowseEntryRow extends StatelessWidget {
   }
 }
 
-// TODO: add a select-all button
 class BrowseTableHeader extends StatelessWidget {
   const BrowseTableHeader({
     Key? key,

@@ -146,7 +146,9 @@ class DownloadEntryRow extends StatelessWidget {
                   bottomLeft: Radius.circular(8))
               : BorderRadius.zero),
       onPressed: () {
-        // TODO: [Micfong] I forgot to implement this...
+        if (!isInProgress) {
+          context.read<DownloadCN>().cancelItem(item);
+        }
       },
       fillColor: isInProgress ? MColors.accent.shade50 : MColors.white,
       elevation: 0,
