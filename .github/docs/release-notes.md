@@ -1,8 +1,14 @@
 ## PPM Build 65
 
+- Adds update checker
+  - Automatically checks for update
+  - Release notes will be shown after updates
+- Adds Clear Selection and Select All button to **Browse** page
+- Fixes download item cancelling
 - Fixes minor layout issues
-- Fixes subject search field
-- Reverts to Material 2 design
+  - Reverts to Material 2 design
+  - Fixes subject search field
+- Enhances app performance
 
 See [commit history](https://github.com/SCIEDEV/PastPaperMaster/commits/main) for further information.
 

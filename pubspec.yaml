@@ -29,6 +29,7 @@ dependencies:
   pdfrx: ^1.0.11
   once: ^1.6.0
   markdown_widget: ^2.3.2+6
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

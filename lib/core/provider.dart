@@ -494,3 +494,78 @@ class DownloadCN extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class SettingsCN extends ChangeNotifier {
+  bool _checkingUpdates = false;
+  bool get checkingUpdates => _checkingUpdates;
+  set checkingUpdates(bool value) {
+    _checkingUpdates = value;
+    notifyListeners();
+  }
+
+  bool? _updateAvailable;
+  bool? get updateAvailable => _updateAvailable;
+  set updateAvailable(bool? value) {
+    _updateAvailable = value;
+    notifyListeners();
+  }
+
+  bool _checkUpdatesFailed = false;
+  bool get checkUpdatesFailed => _checkUpdatesFailed;
+  set checkUpdatesFailed(bool value) {
+    _checkUpdatesFailed = value;
+    notifyListeners();
+  }
+
+  String _latestVersion = "";
+  String get latestVersion => _latestVersion;
+  set latestVersion(String value) {
+    _latestVersion = value;
+    notifyListeners();
+  }
+
+  String _latestReleaseUrl = "";
+  String get latestReleaseUrl => _latestReleaseUrl;
+  set latestReleaseUrl(String value) {
+    _latestReleaseUrl = value;
+    notifyListeners();
+  }
+
+  DateTime _latestReleaseDate = DateTime(2023, 1, 1);
+  DateTime get latestReleaseDate => _latestReleaseDate;
+  set latestReleaseDate(DateTime value) {
+    _latestReleaseDate = value;
+    notifyListeners();
+  }
+
+  Future<void> checkForUpdates() {
+    _checkingUpdates = true;
+    _checkUpdatesFailed = false;
+    notifyListeners();
+    return Dio()
+        .get(
+      "https://api.github.com/repos/SCIEDEV/PastPaperMaster/releases/latest",
+    )
+        .then((value) {
+      _checkingUpdates = false;
+      notifyListeners();
+      if (value.data["tag_name"] != kVersionTag) {
+        _updateAvailable = true;
+        _latestVersion = value.data["tag_name"];
+        _latestReleaseUrl = value.data["html_url"];
+        _latestReleaseDate = DateTime.parse(value.data["published_at"]);
+      } else {
+        _updateAvailable = false;
+      }
+      notifyListeners();
+    }).catchError((error) {
+      _checkingUpdates = false;
+      _updateAvailable = null;
+      _checkUpdatesFailed = true;
+      if (kDebugMode) {
+        print(error);
+      }
+      notifyListeners();
+    });
+  }
+}

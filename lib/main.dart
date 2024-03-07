@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:once/once.dart';
 import 'package:past_paper_master/components/dialogs.dart';
 import 'package:past_paper_master/core/dirinit.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => BrowseCN()),
             ChangeNotifierProvider(create: (_) => CheckoutCN()),
             ChangeNotifierProvider(create: (_) => DownloadCN()),
+            ChangeNotifierProvider(create: (_) => SettingsCN()),
           ],
           child: const MyHomePage(),
         ));
@@ -100,6 +102,17 @@ class MyHomePage extends StatelessWidget {
         Duration.zero,
         () => Once.runOnEveryNewBuild(
             callback: () => showReleaseNotesDialog(context)));
+
+    Future.delayed(
+        Duration.zero,
+        () => Once.runEvery12Hours('PPMAutoUpdateCheck', callback: () async {
+              await context.read<SettingsCN>().checkForUpdates();
+              if (!context.mounted) return;
+              if (context.read<SettingsCN>().updateAvailable == true) {
+                showUpdateDialog(context,
+                    '${context.read<SettingsCN>().latestVersion} (${DateFormat('yyyy-MM-dd').format(context.read<SettingsCN>().latestReleaseDate)})');
+              }
+            }));
 
     return Scaffold(
         body: Row(

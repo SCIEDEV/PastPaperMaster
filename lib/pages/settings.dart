@@ -1,9 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/core/global.dart';
+import 'package:past_paper_master/pages/about.dart';
 import 'package:provider/provider.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +50,12 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    MButton(onPressed: () {}, title: 'Check for updates'),
+                    MButton(
+                        onPressed: () {
+                          context.read<SettingsCN>().checkForUpdates();
+                        },
+                        disabled: context.watch<SettingsCN>().checkingUpdates,
+                        title: 'Check for updates'),
                     const SizedBox(
                       width: 16,
                     ),
@@ -56,40 +63,70 @@ class SettingsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Current version: $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion ($kBuildNumber)',
+                          'Current version: $kVersionTag',
                           style: MTextStyles.smRgGrey500,
                         ),
+                        if (context.watch<SettingsCN>().checkUpdatesFailed)
+                          Text(
+                            'Failed to check for updates.',
+                            style: MTextStyles.smMdAccent700,
+                          )
+                        else if (context.watch<SettingsCN>().checkingUpdates)
+                          Text(
+                            'Checking for updates...',
+                            style: MTextStyles.smRgGrey500,
+                          )
+                        else if (context.watch<SettingsCN>().updateAvailable ==
+                            true)
+                          Text(
+                            'Latest version: ${context.watch<SettingsCN>().latestVersion}',
+                            style: MTextStyles.smMdGrey700,
+                          )
+                        else if (context.watch<SettingsCN>().updateAvailable ==
+                            false)
+                          Text(
+                            'You are up to date.',
+                            style: MTextStyles.smRgGrey500,
+                          )
+                        else
+                          Text(
+                            'Updates unchecked.',
+                            style: MTextStyles.smRgGrey500,
+                          ),
+                      ],
+                    ),
+                  ]),
+                  if (context.watch<SettingsCN>().updateAvailable == true) ...[
+                    Divider(
+                      color: MColors.grey.shade300,
+                      height: 60,
+                    ),
+                    Row(
+                      children: [
+                        Text('A newer release is available!',
+                            style: MTextStyles.smMdGrey700),
+                        const SizedBox(width: 8),
                         Text(
-                          'You are up to date.',
+                          '(${DateFormat('yyyy-MM-dd').format(context.watch<SettingsCN>().latestReleaseDate)})',
                           style: MTextStyles.smRgGrey500,
                         ),
                       ],
                     ),
-                  ]),
-                  Divider(
-                    color: MColors.grey.shade300,
-                    height: 60,
-                  ),
-                  Row(
-                    children: [
-                      Text('A newer release is available!',
-                          style: MTextStyles.smMdGrey700),
-                      const SizedBox(width: 8),
-                      Text(
-                        '(2023-01-01)',
-                        style: MTextStyles.smRgGrey500,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text('Check out release notes on Github to see what\'s new.',
-                      style: MTextStyles.smRgGrey500),
-                  const SizedBox(height: 8),
-                  MButton(
-                    onPressed: () {},
-                    title: 'Download v0.2.0',
-                    primary: true,
-                  ),
+                    const SizedBox(height: 8),
+                    Text(
+                        'Check out release notes on Github to see what\'s new.',
+                        style: MTextStyles.smRgGrey500),
+                    const SizedBox(height: 8),
+                    MButton(
+                      onPressed: () {
+                        safeLaunchUrl(
+                            context.read<SettingsCN>().latestReleaseUrl);
+                      },
+                      title:
+                          'Download ${context.watch<SettingsCN>().latestVersion} on GitHub',
+                      primary: true,
+                    ),
+                  ]
                 ],
               ),
             ),

@@ -12,19 +12,23 @@ class MButton extends StatelessWidget {
       {required this.onPressed,
       this.title = 'Button',
       this.primary = false,
+      this.disabled = false,
       super.key});
 
   final void Function()? onPressed;
   final String title;
   final bool primary;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      fillColor: primary ? MColors.accent.shade500 : MColors.white,
+      fillColor: primary
+          ? (disabled ? MColors.accent.shade400 : MColors.accent.shade500)
+          : (disabled ? MColors.grey.shade100 : MColors.white),
       elevation: primary ? 1 : 0.5,
       highlightElevation: 0,
       hoverElevation: 0,
