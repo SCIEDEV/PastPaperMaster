@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:dio/dio.dart';
+import 'package:past_paper_master/pages/browse.dart';
 
 class GeneralCN extends ChangeNotifier {
   int _selectedTab = 0;
@@ -153,11 +154,17 @@ class BrowseCN extends ChangeNotifier {
   List<String> get path => _path;
   set path(List<String> value) {
     _path = value;
+    _documentEntries =
+        getEntries(_path).where((element) => element.isDocument).toList();
     notifyListeners();
   }
 
+  List<BrowseEntry> _documentEntries = [];
+
   void addPath(String path) {
     _path.add(path);
+    _documentEntries =
+        getEntries(_path).where((element) => element.isDocument).toList();
     notifyListeners();
   }
 
@@ -178,6 +185,11 @@ class BrowseCN extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSelection() {
+    _selection.clear();
+    notifyListeners();
+  }
+
   bool isSelected(String name) {
     return _selection.any((element) => element.name == name);
   }
@@ -189,6 +201,43 @@ class BrowseCN extends ChangeNotifier {
       _selection.add(CheckoutItem(name, _path));
     }
     notifyListeners();
+  }
+
+  void selectAllOnPage() {
+    for (var e in _documentEntries) {
+      _selection.add(CheckoutItem(e.name, _path));
+    }
+    notifyListeners();
+  }
+
+  void deselectAllOnPage() {
+    for (var e in _documentEntries) {
+      if (_selection.any((element) => element.name == e.name)) {
+        _selection.removeWhere((element) => element.name == e.name);
+      }
+    }
+    notifyListeners();
+  }
+
+  bool hasDocumentOnPage() {
+    return _documentEntries.isNotEmpty;
+  }
+
+  bool? pageSelectionStatus() {
+    int count = 0;
+    for (var e in _documentEntries) {
+      if (_selection.any((element) => element.name == e.name)) {
+        count++;
+      }
+    }
+
+    if (count == _documentEntries.length) {
+      return true;
+    } else if (count != 0) {
+      return null;
+    } else {
+      return false;
+    }
   }
 }
 

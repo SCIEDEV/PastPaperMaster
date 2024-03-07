@@ -25,6 +25,8 @@ class BrowsePage extends StatelessWidget {
           children: [
             BrowsePageHeading(),
             Spacer(),
+            MButtonClearSelection(),
+            SizedBox(width: 8),
             MButtonAddToCheckout(),
             SizedBox(width: 8),
             MButtonDownload()
@@ -46,13 +48,13 @@ class BrowsePageTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l = _getEntries(context.watch<BrowseCN>().path);
+    var l = getEntries(context.watch<BrowseCN>().path);
     return Container(
       decoration: MBoxDec.largeBoxDecoration,
       child: Column(
         children: [
           const BrowseTableHeader(),
-          if (_getEntries(context.watch<BrowseCN>().path).isEmpty)
+          if (getEntries(context.watch<BrowseCN>().path).isEmpty)
             const NoEntriesPlaceholder(),
           ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -125,6 +127,23 @@ class MButtonDownload extends StatelessWidget {
   }
 }
 
+// TODO: change this to a "View Selection" button that shows a list of selected papers
+class MButtonClearSelection extends StatelessWidget {
+  const MButtonClearSelection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MButton(
+      title: "Clear Selection",
+      onPressed: () {
+        context.read<BrowseCN>().clearSelection();
+      },
+    );
+  }
+}
+
 class MButtonAddToCheckout extends StatelessWidget {
   const MButtonAddToCheckout({
     super.key,
@@ -162,7 +181,7 @@ class BrowseEntry {
       {required this.name, required this.type, this.isDocument = false});
 }
 
-List<BrowseEntry> _getEntries(List<String> path) {
+List<BrowseEntry> getEntries(List<String> path) {
   if (path.isEmpty) {
     return [
       BrowseEntry(name: "IGCSE", type: "Qualification"),
@@ -306,8 +325,13 @@ class BrowseEntryRow extends StatelessWidget {
                               color: MColors.grey.shade500, size: 16)),
                     ],
                   )
-                : Icon(FeatherIcons.chevronRight,
-                    color: MColors.grey.shade500, size: 16),
+                : Row(
+                    children: [
+                      const SizedBox(width: 32),
+                      Icon(FeatherIcons.chevronRight,
+                          color: MColors.grey.shade500, size: 16),
+                    ],
+                  ),
           ],
         ),
       ),
@@ -422,7 +446,7 @@ class BrowseTableHeader extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(8), topRight: Radius.circular(8)),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+      padding: const EdgeInsets.only(top: 12, left: 24, bottom: 12, right: 18),
       child: Row(children: [
         Expanded(
             flex: 1,
@@ -436,7 +460,33 @@ class BrowseTableHeader extends StatelessWidget {
               'Entry type',
               style: MTextStyles.xsMdGrey500,
             )),
-        const SizedBox(width: 48),
+        const SizedBox(width: 26),
+        SizedBox(
+            width: 28,
+            height: 28,
+            child: context.watch<BrowseCN>().hasDocumentOnPage()
+                ? RawMaterialButton(
+                    onPressed: () {
+                      if (context.read<BrowseCN>().pageSelectionStatus() ==
+                          true) {
+                        context.read<BrowseCN>().deselectAllOnPage();
+                      } else {
+                        context.read<BrowseCN>().selectAllOnPage();
+                      }
+                    },
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    child: (context.watch<BrowseCN>().pageSelectionStatus() ==
+                            false)
+                        ? Icon(Icons.check_box_outline_blank,
+                            color: MColors.grey.shade500, size: 16)
+                        : (context.watch<BrowseCN>().pageSelectionStatus() ==
+                                null)
+                            ? Icon(Icons.indeterminate_check_box_outlined,
+                                color: MColors.grey.shade500, size: 16)
+                            : Icon(Icons.check_box_outlined,
+                                color: MColors.grey.shade500, size: 16))
+                : Container()),
       ]),
     );
   }
