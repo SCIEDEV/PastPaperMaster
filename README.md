@@ -1,13 +1,13 @@
 <h1>Past Paper Master<img src="markdown/appicon-rounded.png" alt="App Icon" width="128" align="right"/></h1>
 
-Past Paper Master is a WIP successor of [Past Paper Finder](https://github.com/SCIEDEV/PastPaperFinder), which is a past paper downloader for IGCSE and A-Level. It is designed to be as simple as possible and easy to use.
+Past Paper Master is the successor of [Past Paper Finder](https://github.com/SCIEDEV/PastPaperFinder), which is a past paper downloader for IGCSE and A-Level. It is designed to be as simple as possible and easy to use.
 
 ## Features
 
 - **Paper Filter**:
   Download multiple past papers with a single click. You can filter with subject, year range, paper numbers, and paper types.
 - **Browse Papers**:
-  Browse past papers by directory, without requiring internet connection.
+  Browse past papers by directory, and preview them in-app.
 - **Checkout**:
   Collect sets of past papers and download them all at once.
 - **Search Questions**:
@@ -15,7 +15,7 @@ Past Paper Master is a WIP successor of [Past Paper Finder](https://github.com/S
 
 ## Installing
 
-You may download Past Paper Finder from the [official website](https://ppm-mu.vercel.app/), from [GitHub releases](https://github.com/SCIEDEV/PastPaperMaster/releases), or you can build from source as well ;)
+You may download Past Paper Finder from [GitHub releases](https://github.com/SCIEDEV/PastPaperMaster/releases), or you can build from source as well ;)
 
 ## Screenshots
 
@@ -23,6 +23,7 @@ You may download Past Paper Finder from the [official website](https://ppm-mu.ve
 <img src="markdown/s2.png" alt="Screenshot 2" width="512"/></h1>
 <img src="markdown/s3.png" alt="Screenshot 3" width="512"/></h1>
 <img src="markdown/s4.png" alt="Screenshot 4" width="512"/></h1>
+<img src="markdown/s5.png" alt="Screenshot 5" width="512"/></h1>
 
 
 ## Sponsor

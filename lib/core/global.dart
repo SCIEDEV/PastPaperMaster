@@ -12,6 +12,7 @@ const String kReleaseNotes = '''
   - Filtering by subjects and / or by levels
   - Checking answers with one click
   - Previewing original question papers and mark schemes
+- Enhances application performance
 
 **Note:** Past Paper Master is still in beta test, and there are still many features to be added and bugs to be fixed. Please report any issues you encounter to SCIE.DEV. Thank you for your support!
 
@@ -19,13 +20,13 @@ See [full changelog](https://github.com/SCIEDEV/PastPaperMaster/releases) and [c
 ''';
 
 const String kAppStageShort = 'β ';
-const String kVersionTag = 'v0.1.7-beta+72';
+const String kVersionTag = 'v0.2.0-beta+76';
 const int kMajorVersion = 0;
-const int kMinorVersion = 1;
-const int kPatchVersion = 7;
-const int kBuildNumber = 72;
+const int kMinorVersion = 2;
+const int kPatchVersion = 0;
+const int kBuildNumber = 76;
 const int kDatabaseVersion = 1;
-const String kLastCommitHash = '5ab01eb3cff5ecf0a569a528ac1a4bd00c774659';
+const String kLastCommitHash = '92f2d162cdaa9807bd003b943288e3a57099db76';
 
 const String kBundledDataPath = 'assets/json/';
 const String kLocalDataPath = '/json/';
