@@ -1,18 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:past_paper_master/core/colors.dart';
-import 'package:past_paper_master/components/twotones.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:past_paper_master/components/twotones.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 
 class MButton extends StatelessWidget {
-  const MButton(
-      {required this.onPressed,
-      this.title = 'Button',
-      this.primary = false,
-      this.height,
-      this.disabled = false,
-      super.key});
+  const MButton({
+    required this.onPressed,
+    this.title = 'Button',
+    this.primary = false,
+    this.height,
+    this.disabled = false,
+    super.key,
+  });
 
   final void Function()? onPressed;
   final String title;
@@ -24,7 +25,7 @@ class MButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: disabled ? null : onPressed,
-      constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+      constraints: const BoxConstraints(),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       fillColor: primary
           ? (disabled ? MColors.accent.shade400 : MColors.accent.shade500)
@@ -34,20 +35,20 @@ class MButton extends StatelessWidget {
       hoverElevation: 0,
       focusElevation: 0,
       child: Container(
-        height: null,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: primary
               ? Border.all(color: MColors.accent.shade500, width: 0)
-              : Border.all(color: MColors.grey.shade300, width: 1),
+              : Border.all(color: MColors.grey.shade300),
         ),
         child: Text(
           title,
           style: TextStyle(
-              color: primary ? MColors.white : MColors.grey.shade700,
-              fontSize: 14,
-              fontWeight: FontWeight.w500),
+            color: primary ? MColors.white : MColors.grey.shade700,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -88,18 +89,19 @@ class _MButtonGroupState extends State<MButtonGroup> {
                 widget.onPressed(context, i);
               });
             },
-            constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+            constraints: const BoxConstraints(),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-              topLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
-              bottomLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
-              topRight: i == widget.titles.length - 1
-                  ? const Radius.circular(8)
-                  : Radius.zero,
-              bottomRight: i == widget.titles.length - 1
-                  ? const Radius.circular(8)
-                  : Radius.zero,
-            )),
+              borderRadius: BorderRadius.only(
+                topLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
+                bottomLeft: i == 0 ? const Radius.circular(8) : Radius.zero,
+                topRight: i == widget.titles.length - 1
+                    ? const Radius.circular(8)
+                    : Radius.zero,
+                bottomRight: i == widget.titles.length - 1
+                    ? const Radius.circular(8)
+                    : Radius.zero,
+              ),
+            ),
             fillColor: selected == i ? MColors.accent.shade500 : MColors.white,
             elevation: selected == i ? 1 : 0.5,
             highlightElevation: 0,
@@ -121,36 +123,37 @@ class _MButtonGroupState extends State<MButtonGroup> {
                 border: selected == i
                     ? Border.all(
                         color: MColors.accent.shade500,
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignCenter)
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      )
                     : Border.all(
                         color: MColors.grey.shade300,
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignCenter),
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
               ),
               child: Text(
                 widget.titles[i],
                 style: TextStyle(
-                    color:
-                        selected == i ? MColors.white : MColors.grey.shade700,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
+                  color: selected == i ? MColors.white : MColors.grey.shade700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          )
+          ),
       ],
     );
   }
 }
 
 class MLongButton extends StatelessWidget {
-  const MLongButton(
-      {super.key,
-      required this.onPressed,
-      required this.title,
-      this.placeholder = false,
-      required this.iconName,
-      this.size = 20});
+  const MLongButton({
+    super.key,
+    required this.onPressed,
+    required this.title,
+    this.placeholder = false,
+    required this.iconName,
+    this.size = 20,
+  });
 
   final void Function()? onPressed;
   final String title;
@@ -162,7 +165,7 @@ class MLongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: onPressed,
-      constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+      constraints: const BoxConstraints(),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       fillColor: MColors.white,
       elevation: 0.5,
@@ -173,7 +176,7 @@ class MLongButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: MColors.grey.shade300, width: 1),
+          border: Border.all(color: MColors.grey.shade300),
         ),
         child: Row(
           children: [
@@ -186,11 +189,12 @@ class MLongButton extends StatelessWidget {
                 overflow: TextOverflow.fade,
                 softWrap: false,
                 style: TextStyle(
-                    color: placeholder
-                        ? MColors.grey.shade500
-                        : MColors.grey.shade900,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
+                  color: placeholder
+                      ? MColors.grey.shade500
+                      : MColors.grey.shade900,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             const Spacer(),
@@ -198,7 +202,7 @@ class MLongButton extends StatelessWidget {
               Ionicons.chevron_forward_outline,
               color: MColors.grey.shade500,
               size: 16,
-            )
+            ),
           ],
         ),
       ),
@@ -207,14 +211,15 @@ class MLongButton extends StatelessWidget {
 }
 
 class MLongDropdownButton extends StatefulWidget {
-  const MLongDropdownButton(
-      {super.key,
-      required this.title,
-      required this.iconName,
-      required this.size,
-      required this.items,
-      required this.value,
-      required this.onChanged});
+  const MLongDropdownButton({
+    super.key,
+    required this.title,
+    required this.iconName,
+    required this.size,
+    required this.items,
+    required this.value,
+    required this.onChanged,
+  });
 
   final String title;
   final String iconName;
@@ -238,14 +243,14 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    String? selectedValue = widget.value;
+    final String? selectedValue = widget.value;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         searchInnerWidgetHeight: 20,
         isExpanded: true,
         customButton: RawMaterialButton(
           onPressed: null,
-          constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          constraints: const BoxConstraints(),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           fillColor: MColors.white,
           elevation: 0.5,
@@ -257,12 +262,16 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: MColors.grey.shade300, width: 1),
+              border: Border.all(color: MColors.grey.shade300),
             ),
             child: Row(
               children: [
-                twoToneIcon(widget.iconName, false,
-                    width: widget.size, height: widget.size),
+                twoToneIcon(
+                  widget.iconName,
+                  false,
+                  width: widget.size,
+                  height: widget.size,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   flex: 99,
@@ -271,11 +280,12 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: TextStyle(
-                        color: selectedValue == null
-                            ? MColors.grey.shade500
-                            : MColors.grey.shade900,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                      color: selectedValue == null
+                          ? MColors.grey.shade500
+                          : MColors.grey.shade900,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -283,7 +293,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
                   Ionicons.chevron_forward_outline,
                   color: MColors.grey.shade500,
                   size: 16,
-                )
+                ),
               ],
             ),
           ),
@@ -296,10 +306,12 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
           ),
         ),
         items: widget.items
-            .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item, style: MTextStyles.mdRgGrey900),
-                ))
+            .map(
+              (item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(item, style: MTextStyles.mdRgGrey900),
+              ),
+            )
             .toList(),
         value: selectedValue,
         onChanged: (value) {
@@ -312,21 +324,24 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
         itemHeight: 40,
         dropdownMaxHeight: 360,
         dropdownDecoration: BoxDecoration(
-            color: MColors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: MColors.grey.shade200, width: 1),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color(0x19101828),
-                  offset: Offset(0, 4),
-                  blurRadius: 8,
-                  spreadRadius: -2),
-              BoxShadow(
-                  color: Color(0x10101828),
-                  offset: Offset(0, 2),
-                  blurRadius: 4,
-                  spreadRadius: -2),
-            ]),
+          color: MColors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: MColors.grey.shade200),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x19101828),
+              offset: Offset(0, 4),
+              blurRadius: 8,
+              spreadRadius: -2,
+            ),
+            BoxShadow(
+              color: Color(0x10101828),
+              offset: Offset(0, 2),
+              blurRadius: 4,
+              spreadRadius: -2,
+            ),
+          ],
+        ),
         searchController: textEditingController,
         searchInnerWidget: Padding(
           padding: const EdgeInsets.only(
@@ -354,10 +369,10 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
           ),
         ),
         searchMatchFn: (item, searchValue) {
-          return (item.value
+          return item.value
               .toString()
               .toLowerCase()
-              .contains(searchValue.toLowerCase()));
+              .contains(searchValue.toLowerCase());
         },
         dropdownPadding: const EdgeInsets.only(bottom: 6),
         onMenuStateChange: (isOpen) {
@@ -371,15 +386,16 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
 }
 
 class MLongComboDropdownButton extends StatefulWidget {
-  const MLongComboDropdownButton(
-      {super.key,
-      required this.title,
-      required this.iconName,
-      required this.size,
-      required this.items,
-      required this.onChanged,
-      required this.initValue,
-      this.fieldName = 'item'});
+  const MLongComboDropdownButton({
+    super.key,
+    required this.title,
+    required this.iconName,
+    required this.size,
+    required this.items,
+    required this.onChanged,
+    required this.initValue,
+    this.fieldName = 'item',
+  });
 
   final String title;
   final String iconName;
@@ -412,7 +428,7 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
         scrollbarAlwaysShow: true,
         customButton: RawMaterialButton(
           onPressed: null,
-          constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          constraints: const BoxConstraints(),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           fillColor: MColors.white,
           elevation: 0.5,
@@ -424,12 +440,16 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: MColors.grey.shade300, width: 1),
+              border: Border.all(color: MColors.grey.shade300),
             ),
             child: Row(
               children: [
-                twoToneIcon(widget.iconName, false,
-                    width: widget.size, height: widget.size),
+                twoToneIcon(
+                  widget.iconName,
+                  false,
+                  width: widget.size,
+                  height: widget.size,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   flex: 99,
@@ -440,11 +460,12 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: TextStyle(
-                        color: selectedValue.isEmpty
-                            ? MColors.grey.shade500
-                            : MColors.grey.shade900,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                      color: selectedValue.isEmpty
+                          ? MColors.grey.shade500
+                          : MColors.grey.shade900,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -452,16 +473,18 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                   Ionicons.chevron_forward_outline,
                   color: MColors.grey.shade500,
                   size: 16,
-                )
+                ),
               ],
             ),
           ),
         ),
         items: widget.items
-            .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  enabled: false,
-                  child: StatefulBuilder(builder: (_, menuSetState) {
+            .map(
+              (item) => DropdownMenuItem<String>(
+                value: item,
+                enabled: false,
+                child: StatefulBuilder(
+                  builder: (_, menuSetState) {
                     bool isSelected = selectedValue.contains(item);
                     return InkWell(
                       onTap: () {
@@ -475,11 +498,12 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
                           children: [
-                            isSelected
-                                ? const Icon(Icons.check, size: 20)
-                                : Container(
-                                    width: 20,
-                                  ),
+                            if (isSelected)
+                              const Icon(Icons.check, size: 20)
+                            else
+                              Container(
+                                width: 20,
+                              ),
                             const SizedBox(
                               width: 8,
                               height: double.infinity,
@@ -489,8 +513,10 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
                         ),
                       ),
                     );
-                  }),
-                ))
+                  },
+                ),
+              ),
+            )
             .toList(),
         value: selectedValue.isEmpty ? null : selectedValue.last,
         selectedItemHighlightColor: MColors.transparent,
@@ -500,21 +526,24 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
         itemHeight: 40,
         dropdownMaxHeight: 360,
         dropdownDecoration: BoxDecoration(
-            color: MColors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: MColors.grey.shade200, width: 1),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color(0x19101828),
-                  offset: Offset(0, 4),
-                  blurRadius: 8,
-                  spreadRadius: -2),
-              BoxShadow(
-                  color: Color(0x10101828),
-                  offset: Offset(0, 2),
-                  blurRadius: 4,
-                  spreadRadius: -2),
-            ]),
+          color: MColors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: MColors.grey.shade200),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x19101828),
+              offset: Offset(0, 4),
+              blurRadius: 8,
+              spreadRadius: -2,
+            ),
+            BoxShadow(
+              color: Color(0x10101828),
+              offset: Offset(0, 2),
+              blurRadius: 4,
+              spreadRadius: -2,
+            ),
+          ],
+        ),
         itemPadding: EdgeInsets.zero,
         dropdownPadding: const EdgeInsets.only(bottom: 6),
         onMenuStateChange: (isOpen) {},

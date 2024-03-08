@@ -142,6 +142,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      sha256: e2a421b7e59244faef694ba7b30562e489c2b489866e505074eb005cd7060db7
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -248,14 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
-  lint:
-    dependency: "direct dev"
+  lints:
+    dependency: transitive
     description:
-      name: lint
-      sha256: d758a5211fce7fd3f5e316f804daefecdc34c7e53559716125e6da7388ae8565
+      name: lints
+      sha256: cbf8d4b858bb0134ef3ef87841abdf8d63bfc255c266b7bf6b39daa1085c4290
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "3.0.0"
   markdown:
     dependency: transitive
     description:

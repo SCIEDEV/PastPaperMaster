@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/slider.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/subjects.dart';
@@ -43,63 +43,65 @@ class PaperFilterPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Syllabus',
-                        style: MTextStyles.smMdGrey700,
-                      ),
-                      Text(
-                        'Your exam board and corresponding subject.',
-                        style: MTextStyles.smRgGrey500,
-                      ),
-                    ]),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Syllabus',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Text(
+                      'Your exam board and corresponding subject.',
+                      style: MTextStyles.smRgGrey500,
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
               flex: 7,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        // TODO: [Micfong] implement Edexcel subjects
-                        // MButtonGroup(
-                        //     titles: const ['CAIE'],
-                        //     onPressed: (context, index) {
-                        //       context.read<FilterCN>().board =
-                        //           ['CAIE', 'Edexcel'][index];
-                        //       context.read<FilterCN>().subject = null;
-                        //     }),
-                        // const SizedBox(width: 16),
-                        MButtonGroup(
-                            titles: const ['IGCSE', 'A(S) Level'],
-                            selected: context.watch<FilterCN>().level == 'IGCSE'
-                                ? 0
-                                : 1,
-                            onPressed: (context, index) {
-                              context.read<FilterCN>().level =
-                                  ['IGCSE', 'A(S) Level'][index];
-                              context.read<FilterCN>().subject = null;
-                            }),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    MLongDropdownButton(
-                      title: 'Select subject',
-                      iconName: 'book',
-                      size: 20,
-                      items: (context.watch<FilterCN>().level == 'IGCSE')
-                          ? igcseSubjects
-                          : alevelSubjects,
-                      onChanged: (context, value) {
-                        context.read<FilterCN>().subject = value;
-                      },
-                      value: context.watch<FilterCN>().subject,
-                    ),
-                  ]),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      // TODO: [Micfong] implement Edexcel subjects
+                      // MButtonGroup(
+                      //     titles: const ['CAIE'],
+                      //     onPressed: (context, index) {
+                      //       context.read<FilterCN>().board =
+                      //           ['CAIE', 'Edexcel'][index];
+                      //       context.read<FilterCN>().subject = null;
+                      //     }),
+                      // const SizedBox(width: 16),
+                      MButtonGroup(
+                        titles: const ['IGCSE', 'A(S) Level'],
+                        selected:
+                            context.watch<FilterCN>().level == 'IGCSE' ? 0 : 1,
+                        onPressed: (context, index) {
+                          context.read<FilterCN>().level =
+                              ['IGCSE', 'A(S) Level'][index];
+                          context.read<FilterCN>().subject = null;
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  MLongDropdownButton(
+                    title: 'Select subject',
+                    iconName: 'book',
+                    size: 20,
+                    items: (context.watch<FilterCN>().level == 'IGCSE')
+                        ? igcseSubjects
+                        : alevelSubjects,
+                    onChanged: (context, value) {
+                      context.read<FilterCN>().subject = value;
+                    },
+                    value: context.watch<FilterCN>().subject,
+                  ),
+                ],
+              ),
             ),
-            const Spacer(flex: 1),
+            const Spacer(),
           ],
         ),
         Divider(
@@ -114,46 +116,48 @@ class PaperFilterPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Time range',
-                        style: MTextStyles.smMdGrey700,
-                      ),
-                      Text(
-                        'Year and season range of filtered papers.',
-                        style: MTextStyles.smRgGrey500,
-                      ),
-                    ]),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Time range',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Text(
+                      'Year and season range of filtered papers.',
+                      style: MTextStyles.smRgGrey500,
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
               flex: 7,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const MRangeSlider(),
-                    const SizedBox(height: 16),
-                    MLongComboDropdownButton(
-                      title: 'Select seasons',
-                      iconName: 'calendar',
-                      size: 20,
-                      items: const [
-                        'February / March (m)',
-                        'May / June (s)',
-                        'October / November (w)'
-                      ],
-                      onChanged: (context, value) {
-                        if (value != null) {
-                          context.read<FilterCN>().toggleSeason(value);
-                        }
-                      },
-                      initValue: context.read<FilterCN>().seasons,
-                      fieldName: 'season',
-                    ),
-                  ]),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const MRangeSlider(),
+                  const SizedBox(height: 16),
+                  MLongComboDropdownButton(
+                    title: 'Select seasons',
+                    iconName: 'calendar',
+                    size: 20,
+                    items: const [
+                      'February / March (m)',
+                      'May / June (s)',
+                      'October / November (w)',
+                    ],
+                    onChanged: (context, value) {
+                      if (value != null) {
+                        context.read<FilterCN>().toggleSeason(value);
+                      }
+                    },
+                    initValue: context.read<FilterCN>().seasons,
+                    fieldName: 'season',
+                  ),
+                ],
+              ),
             ),
-            const Spacer(flex: 1),
+            const Spacer(),
           ],
         ),
         Divider(
@@ -168,69 +172,71 @@ class PaperFilterPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Paper type',
-                        style: MTextStyles.smMdGrey700,
-                      ),
-                      Text(
-                        'Paper numbers and document types of filtered papers.',
-                        style: MTextStyles.smRgGrey500,
-                      ),
-                    ]),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Paper type',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Text(
+                      'Paper numbers and document types of filtered papers.',
+                      style: MTextStyles.smRgGrey500,
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
               flex: 7,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MLongComboDropdownButton(
-                      title: 'Select paper numbers',
-                      iconName: 'list',
-                      size: 20,
-                      items: const [
-                        'Paper 1',
-                        'Paper 2',
-                        'Paper 3',
-                        'Paper 4',
-                        'Paper 5',
-                        'Paper 6',
-                      ],
-                      onChanged: (context, value) {
-                        if (value != null) {
-                          context.read<FilterCN>().togglePaperNumber(value);
-                        }
-                      },
-                      initValue: context.read<FilterCN>().paperNumbers,
-                      fieldName: 'paper number',
-                    ),
-                    const SizedBox(height: 16),
-                    MLongComboDropdownButton(
-                      title: 'Select document types',
-                      iconName: 'grid',
-                      size: 20,
-                      items: const [
-                        'Question paper',
-                        'Mark scheme',
-                        'Examiner report',
-                        'Grade thresholds',
-                        'Specimen paper',
-                        'Specimen mark scheme',
-                        'Others',
-                      ],
-                      onChanged: (context, value) {
-                        if (value != null) {
-                          context.read<FilterCN>().togglePaperType(value);
-                        }
-                      },
-                      initValue: context.read<FilterCN>().paperTypes,
-                      fieldName: 'paper type',
-                    ),
-                  ]),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MLongComboDropdownButton(
+                    title: 'Select paper numbers',
+                    iconName: 'list',
+                    size: 20,
+                    items: const [
+                      'Paper 1',
+                      'Paper 2',
+                      'Paper 3',
+                      'Paper 4',
+                      'Paper 5',
+                      'Paper 6',
+                    ],
+                    onChanged: (context, value) {
+                      if (value != null) {
+                        context.read<FilterCN>().togglePaperNumber(value);
+                      }
+                    },
+                    initValue: context.read<FilterCN>().paperNumbers,
+                    fieldName: 'paper number',
+                  ),
+                  const SizedBox(height: 16),
+                  MLongComboDropdownButton(
+                    title: 'Select document types',
+                    iconName: 'grid',
+                    size: 20,
+                    items: const [
+                      'Question paper',
+                      'Mark scheme',
+                      'Examiner report',
+                      'Grade thresholds',
+                      'Specimen paper',
+                      'Specimen mark scheme',
+                      'Others',
+                    ],
+                    onChanged: (context, value) {
+                      if (value != null) {
+                        context.read<FilterCN>().togglePaperType(value);
+                      }
+                    },
+                    initValue: context.read<FilterCN>().paperTypes,
+                    fieldName: 'paper type',
+                  ),
+                ],
+              ),
             ),
-            const Spacer(flex: 1),
+            const Spacer(),
           ],
         ),
         Divider(
@@ -238,13 +244,12 @@ class PaperFilterPage extends StatelessWidget {
           height: 60,
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             MButton(
               onPressed: () {
-                var instance = context.read<FilterCN>();
-                PaperFilterResult result = _getPapers(
+                final instance = context.read<FilterCN>();
+                final PaperFilterResult result = _getPapers(
                   instance.level,
                   instance.subject ?? "",
                   instance.startYear,
@@ -272,15 +277,16 @@ class PaperFilterPage extends StatelessWidget {
                 } else {
                   context.read<CheckoutCN>().items.addAll(result.papers);
                   if (kDebugMode) {
-                    var items = context.read<CheckoutCN>().items;
-                    for (var item in items) {
+                    final items = context.read<CheckoutCN>().items;
+                    for (final item in items) {
                       print("${item.name} ${item.path} ${item.hashCode}");
                     }
                   }
                   ScaffoldMessenger.of(globalContext).showSnackBar(
                     SnackBar(
                       content: Text(
-                          "${result.papers.length} papers added to checkout."),
+                        "${result.papers.length} papers added to checkout.",
+                      ),
                       action: SnackBarAction(
                         label: "Dismiss",
                         onPressed: () {
@@ -293,7 +299,6 @@ class PaperFilterPage extends StatelessWidget {
                 }
               },
               title: 'Add to Checkout',
-              primary: false,
             ),
             const SizedBox(width: 12),
             MButton(
@@ -310,8 +315,9 @@ class PaperFilterPage extends StatelessWidget {
                       ),
                       title: const Text("No download path selected"),
                       content: Text(
-                          "Please select a download path in the settings page.",
-                          style: MTextStyles.smRgGrey500),
+                        "Please select a download path in the settings page.",
+                        style: MTextStyles.smRgGrey500,
+                      ),
                       actions: [
                         MButton(
                           title: 'Dismiss',
@@ -323,8 +329,8 @@ class PaperFilterPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  var instance = context.read<FilterCN>();
-                  PaperFilterResult result = _getPapers(
+                  final instance = context.read<FilterCN>();
+                  final PaperFilterResult result = _getPapers(
                     instance.level,
                     instance.subject ?? "",
                     instance.startYear,
@@ -352,8 +358,8 @@ class PaperFilterPage extends StatelessWidget {
                   } else {
                     context.read<DownloadCN>().addDownloads(result.papers);
                     if (kDebugMode) {
-                      var items = context.read<CheckoutCN>().items;
-                      for (var item in items) {
+                      final items = context.read<CheckoutCN>().items;
+                      for (final item in items) {
                         print("${item.name} ${item.path} ${item.hashCode}");
                       }
                     }
@@ -361,7 +367,8 @@ class PaperFilterPage extends StatelessWidget {
                     ScaffoldMessenger.of(globalContext).showSnackBar(
                       SnackBar(
                         content: Text(
-                            "${result.papers.length} papers added to download queue."),
+                          "${result.papers.length} papers added to download queue.",
+                        ),
                         action: SnackBarAction(
                           label: "Dismiss",
                           onPressed: () {
@@ -376,7 +383,7 @@ class PaperFilterPage extends StatelessWidget {
               },
               title: 'Download',
               primary: true,
-            )
+            ),
           ],
         ),
       ],
@@ -393,14 +400,15 @@ class PaperFilterResult {
 }
 
 PaperFilterResult _getPapers(
-    String level,
-    String subject,
-    int startYear,
-    int endYear,
-    List<String> seasons,
-    List<String> paperNumbers,
-    List<String> paperTypes) {
-  PaperFilterResult ret = PaperFilterResult(true, {}, '');
+  String level,
+  String subject,
+  int startYear,
+  int endYear,
+  List<String> seasons,
+  List<String> paperNumbers,
+  List<String> paperTypes,
+) {
+  final PaperFilterResult ret = PaperFilterResult(true, {}, '');
   Map<String, dynamic> paperMap;
 
   if (kDebugMode) {
@@ -445,40 +453,43 @@ PaperFilterResult _getPapers(
 
   if (!paperMap.containsKey(subject)) {
     ret.successful = false;
-    ret.failMessage = '''Filtering is not yet supported for this subject.
+    ret.failMessage = '''
+Filtering is not yet supported for this subject.
 
 You may download the papers from Browse page instead.''';
     return ret;
   }
 
-  dynamic temp = paperMap[subject];
+  final dynamic temp = paperMap[subject];
   if (temp is List) {
     ret.successful = false;
-    ret.failMessage = '''Filtering is not yet supported for this subject.
+    ret.failMessage = '''
+Filtering is not yet supported for this subject.
 
 You may download the papers from Browse page instead.''';
     return ret;
   }
 
-  List<dynamic> keys = temp.keys.toList();
+  final List<dynamic> keys = temp.keys.toList();
   if (kDebugMode) {
     print(temp.keys);
   }
   if (keys.any((e) => temp[e].isEmpty)) {
     ret.successful = false;
-    ret.failMessage = '''Filtering is not yet supported for this subject.
+    ret.failMessage = '''
+Filtering is not yet supported for this subject.
 
 You may download the papers from Browse page instead.''';
     return ret;
   }
 
-  Map<String, String> seasonConvert = {
+  final Map<String, String> seasonConvert = {
     'm': 'February / March (m)',
     's': 'May / June (s)',
     'w': 'October / November (w)',
   };
 
-  Map<String, String> paperTypeConvert = {
+  final Map<String, String> paperTypeConvert = {
     'qp': 'Question paper',
     'ms': 'Mark scheme',
     'er': 'Examiner report',
@@ -488,23 +499,23 @@ You may download the papers from Browse page instead.''';
   };
   for (int year = startYear; year <= endYear; year++) {
     if (temp.containsKey(year.toString())) {
-      List<dynamic> papers = temp[year.toString()];
+      final List<dynamic> papers = temp[year.toString()];
       for (var paper in papers) {
-        var orginalPaper = paper;
+        final orginalPaper = paper;
         paper = paper.replaceAll(RegExp(r'\..+$'), '');
-        List<String> components = paper.split('_');
+        final List<String> components = paper.split('_');
         if (kDebugMode) {
           print(paper);
           print(components);
         }
-        String season = seasonConvert[components[1][0]] ?? '';
+        final String season = seasonConvert[components[1][0]] ?? '';
         if (season == '' || !seasons.contains(season)) {
           if (kDebugMode) {
             print('Season validation failed: $season -> $seasons');
           }
           continue;
         }
-        String paperType = paperTypeConvert[components[2]] ?? '';
+        final String paperType = paperTypeConvert[components[2]] ?? '';
         if (paperType == '' || !paperTypes.contains(paperType)) {
           if (!(components[2] == 'ot' && paperTypes.contains('Others'))) {
             if (kDebugMode) {
@@ -521,7 +532,7 @@ You may download the papers from Browse page instead.''';
             continue;
           }
         }
-        CheckoutItem item = CheckoutItem(orginalPaper, []);
+        final CheckoutItem item = CheckoutItem(orginalPaper, []);
         item.path.add(level);
         item.path.add(subject);
         item.path.add(year.toString());
@@ -532,7 +543,7 @@ You may download the papers from Browse page instead.''';
 
   if (kDebugMode) {
     print("Papers: ${ret.papers.length}");
-    for (var paper in ret.papers) {
+    for (final paper in ret.papers) {
       print(paper.name);
     }
   }

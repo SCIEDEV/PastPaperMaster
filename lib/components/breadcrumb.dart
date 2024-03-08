@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:past_paper_master/core/textstyle.dart';
-import 'package:past_paper_master/core/colors.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
-import 'package:provider/provider.dart';
+import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/provider.dart';
+import 'package:past_paper_master/core/textstyle.dart';
+import 'package:provider/provider.dart';
 
 class Breadcrumbs extends StatelessWidget {
   const Breadcrumbs({super.key});
@@ -11,17 +11,19 @@ class Breadcrumbs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         RawMaterialButton(
-            onPressed: () {
-              context.read<BrowseCN>().path = [];
-            },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
-            child: Icon(FeatherIcons.home,
-                color: MColors.grey.shade500, size: 20)),
+          onPressed: () {
+            context.read<BrowseCN>().path = [];
+          },
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
+          child: Icon(
+            FeatherIcons.home,
+            color: MColors.grey.shade500,
+            size: 20,
+          ),
+        ),
         const SizedBox(width: 4),
         Icon(FeatherIcons.chevronRight, color: MColors.grey.shade300, size: 16),
         const SizedBox(width: 4),
@@ -41,8 +43,11 @@ class Breadcrumbs extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-          Icon(FeatherIcons.chevronRight,
-              color: MColors.grey.shade300, size: 16),
+          Icon(
+            FeatherIcons.chevronRight,
+            color: MColors.grey.shade300,
+            size: 16,
+          ),
           const SizedBox(width: 4),
         ],
       ],

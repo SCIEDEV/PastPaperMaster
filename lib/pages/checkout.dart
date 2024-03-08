@@ -4,10 +4,10 @@ import 'package:past_paper_master/components/dialogs.dart';
 import 'package:past_paper_master/core/box_decorations.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/global.dart';
-import 'package:past_paper_master/core/textstyle.dart';
-import 'package:rive/rive.dart';
-import 'package:provider/provider.dart';
 import 'package:past_paper_master/core/provider.dart';
+import 'package:past_paper_master/core/textstyle.dart';
+import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
@@ -57,14 +57,15 @@ class CheckoutPage extends StatelessWidget {
                     builder: (context) => const MAlertDialogNoDownloadPath(),
                   );
                 } else {
-                  Set<CheckoutItem> selection =
+                  final Set<CheckoutItem> selection =
                       context.read<CheckoutCN>().selected;
                   context.read<DownloadCN>().addDownloads(selection);
 
                   ScaffoldMessenger.of(globalContext).showSnackBar(
                     SnackBar(
                       content: Text(
-                          "${selection.length} papers added to download queue."),
+                        "${selection.length} papers added to download queue.",
+                      ),
                       action: SnackBarAction(
                         label: "Dismiss",
                         onPressed: () {
@@ -113,12 +114,13 @@ class CheckoutPage extends StatelessWidget {
 }
 
 class CheckoutEntryRow extends StatelessWidget {
-  const CheckoutEntryRow(
-      {super.key,
-      required this.item,
-      required this.documentType,
-      this.isLast = false,
-      this.isSelected = false});
+  const CheckoutEntryRow({
+    super.key,
+    required this.item,
+    required this.documentType,
+    this.isLast = false,
+    this.isSelected = false,
+  });
   final CheckoutItem item;
   final String documentType;
   final bool isLast;
@@ -128,11 +130,13 @@ class CheckoutEntryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       shape: RoundedRectangleBorder(
-          borderRadius: isLast
-              ? const BorderRadius.only(
-                  bottomRight: Radius.circular(8),
-                  bottomLeft: Radius.circular(8))
-              : BorderRadius.zero),
+        borderRadius: isLast
+            ? const BorderRadius.only(
+                bottomRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              )
+            : BorderRadius.zero,
+      ),
       onPressed: () {
         context.read<CheckoutCN>().toggleSelected(item);
       },
@@ -141,35 +145,41 @@ class CheckoutEntryRow extends StatelessWidget {
       focusElevation: 0,
       hoverElevation: 0,
       highlightElevation: 0,
-      disabledElevation: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: MColors.grey.shade200, width: 1),
+            top: BorderSide(color: MColors.grey.shade200),
           ),
         ),
         child: Row(
           children: [
             Expanded(
-                flex: 1,
-                child: Text(
-                  item.name,
-                  style: isSelected
-                      ? MTextStyles.smMdAccent700
-                      : MTextStyles.smMdGrey900,
-                )),
+              child: Text(
+                item.name,
+                style: isSelected
+                    ? MTextStyles.smMdAccent700
+                    : MTextStyles.smMdGrey900,
+              ),
+            ),
             Expanded(
-                flex: 1,
-                child: Text(
-                  documentType,
-                  style: MTextStyles.smRgGrey500,
-                )),
-            isSelected
-                ? Icon(Icons.square_rounded,
-                    color: MColors.accent.shade500, size: 16)
-                : Icon(Icons.check_box_outline_blank,
-                    color: MColors.grey.shade500, size: 16),
+              child: Text(
+                documentType,
+                style: MTextStyles.smRgGrey500,
+              ),
+            ),
+            if (isSelected)
+              Icon(
+                Icons.square_rounded,
+                color: MColors.accent.shade500,
+                size: 16,
+              )
+            else
+              Icon(
+                Icons.check_box_outline_blank,
+                color: MColors.grey.shade500,
+                size: 16,
+              ),
           ],
         ),
       ),
@@ -188,24 +198,28 @@ class CheckoutTableHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: MColors.grey.shade50,
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-      child: Row(children: [
-        Expanded(
-            flex: 1,
+      child: Row(
+        children: [
+          Expanded(
             child: Text(
               'Document name',
               style: MTextStyles.xsMdGrey500,
-            )),
-        Expanded(
-            flex: 1,
+            ),
+          ),
+          Expanded(
             child: Text(
               'Document type',
               style: MTextStyles.xsMdGrey500,
-            )),
-        const SizedBox(width: 16),
-      ]),
+            ),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
     );
   }
 }
@@ -218,46 +232,48 @@ class NoCheckoutPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          color: MColors.white,
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
-          border: Border.all(
-              color: MColors.grey.shade200,
-              width: 1,
-              strokeAlign: BorderSide.strokeAlignOutside),
+      decoration: BoxDecoration(
+        color: MColors.white,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(8),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              width: 64,
-              height: 64,
-              child: RiveAnimation.asset(
-                'assets/rive/empty_folder.riv',
-                artboard: 'empty checkout',
-                fit: BoxFit.fitWidth,
-              ),
+        border: Border.all(
+          color: MColors.grey.shade200,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 64,
+            height: 64,
+            child: RiveAnimation.asset(
+              'assets/rive/empty_folder.riv',
+              artboard: 'empty checkout',
+              fit: BoxFit.fitWidth,
             ),
-            const SizedBox(
-              height: 8,
-              width: double.infinity,
-            ),
-            Text(
-              'Nothing to checkout',
-              style: MTextStyles.mdMdGrey900,
-            ),
-            const SizedBox(
-              height: 4,
-              width: double.infinity,
-            ),
-            Text(
-              'Seems like you haven\'t added any documents to checkout.',
-              style: MTextStyles.smRgGrey500,
-            ),
-          ],
-        ));
+          ),
+          const SizedBox(
+            height: 8,
+            width: double.infinity,
+          ),
+          Text(
+            'Nothing to checkout',
+            style: MTextStyles.mdMdGrey900,
+          ),
+          const SizedBox(
+            height: 4,
+            width: double.infinity,
+          ),
+          Text(
+            "Seems like you haven't added any documents to checkout.",
+            style: MTextStyles.smRgGrey500,
+          ),
+        ],
+      ),
+    );
   }
 }

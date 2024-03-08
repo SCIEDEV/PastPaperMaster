@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/dialogs.dart';
 import 'package:past_paper_master/core/box_decorations.dart';
 import 'package:past_paper_master/core/colors.dart';
-import 'package:past_paper_master/components/breadcrumb.dart';
 import 'package:past_paper_master/core/global.dart';
+import 'package:past_paper_master/core/provider.dart';
+import 'package:past_paper_master/core/subjects.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:rive/rive.dart';
-import 'package:past_paper_master/core/subjects.dart';
 import 'package:provider/provider.dart';
-import 'package:past_paper_master/core/provider.dart';
+import 'package:rive/rive.dart';
 
 class BrowsePage extends StatelessWidget {
   const BrowsePage({super.key});
@@ -29,7 +29,7 @@ class BrowsePage extends StatelessWidget {
             SizedBox(width: 8),
             MButtonAddToCheckout(),
             SizedBox(width: 8),
-            MButtonDownload()
+            MButtonDownload(),
           ],
         ),
         SizedBox(height: 24),
@@ -48,7 +48,7 @@ class BrowsePageTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l = getEntries(context.watch<BrowseCN>().path);
+    final l = getEntries(context.watch<BrowseCN>().path);
     return Container(
       decoration: MBoxDec.largeBoxDecoration,
       child: Column(
@@ -57,16 +57,17 @@ class BrowsePageTable extends StatelessWidget {
           if (getEntries(context.watch<BrowseCN>().path).isEmpty)
             const NoEntriesPlaceholder(),
           ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: l.length,
-              itemBuilder: ((context, i) => BrowseEntryRow(
-                    entryName: l[i].name,
-                    documentType: l[i].type,
-                    isLast: i == l.length - 1,
-                    isDocument: l[i].isDocument,
-                    isSelected: context.watch<BrowseCN>().isSelected(l[i].name),
-                  )))
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: l.length,
+            itemBuilder: (context, i) => BrowseEntryRow(
+              entryName: l[i].name,
+              documentType: l[i].type,
+              isLast: i == l.length - 1,
+              isDocument: l[i].isDocument,
+              isSelected: context.watch<BrowseCN>().isSelected(l[i].name),
+            ),
+          ),
         ],
       ),
     );
@@ -102,10 +103,12 @@ class MButtonDownload extends StatelessWidget {
         if (context.read<DownloadCN>().downloadPath == '') {
           // show alertdialog
           showDialog(
-              context: context,
-              builder: (context) => const MAlertDialogNoDownloadPath());
+            context: context,
+            builder: (context) => const MAlertDialogNoDownloadPath(),
+          );
         } else {
-          Set<CheckoutItem> selection = context.read<BrowseCN>().selection;
+          final Set<CheckoutItem> selection =
+              context.read<BrowseCN>().selection;
           context.read<DownloadCN>().addDownloads(selection);
 
           ScaffoldMessenger.of(globalContext).showSnackBar(
@@ -153,7 +156,7 @@ class MButtonAddToCheckout extends StatelessWidget {
     return MButton(
       title: "Add to Checkout",
       onPressed: () {
-        Set<CheckoutItem> selection = context.read<BrowseCN>().selection;
+        final Set<CheckoutItem> selection = context.read<BrowseCN>().selection;
         context.read<CheckoutCN>().items.addAll(selection);
 
         ScaffoldMessenger.of(globalContext).showSnackBar(
@@ -176,8 +179,11 @@ class BrowseEntry {
   final String name;
   final String type;
   final bool isDocument;
-  BrowseEntry(
-      {required this.name, required this.type, this.isDocument = false});
+  BrowseEntry({
+    required this.name,
+    required this.type,
+    this.isDocument = false,
+  });
 }
 
 List<BrowseEntry> getEntries(List<String> path) {
@@ -188,7 +194,7 @@ List<BrowseEntry> getEntries(List<String> path) {
     ];
   }
   dynamic temp;
-  List<BrowseEntry> ret = [];
+  final List<BrowseEntry> ret = [];
   if (path[0] == "IGCSE") {
     temp = igcseSubjectsMap;
     for (var i = 1; i < path.length; i++) {
@@ -197,16 +203,24 @@ List<BrowseEntry> getEntries(List<String> path) {
     }
     if (temp is List) {
       for (var i = 0; i < temp.length; i++) {
-        ret.add(BrowseEntry(
-            name: temp[i] as String, type: "Document", isDocument: true));
+        ret.add(
+          BrowseEntry(
+            name: temp[i] as String,
+            type: "Document",
+            isDocument: true,
+          ),
+        );
       }
     } else {
       for (var i = 0; i < temp.keys.length; i++) {
         if (temp.keys.elementAt(i).contains('.')) {
-          ret.add(BrowseEntry(
+          ret.add(
+            BrowseEntry(
               name: temp.keys.elementAt(i),
               type: "Document",
-              isDocument: true));
+              isDocument: true,
+            ),
+          );
         } else {
           ret.add(BrowseEntry(name: temp.keys.elementAt(i), type: "Folder"));
         }
@@ -221,16 +235,24 @@ List<BrowseEntry> getEntries(List<String> path) {
     }
     if (temp is List) {
       for (var i = 0; i < temp.length; i++) {
-        ret.add(BrowseEntry(
-            name: temp[i] as String, type: "Document", isDocument: true));
+        ret.add(
+          BrowseEntry(
+            name: temp[i] as String,
+            type: "Document",
+            isDocument: true,
+          ),
+        );
       }
     } else {
       for (var i = 0; i < temp.keys.length; i++) {
         if (temp.keys.elementAt(i).contains('.')) {
-          ret.add(BrowseEntry(
+          ret.add(
+            BrowseEntry(
               name: temp.keys.elementAt(i),
               type: "Document",
-              isDocument: true));
+              isDocument: true,
+            ),
+          );
         } else {
           ret.add(BrowseEntry(name: temp.keys.elementAt(i), type: "Folder"));
         }
@@ -242,13 +264,14 @@ List<BrowseEntry> getEntries(List<String> path) {
 }
 
 class BrowseEntryRow extends StatelessWidget {
-  const BrowseEntryRow(
-      {super.key,
-      required this.entryName,
-      required this.documentType,
-      this.isLast = false,
-      this.isDocument = false,
-      this.isSelected = false});
+  const BrowseEntryRow({
+    super.key,
+    required this.entryName,
+    required this.documentType,
+    this.isLast = false,
+    this.isDocument = false,
+    this.isSelected = false,
+  });
   final String entryName;
   final String documentType;
   final bool isLast;
@@ -259,11 +282,13 @@ class BrowseEntryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       shape: RoundedRectangleBorder(
-          borderRadius: isLast
-              ? const BorderRadius.only(
-                  bottomRight: Radius.circular(8),
-                  bottomLeft: Radius.circular(8))
-              : BorderRadius.zero),
+        borderRadius: isLast
+            ? const BorderRadius.only(
+                bottomRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              )
+            : BorderRadius.zero,
+      ),
       onPressed: isDocument
           ? () {
               context.read<BrowseCN>().toggleSelection(entryName);
@@ -276,61 +301,76 @@ class BrowseEntryRow extends StatelessWidget {
       focusElevation: 0,
       hoverElevation: 0,
       highlightElevation: 0,
-      disabledElevation: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: MColors.grey.shade200, width: 1),
+            top: BorderSide(color: MColors.grey.shade200),
           ),
         ),
         child: Row(
           children: [
             Expanded(
-                flex: 1,
-                child: Text(
-                  entryName,
-                  style: isSelected
-                      ? MTextStyles.smMdAccent700
-                      : MTextStyles.smMdGrey900,
-                )),
+              child: Text(
+                entryName,
+                style: isSelected
+                    ? MTextStyles.smMdAccent700
+                    : MTextStyles.smMdGrey900,
+              ),
+            ),
             Expanded(
-                flex: 1,
-                child: Text(
-                  documentType,
-                  style: MTextStyles.smRgGrey500,
-                )),
-            isDocument
-                ? Row(
-                    children: [
-                      // add a pressable view icon that does not change row height
-                      SizedBox(
-                          width: 28,
-                          height: 28,
-                          child: RawMaterialButton(
-                              onPressed: () {
-                                showPdfPreview(context);
-                              },
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
-                              child: Icon(FeatherIcons.eye,
-                                  color: MColors.grey.shade500, size: 16))),
-                      const SizedBox(width: 4),
-                      (isSelected
-                          ? Icon(Icons.square_rounded,
-                              color: MColors.accent.shade500, size: 16)
-                          : Icon(Icons.check_box_outline_blank,
-                              color: MColors.grey.shade500, size: 16)),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      const SizedBox(width: 32),
-                      Icon(FeatherIcons.chevronRight,
-                          color: MColors.grey.shade500, size: 16),
-                    ],
+              child: Text(
+                documentType,
+                style: MTextStyles.smRgGrey500,
+              ),
+            ),
+            if (isDocument)
+              Row(
+                children: [
+                  // add a pressable view icon that does not change row height
+                  SizedBox(
+                    width: 28,
+                    height: 28,
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        showPdfPreview(context);
+                      },
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: Icon(
+                        FeatherIcons.eye,
+                        color: MColors.grey.shade500,
+                        size: 16,
+                      ),
+                    ),
                   ),
+                  const SizedBox(width: 4),
+                  if (isSelected)
+                    Icon(
+                      Icons.square_rounded,
+                      color: MColors.accent.shade500,
+                      size: 16,
+                    )
+                  else
+                    Icon(
+                      Icons.check_box_outline_blank,
+                      color: MColors.grey.shade500,
+                      size: 16,
+                    ),
+                ],
+              )
+            else
+              Row(
+                children: [
+                  const SizedBox(width: 32),
+                  Icon(
+                    FeatherIcons.chevronRight,
+                    color: MColors.grey.shade500,
+                    size: 16,
+                  ),
+                ],
+              ),
           ],
         ),
       ),
@@ -339,95 +379,107 @@ class BrowseEntryRow extends StatelessWidget {
 
   void showPdfPreview(BuildContext context) {
     context.read<BrowseCN>().viewingPdfName = entryName;
-    String viewingPdfName =
+    final String viewingPdfName =
         'File Preview · ${context.read<BrowseCN>().viewingPdfName}';
-    String viewingPdfUrl = context.read<BrowseCN>().getViewingDocumentUrl();
-    Navigator.push(context, MaterialPageRoute<void>(
-      builder: (BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(viewingPdfName),
-            elevation: 8.0,
-            shadowColor: const Color(0x19101828),
-            titleTextStyle: MTextStyles.lgMdGrey900,
-            shape: Border(
+    final String viewingPdfUrl =
+        context.read<BrowseCN>().getViewingDocumentUrl();
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(viewingPdfName),
+              elevation: 8.0,
+              shadowColor: const Color(0x19101828),
+              titleTextStyle: MTextStyles.lgMdGrey900,
+              shape: Border(
                 bottom: BorderSide(
-              color: MColors.grey.shade200,
-              width: 1,
-            )),
-            backgroundColor: MColors.white,
-            // add a back button
-            leading: RawMaterialButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Icon(FeatherIcons.chevronLeft,
-                  color: MColors.grey.shade700, size: 24),
+                  color: MColors.grey.shade200,
+                ),
+              ),
+              backgroundColor: MColors.white,
+              // add a back button
+              leading: RawMaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  FeatherIcons.chevronLeft,
+                  color: MColors.grey.shade700,
+                  size: 24,
+                ),
+              ),
+              centerTitle: false,
             ),
-            centerTitle: false,
-          ),
-          body: PdfViewer.uri(
-            params: PdfViewerParams(
-              enableTextSelection: true,
-              maxScale: 10.0,
-              backgroundColor: MColors.grey.shade50,
-              errorBannerBuilder: (context, error, stackTrace, documentRef) =>
-                  Container(
-                      decoration: BoxDecoration(
-                        color: MColors.white,
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8)),
-                        border: Border.all(
-                            color: MColors.grey.shade200,
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignOutside),
+            body: PdfViewer.uri(
+              params: PdfViewerParams(
+                enableTextSelection: true,
+                maxScale: 10.0,
+                backgroundColor: MColors.grey.shade50,
+                errorBannerBuilder: (context, error, stackTrace, documentRef) =>
+                    Container(
+                  decoration: BoxDecoration(
+                    color: MColors.white,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                    border: Border.all(
+                      color: MColors.grey.shade200,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 48,
+                    horizontal: 24,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 64,
+                        height: 64,
+                        child: RiveAnimation.asset(
+                          'assets/rive/empty_folder.riv',
+                          artboard: 'empty download',
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 48, horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 64,
-                            height: 64,
-                            child: RiveAnimation.asset(
-                              'assets/rive/empty_folder.riv',
-                              artboard: 'empty download',
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                            width: double.infinity,
-                          ),
-                          Text(
-                            'Cannot view document',
-                            style: MTextStyles.mdMdGrey900,
-                          ),
-                          const SizedBox(
-                            height: 4,
-                            width: double.infinity,
-                          ),
-                          Text(
-                            'The document is not a PDF, or a network error occurred.',
-                            style: MTextStyles.smRgGrey500,
-                          ),
-                          Text(
-                            'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
-                            style: MTextStyles.smRgGrey500,
-                          ),
-                          Text(error.toString(),
-                              style: MTextStyles.smRgGrey200),
-                        ],
-                      )),
+                      const SizedBox(
+                        height: 8,
+                        width: double.infinity,
+                      ),
+                      Text(
+                        'Cannot view document',
+                        style: MTextStyles.mdMdGrey900,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                        width: double.infinity,
+                      ),
+                      Text(
+                        'The document is not a PDF, or a network error occurred.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                      Text(
+                        'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                      Text(
+                        error.toString(),
+                        style: MTextStyles.smRgGrey200,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Uri.parse(viewingPdfUrl),
             ),
-            Uri.parse(viewingPdfUrl),
-          ),
-        );
-      },
-    ));
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -442,24 +494,27 @@ class BrowseTableHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: MColors.grey.shade50,
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
       ),
       padding: const EdgeInsets.only(top: 12, left: 24, bottom: 12, right: 18),
-      child: Row(children: [
-        Expanded(
-            flex: 1,
+      child: Row(
+        children: [
+          Expanded(
             child: Text(
               'Entry name',
               style: MTextStyles.xsMdGrey500,
-            )),
-        Expanded(
-            flex: 1,
+            ),
+          ),
+          Expanded(
             child: Text(
               'Entry type',
               style: MTextStyles.xsMdGrey500,
-            )),
-        const SizedBox(width: 26),
-        SizedBox(
+            ),
+          ),
+          const SizedBox(width: 26),
+          SizedBox(
             width: 28,
             height: 28,
             child: context.watch<BrowseCN>().hasDocumentOnPage()
@@ -473,19 +528,32 @@ class BrowseTableHeader extends StatelessWidget {
                       }
                     },
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
                     child: (context.watch<BrowseCN>().pageSelectionStatus() ==
                             false)
-                        ? Icon(Icons.check_box_outline_blank,
-                            color: MColors.grey.shade500, size: 16)
+                        ? Icon(
+                            Icons.check_box_outline_blank,
+                            color: MColors.grey.shade500,
+                            size: 16,
+                          )
                         : (context.watch<BrowseCN>().pageSelectionStatus() ==
                                 null)
-                            ? Icon(Icons.indeterminate_check_box_outlined,
-                                color: MColors.grey.shade500, size: 16)
-                            : Icon(Icons.check_box_outlined,
-                                color: MColors.grey.shade500, size: 16))
-                : Container()),
-      ]),
+                            ? Icon(
+                                Icons.indeterminate_check_box_outlined,
+                                color: MColors.grey.shade500,
+                                size: 16,
+                              )
+                            : Icon(
+                                Icons.check_box_outlined,
+                                color: MColors.grey.shade500,
+                                size: 16,
+                              ),
+                  )
+                : Container(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -498,50 +566,52 @@ class NoEntriesPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          color: MColors.white,
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
-          border: Border.all(
-              color: MColors.grey.shade200,
-              width: 1,
-              strokeAlign: BorderSide.strokeAlignOutside),
+      decoration: BoxDecoration(
+        color: MColors.white,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(8),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              width: 64,
-              height: 64,
-              child: RiveAnimation.asset(
-                'assets/rive/empty_folder.riv',
-                artboard: 'empty directory',
-                fit: BoxFit.fitWidth,
-              ),
+        border: Border.all(
+          color: MColors.grey.shade200,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 64,
+            height: 64,
+            child: RiveAnimation.asset(
+              'assets/rive/empty_folder.riv',
+              artboard: 'empty directory',
+              fit: BoxFit.fitWidth,
             ),
-            const SizedBox(
-              height: 8,
-              width: double.infinity,
-            ),
-            Text(
-              'No entries found',
-              style: MTextStyles.mdMdGrey900,
-            ),
-            const SizedBox(
-              height: 4,
-              width: double.infinity,
-            ),
-            Text(
-              'Return to last page using the breadcrumbs above.',
-              style: MTextStyles.smRgGrey500,
-            ),
-            Text(
-              'You may report this as an error to SCIE.DEV.',
-              style: MTextStyles.smRgGrey500,
-            ),
-          ],
-        ));
+          ),
+          const SizedBox(
+            height: 8,
+            width: double.infinity,
+          ),
+          Text(
+            'No entries found',
+            style: MTextStyles.mdMdGrey900,
+          ),
+          const SizedBox(
+            height: 4,
+            width: double.infinity,
+          ),
+          Text(
+            'Return to last page using the breadcrumbs above.',
+            style: MTextStyles.smRgGrey500,
+          ),
+          Text(
+            'You may report this as an error to SCIE.DEV.',
+            style: MTextStyles.smRgGrey500,
+          ),
+        ],
+      ),
+    );
   }
 }

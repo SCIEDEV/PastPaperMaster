@@ -1,9 +1,10 @@
 import 'dart:collection';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:past_paper_master/core/global.dart';
-import 'package:dio/dio.dart';
 import 'package:past_paper_master/pages/browse.dart';
 
 class GeneralCN extends ChangeNotifier {
@@ -125,23 +126,23 @@ class CheckoutItem {
 
 class BrowseCN extends ChangeNotifier {
   String getViewingDocumentUrl() {
-    String url = "https://papers.gceguide.com/";
+    final StringBuffer url = StringBuffer("https://papers.gceguide.com/");
     if (_path.isEmpty) {
-      return url;
+      return url.toString();
     }
     if (_path[0] == "IGCSE") {
-      url += "Cambridge%20IGCSE/";
+      url.write("Cambridge%20IGCSE/");
     } else if (_path[0] == "A(S) Level") {
-      url += "A%20Levels/";
+      url.write("A%20Levels/");
     } else {
       // Hopefully we won't reach here :(
       throw Exception("Invalid document path: ${_path[0]}");
     }
     for (var i = 1; i < _path.length; i++) {
-      url += "${_path[i]}/";
+      url.write("${_path[i]}/");
     }
-    url += viewingPdfName;
-    return url;
+    url.write(viewingPdfName);
+    return url.toString();
   }
 
   String _viewingPdfName = "";
@@ -205,14 +206,14 @@ class BrowseCN extends ChangeNotifier {
   }
 
   void selectAllOnPage() {
-    for (var e in _documentEntries) {
+    for (final e in _documentEntries) {
       _selection.add(CheckoutItem(e.name, _path));
     }
     notifyListeners();
   }
 
   void deselectAllOnPage() {
-    for (var e in _documentEntries) {
+    for (final e in _documentEntries) {
       if (_selection.any((element) => element.name == e.name)) {
         _selection.removeWhere((element) => element.name == e.name);
       }
@@ -226,7 +227,7 @@ class BrowseCN extends ChangeNotifier {
 
   bool? pageSelectionStatus() {
     int count = 0;
-    for (var e in _documentEntries) {
+    for (final e in _documentEntries) {
       if (_selection.any((element) => element.name == e.name)) {
         count++;
       }
@@ -410,7 +411,7 @@ class DownloadCN extends ChangeNotifier {
     if (_currentThreads >= kMaxThreads) {
       return;
     }
-    DownloadItem item = _downloadQueue.removeFirst();
+    final DownloadItem item = _downloadQueue.removeFirst();
     _currentThreads++;
     if (_downloadQueue.isNotEmpty) {
       startDownload();
@@ -418,10 +419,12 @@ class DownloadCN extends ChangeNotifier {
     item.downloading = true;
     _downloading.add(item);
     notifyListeners();
-    Dio(BaseOptions(
-            connectTimeout: const Duration(seconds: 10),
-            receiveTimeout: const Duration(minutes: 3)))
-        .download(
+    Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(minutes: 3),
+      ),
+    ).download(
       item.url,
       "$_downloadPath/${item.name}",
       onReceiveProgress: (count, total) {
@@ -471,8 +474,8 @@ class DownloadCN extends ChangeNotifier {
   }
 
   void addDownloads(Set<CheckoutItem> items) {
-    for (var item in items) {
-      var newDownload = DownloadItem("", [], "");
+    for (final item in items) {
+      final newDownload = DownloadItem("", [], "");
       newDownload.name = item.name;
       newDownload.path = item.path;
       newDownload.url = "https://papers.gceguide.com/";
@@ -532,7 +535,7 @@ class SettingsCN extends ChangeNotifier {
     notifyListeners();
   }
 
-  DateTime _latestReleaseDate = DateTime(2023, 1, 1);
+  DateTime _latestReleaseDate = DateTime(2023);
   DateTime get latestReleaseDate => _latestReleaseDate;
   set latestReleaseDate(DateTime value) {
     _latestReleaseDate = value;
@@ -644,33 +647,33 @@ class QuestionsCN extends ChangeNotifier {
     };
     _isSearching = true;
     _results.clear();
-    String url =
+    final String url =
         "https://data.caiefinder.com/search/data/?subs=${kSearchSubjects[_subject]}&zone=${zones[_level]}&search=$_keywords";
     notifyListeners();
     return Dio().get(url).then((value) {
-      var mainarea = parse(value.data.toString()).querySelector("#mainarea");
+      final mainarea = parse(value.data.toString()).querySelector("#mainarea");
       var currentQuestion = QuestionResult();
-      for (var child in mainarea!.children) {
+      for (final child in mainarea!.children) {
         if (child.localName == "center") {
-          var h3 = child.querySelector("h3");
+          final h3 = child.querySelector("h3");
           if (h3 != null) {
             if (h3.text.contains(" ↓ FOUND ↓ in ")) {
               currentQuestion.sourceQpName =
                   h3.querySelector('a')!.text.split(" ← ")[0];
-              currentQuestion.sourceQpUrl = h3
-                  .querySelector('a')!
-                  .attributes['href']!
-                  .replaceFirst("../pastpapers/view/",
-                      "https://caiefinder.com/pastpapers/pdf/");
+              currentQuestion.sourceQpUrl =
+                  h3.querySelector('a')!.attributes['href']!.replaceFirst(
+                        "../pastpapers/view/",
+                        "https://caiefinder.com/pastpapers/pdf/",
+                      );
             } else if (h3.text
                 .contains("↓ Below is the answer to this question ↓ in ")) {
               currentQuestion.sourceMsName =
                   h3.querySelector('a')!.text.split(" ← ")[0];
-              currentQuestion.sourceMsUrl = h3
-                  .querySelector('a')!
-                  .attributes['href']!
-                  .replaceFirst("../pastpapers/view/",
-                      "https://caiefinder.com/pastpapers/pdf/");
+              currentQuestion.sourceMsUrl =
+                  h3.querySelector('a')!.attributes['href']!.replaceFirst(
+                        "../pastpapers/view/",
+                        "https://caiefinder.com/pastpapers/pdf/",
+                      );
             } else {
               if (currentQuestion.questionNo.isNotEmpty) {
                 _results.add(currentQuestion);

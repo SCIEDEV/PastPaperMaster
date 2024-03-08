@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:past_paper_master/components/twotones.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/provider.dart';
-import 'package:past_paper_master/components/twotones.dart';
 import 'package:provider/provider.dart';
 
 class SidebarView extends StatelessWidget {
@@ -27,29 +27,31 @@ class SidebarView extends StatelessWidget {
       child: Column(
         children: [
           ...[
-            for (var item in _sidebarDataTop)
+            for (final item in _sidebarDataTop)
               SidebarItem(
-                  isActive: context.watch<GeneralCN>().selectedTab ==
-                      _sidebarDataTop.indexOf(item),
-                  iconName: item['icon'],
-                  title: item['title'],
-                  index: _sidebarDataTop.indexOf(item))
+                isActive: context.watch<GeneralCN>().selectedTab ==
+                    _sidebarDataTop.indexOf(item),
+                iconName: item['icon'],
+                title: item['title'],
+                index: _sidebarDataTop.indexOf(item),
+              ),
           ],
           const Spacer(),
           ...[
-            for (var item in _sidebarDataBottom)
+            for (final item in _sidebarDataBottom)
               SidebarItem(
-                  isActive: context.watch<GeneralCN>().selectedTab ==
-                      _sidebarDataTop.length + _sidebarDataBottom.indexOf(item),
-                  iconName: item['icon'],
-                  title: item['title'],
-                  index:
-                      _sidebarDataTop.length + _sidebarDataBottom.indexOf(item))
+                isActive: context.watch<GeneralCN>().selectedTab ==
+                    _sidebarDataTop.length + _sidebarDataBottom.indexOf(item),
+                iconName: item['icon'],
+                title: item['title'],
+                index:
+                    _sidebarDataTop.length + _sidebarDataBottom.indexOf(item),
+              ),
           ],
           if (context.watch<GeneralCN>().showAlphaBanner) ...[
             const SizedBox(height: 24),
-            const PublicBetaTestBlock()
-          ]
+            const PublicBetaTestBlock(),
+          ],
         ],
       ),
     );
@@ -64,54 +66,64 @@ class PublicBetaTestBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: MColors.accent.shade50,
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Public Beta Test',
-                style: TextStyle(
-                    color: MColors.accent.shade700,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: MColors.accent.shade50,
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Public Beta Test',
+            style: TextStyle(
+              color: MColors.accent.shade700,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Thank you for participating in Past Paper Master public beta test!',
+            style: TextStyle(
+              color: MColors.accent.shade600,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  context.read<GeneralCN>().showAlphaBanner = false;
+                },
+                child: Text(
+                  'Dismiss',
+                  style: TextStyle(
+                    color: MColors.accent.shade500,
                     fontSize: 14,
-                    fontWeight: FontWeight.w500)),
-            const SizedBox(height: 4),
-            Text(
-                'Thank you for participating in Past Paper Master public beta test!',
-                style: TextStyle(
-                    color: MColors.accent.shade600,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Spacer(),
-                TextButton(
-                  onPressed: () {
-                    context.read<GeneralCN>().showAlphaBanner = false;
-                  },
-                  child: Text('Dismiss',
-                      style: TextStyle(
-                          color: MColors.accent.shade500,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500)),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ],
-            )
-          ],
-        ));
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class SidebarItem extends StatelessWidget {
-  const SidebarItem(
-      {required this.isActive,
-      required this.iconName,
-      required this.title,
-      super.key,
-      required this.index});
+  const SidebarItem({
+    required this.isActive,
+    required this.iconName,
+    required this.title,
+    super.key,
+    required this.index,
+  });
 
   final bool isActive;
   final String iconName;
@@ -135,18 +147,21 @@ class SidebarItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
         ),
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: Row(children: [
-          twoToneIcon(iconName, isActive),
-          const SizedBox(width: 12),
-          Text(
-            title,
-            style: TextStyle(
+        child: Row(
+          children: [
+            twoToneIcon(iconName, isActive),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: TextStyle(
                 color:
                     isActive ? MColors.accent.shade700 : MColors.grey.shade700,
                 fontSize: 16,
-                fontWeight: FontWeight.w500),
-          )
-        ]),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

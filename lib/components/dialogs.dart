@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:markdown_widget/widget/all.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
-import 'package:markdown_widget/widget/all.dart';
-import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/pages/about.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +22,10 @@ class MAlertDialogNoDownloadPath extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       title: const Text("No download path selected"),
-      content: Text("Please select a download path in the settings page.",
-          style: MTextStyles.smRgGrey500),
+      content: Text(
+        "Please select a download path in the settings page.",
+        style: MTextStyles.smRgGrey500,
+      ),
       actions: [
         MButton(
           title: 'Dismiss',
@@ -46,7 +48,8 @@ Future<dynamic> showReleaseNotesDialog(BuildContext context) {
         borderRadius: BorderRadius.circular(12),
       ),
       title: const Text(
-          "Past Paper Master updated to $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion (build $kBuildNumber)"),
+        "Past Paper Master updated to $kAppStageShort$kMajorVersion.$kMinorVersion.$kPatchVersion (build $kBuildNumber)",
+      ),
       content: const MarkdownBlock(data: kReleaseNotes),
       actions: [
         MButton(

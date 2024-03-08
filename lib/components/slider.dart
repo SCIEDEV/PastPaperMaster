@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:past_paper_master/core/colors.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+import 'package:past_paper_master/core/colors.dart';
+import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:provider/provider.dart';
-import 'package:past_paper_master/core/provider.dart';
 
 class MRangeSlider extends StatefulWidget {
   const MRangeSlider({super.key});
@@ -22,35 +22,39 @@ class _MRangeSliderState extends State<MRangeSlider> {
     _start = context.read<FilterCN>().startYear.toDouble();
     _end = context.read<FilterCN>().endYear.toDouble();
     return SliderTheme(
-        data: SliderThemeData(
-          showValueIndicator: ShowValueIndicator.always,
-          activeTrackColor: MColors.accent,
-          trackHeight: 8,
-          rangeThumbShape: const RoundRangeSliderThumbShape(
-              enabledThumbRadius: 12, elevation: 2.0, pressedElevation: 1.0),
-          overlayShape: SliderComponentShape.noOverlay,
-          rangeValueIndicatorShape: const CustomValueIndicatorShape(),
-          valueIndicatorColor: MColors.white,
-          valueIndicatorTextStyle: MTextStyles.smMdGrey700,
-          inactiveTrackColor: MColors.grey.shade200,
-          inactiveTickMarkColor: MColors.grey.shade300,
-          thumbColor: MColors.white,
+      data: SliderThemeData(
+        showValueIndicator: ShowValueIndicator.always,
+        activeTrackColor: MColors.accent,
+        trackHeight: 8,
+        rangeThumbShape: const RoundRangeSliderThumbShape(
+          enabledThumbRadius: 12,
+          elevation: 2.0,
+          pressedElevation: 1.0,
         ),
-        child: RangeSlider(
-            values: RangeValues(_start, _end),
-            min: 2000,
-            max: 2023,
-            divisions: 23,
-            labels:
-                RangeLabels(_start.round().toString(), _end.round().toString()),
-            onChanged: (RangeValues newValues) {
-              setState(() {
-                _start = newValues.start;
-                _end = newValues.end;
-                context.read<FilterCN>().startYear = _start.round();
-                context.read<FilterCN>().endYear = _end.round();
-              });
-            }));
+        overlayShape: SliderComponentShape.noOverlay,
+        rangeValueIndicatorShape: const CustomValueIndicatorShape(),
+        valueIndicatorColor: MColors.white,
+        valueIndicatorTextStyle: MTextStyles.smMdGrey700,
+        inactiveTrackColor: MColors.grey.shade200,
+        inactiveTickMarkColor: MColors.grey.shade300,
+        thumbColor: MColors.white,
+      ),
+      child: RangeSlider(
+        values: RangeValues(_start, _end),
+        min: 2000,
+        max: 2023,
+        divisions: 23,
+        labels: RangeLabels(_start.round().toString(), _end.round().toString()),
+        onChanged: (RangeValues newValues) {
+          setState(() {
+            _start = newValues.start;
+            _end = newValues.end;
+            context.read<FilterCN>().startYear = _start.round();
+            context.read<FilterCN>().endYear = _end.round();
+          });
+        },
+      ),
+    );
   }
 }
 
@@ -118,7 +122,6 @@ class CustomValueIndicatorShape extends RangeSliderValueIndicatorShape {
       textScaleFactor: textScaleFactor!,
       sizeWithOverflow: sizeWithOverflow!,
       backgroundPaintColor: sliderTheme!.valueIndicatorColor!,
-      strokePaintColor: null,
     );
   }
 }
@@ -161,9 +164,10 @@ class _CustomSliderValueIndicatorPathPainter {
     final double overflowLeft =
         math.max(0, rectangleWidth / 2 - globalCenter.dx + edgePadding);
     final double overflowRight = math.max(
-        0,
-        rectangleWidth / 2 -
-            (sizeWithOverflow.width - globalCenter.dx - edgePadding));
+      0,
+      rectangleWidth / 2 -
+          (sizeWithOverflow.width - globalCenter.dx - edgePadding),
+    );
 
     if (rectangleWidth < sizeWithOverflow.width) {
       return overflowLeft - overflowRight;
@@ -175,7 +179,10 @@ class _CustomSliderValueIndicatorPathPainter {
   }
 
   double _upperRectangleWidth(
-      TextPainter labelPainter, double scale, double textScaleFactor) {
+    TextPainter labelPainter,
+    double scale,
+    double textScaleFactor,
+  ) {
     final double unscaledWidth =
         math.max(_minLabelWidth * textScaleFactor, labelPainter.width) +
             _labelPadding * 2;
@@ -223,14 +230,20 @@ class _CustomSliderValueIndicatorPathPainter {
       ..close();
     final Paint fillPaint = Paint()..color = backgroundPaintColor;
     final RRect upperRRect = RRect.fromRectAndRadius(
-        upperRect, const Radius.circular(_upperRectRadius));
+      upperRect,
+      const Radius.circular(_upperRectRadius),
+    );
     trianglePath.addRRect(upperRRect);
 
     canvas.save();
     canvas.translate(center.dx, center.dy - _bottomTipYOffset);
     canvas.scale(scale, scale);
     canvas.drawShadow(
-        trianglePath, const Color.fromARGB(40, 24, 40, 13), 4, true);
+      trianglePath,
+      const Color.fromARGB(40, 24, 40, 13),
+      4,
+      true,
+    );
     if (strokePaintColor != null) {
       final Paint strokePaint = Paint()
         ..color = strokePaintColor

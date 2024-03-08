@@ -1,5 +1,3 @@
-library ppm.globals;
-
 import 'package:flutter/material.dart';
 
 /// Global `BuildContext` used for retrieving providers.
