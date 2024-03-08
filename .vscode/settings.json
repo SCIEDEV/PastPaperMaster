@@ -1,5 +1,6 @@
 {
     "cSpell.enableFiletypes": [
         "!dart"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

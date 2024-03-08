@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => CheckoutCN()),
             ChangeNotifierProvider(create: (_) => DownloadCN()),
             ChangeNotifierProvider(create: (_) => SettingsCN()),
+            ChangeNotifierProvider(create: (_) => QuestionsCN()),
           ],
           child: const MyHomePage(),
         ));
@@ -114,6 +115,8 @@ class MyHomePage extends StatelessWidget {
               }
             }));
 
+    int selectedTab = context.watch<GeneralCN>().selectedTab;
+
     return Scaffold(
         body: Row(
       children: [
@@ -129,14 +132,19 @@ class MyHomePage extends StatelessWidget {
         Expanded(
           child: Container(
               color: MColors.grey.shade50,
-              child: ListView(
-                children: [
-                  Container(
+              child: selectedTab != 4
+                  ? ListView(
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.only(
+                                top: 32, bottom: 48, left: 32, right: 32),
+                            child: _pages[selectedTab]),
+                      ],
+                    )
+                  : Container(
                       padding: const EdgeInsets.only(
-                          top: 32, bottom: 48, left: 32, right: 32),
-                      child: _pages[context.watch<GeneralCN>().selectedTab]),
-                ],
-              )),
+                          top: 32, bottom: 0, left: 32, right: 32),
+                      child: _pages[selectedTab])),
         )
       ],
     ));

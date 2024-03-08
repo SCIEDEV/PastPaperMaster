@@ -74,6 +74,9 @@ class PaperFilterPage extends StatelessWidget {
                         // const SizedBox(width: 16),
                         MButtonGroup(
                             titles: const ['IGCSE', 'A(S) Level'],
+                            selected: context.watch<FilterCN>().level == 'IGCSE'
+                                ? 0
+                                : 1,
                             onPressed: (context, index) {
                               context.read<FilterCN>().level =
                                   ['IGCSE', 'A(S) Level'][index];
@@ -82,8 +85,6 @@ class PaperFilterPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-
-                    // ? [Micfong] this stuff sometimes freezes :(
                     MLongDropdownButton(
                       title: 'Select subject',
                       iconName: 'book',

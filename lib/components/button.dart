@@ -4,14 +4,13 @@ import 'package:past_paper_master/components/twotones.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:past_paper_master/core/textstyle.dart';
-import 'package:past_paper_master/core/provider.dart';
-import 'package:provider/provider.dart';
 
 class MButton extends StatelessWidget {
   const MButton(
       {required this.onPressed,
       this.title = 'Button',
       this.primary = false,
+      this.height,
       this.disabled = false,
       super.key});
 
@@ -19,6 +18,7 @@ class MButton extends StatelessWidget {
   final String title;
   final bool primary;
   final bool disabled;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class MButton extends StatelessWidget {
       hoverElevation: 0,
       focusElevation: 0,
       child: Container(
+        height: null,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -58,22 +59,25 @@ class MButtonGroup extends StatefulWidget {
     super.key,
     required this.titles,
     required this.onPressed,
+    required this.selected,
   });
 
   final List<String> titles;
   final Function(BuildContext, int) onPressed;
+  final int selected;
 
   @override
   State<MButtonGroup> createState() => _MButtonGroupState();
 }
 
 class _MButtonGroupState extends State<MButtonGroup> {
-  // _MButtonGroupState({this.selected = 0});
   int selected = 0;
+
+  _MButtonGroupState();
 
   @override
   Widget build(BuildContext context) {
-    selected = context.read<FilterCN>().level == 'IGCSE' ? 0 : 1;
+    selected = widget.selected;
     return Row(
       children: [
         for (var i = 0; i < widget.titles.length; i++)

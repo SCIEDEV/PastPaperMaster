@@ -433,8 +433,8 @@ class BrowseEntryRow extends StatelessWidget {
 
 class BrowseTableHeader extends StatelessWidget {
   const BrowseTableHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -492,8 +492,8 @@ class BrowseTableHeader extends StatelessWidget {
 
 class NoEntriesPlaceholder extends StatelessWidget {
   const NoEntriesPlaceholder({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

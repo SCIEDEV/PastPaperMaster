@@ -52,6 +52,12 @@ class MTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w400,
   );
+  static TextStyle smMonoGrey900 = TextStyle(
+    color: MColors.grey.shade900,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'JetBrainsMono',
+  );
   static TextStyle smMdAccent700 = TextStyle(
     color: MColors.accent.shade700,
     fontSize: 14,
@@ -61,6 +67,16 @@ class MTextStyles {
     color: MColors.grey.shade900,
     fontSize: 16,
     fontWeight: FontWeight.w500,
+  );
+  static TextStyle mdMdGrey500 = TextStyle(
+    color: MColors.grey.shade500,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+  static TextStyle mdRgGrey500 = TextStyle(
+    color: MColors.grey.shade500,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
   );
   static TextStyle mdMdWhite900 = const TextStyle(
     color: MColors.white,

@@ -1,14 +1,11 @@
 ## PPM Build 72
 
-- Adds update checker
-  - Automatically checks for update
-  - Release notes will be shown after updates
-- Adds Clear Selection and Select All button to **Browse** page
-- Fixes download item cancelling
-- Fixes minor layout issues
-  - Reverts to Material 2 design
-  - Fixes subject search field
-- Enhances app performance
+- **Search Questions** is now available! Features:
+  - Filtering by subjects and / or by levels
+  - Checking answers with one click
+  - Previewing original question papers and mark schemes
+
+**Note:** Past Paper Master is still in beta test, and there are still many features to be added and bugs to be fixed. Please report any issues you encounter to SCIE.DEV. Thank you for your support!
 
 See [commit history](https://github.com/SCIEDEV/PastPaperMaster/commits/main) for further information.
 

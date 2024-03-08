@@ -93,8 +93,8 @@ class DownloadsPage extends StatelessWidget {
 
 class DownloadsTableHeader extends StatelessWidget {
   const DownloadsTableHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -195,8 +195,8 @@ class DownloadEntryRow extends StatelessWidget {
 
 class NoDownloadsPlaceholder extends StatelessWidget {
   const NoDownloadsPlaceholder({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

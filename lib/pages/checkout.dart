@@ -179,8 +179,8 @@ class CheckoutEntryRow extends StatelessWidget {
 
 class CheckoutTableHeader extends StatelessWidget {
   const CheckoutTableHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -212,8 +212,8 @@ class CheckoutTableHeader extends StatelessWidget {
 
 class NoCheckoutPlaceholder extends StatelessWidget {
   const NoCheckoutPlaceholder({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

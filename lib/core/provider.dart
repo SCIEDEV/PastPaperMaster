@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:dio/dio.dart';
 import 'package:past_paper_master/pages/browse.dart';
@@ -562,6 +563,140 @@ class SettingsCN extends ChangeNotifier {
       _checkingUpdates = false;
       _updateAvailable = null;
       _checkUpdatesFailed = true;
+      if (kDebugMode) {
+        print(error);
+      }
+      notifyListeners();
+    });
+  }
+}
+
+class QuestionResult {
+  String questionNo = '';
+  String source = '';
+  String sourceQpName = '';
+  String sourceMsName = '';
+  String sourceQpUrl = '';
+  String sourceMsUrl = '';
+
+  String questionContent = '';
+  String answerContent = '';
+}
+
+class QuestionsCN extends ChangeNotifier {
+  bool _isSearching = false;
+  bool get isSearching => _isSearching;
+  set isSearching(bool value) {
+    _isSearching = value;
+    notifyListeners();
+  }
+
+  String _subject = "All Subjects";
+  String get subject => _subject;
+  set subject(String value) {
+    _subject = value;
+    notifyListeners();
+  }
+
+  int _level = 0;
+  int get level => _level;
+  set level(int value) {
+    _level = value;
+    notifyListeners();
+  }
+
+  int _questionCount = 0;
+  int get questionCount => _questionCount;
+  set questionCount(int value) {
+    _questionCount = value;
+    notifyListeners();
+  }
+
+  List<QuestionResult> _results = [];
+  List<QuestionResult> get results => _results;
+  set results(List<QuestionResult> value) {
+    _results = value;
+    notifyListeners();
+  }
+
+  void addResult(QuestionResult value) {
+    _results.add(value);
+    notifyListeners();
+  }
+
+  void clearResults() {
+    _results.clear();
+    notifyListeners();
+  }
+
+  String _keywords = '';
+  String get keywords => _keywords;
+  set keywords(String value) {
+    _keywords = value;
+    notifyListeners();
+  }
+
+  Future<dynamic> search() {
+    const Map<int, String> zones = {
+      0: "",
+      1: "ig",
+      2: "a",
+    };
+    _isSearching = true;
+    _results.clear();
+    String url =
+        "https://data.caiefinder.com/search/data/?subs=${kSearchSubjects[_subject]}&zone=${zones[_level]}&search=$_keywords";
+    notifyListeners();
+    return Dio().get(url).then((value) {
+      var mainarea = parse(value.data.toString()).querySelector("#mainarea");
+      var currentQuestion = QuestionResult();
+      for (var child in mainarea!.children) {
+        if (child.localName == "center") {
+          var h3 = child.querySelector("h3");
+          if (h3 != null) {
+            if (h3.text.contains(" ↓ FOUND ↓ in ")) {
+              currentQuestion.sourceQpName =
+                  h3.querySelector('a')!.text.split(" ← ")[0];
+              currentQuestion.sourceQpUrl = h3
+                  .querySelector('a')!
+                  .attributes['href']!
+                  .replaceFirst("../pastpapers/view/",
+                      "https://caiefinder.com/pastpapers/pdf/");
+            } else if (h3.text
+                .contains("↓ Below is the answer to this question ↓ in ")) {
+              currentQuestion.sourceMsName =
+                  h3.querySelector('a')!.text.split(" ← ")[0];
+              currentQuestion.sourceMsUrl = h3
+                  .querySelector('a')!
+                  .attributes['href']!
+                  .replaceFirst("../pastpapers/view/",
+                      "https://caiefinder.com/pastpapers/pdf/");
+            } else {
+              if (currentQuestion.questionNo.isNotEmpty) {
+                _results.add(currentQuestion);
+                currentQuestion = QuestionResult();
+              }
+              currentQuestion.source = h3.text.replaceFirst("   ", "\n");
+            }
+          }
+        } else if (child.localName == "div") {
+          currentQuestion.questionNo = child.text.split(' —')[0];
+          currentQuestion.questionContent =
+              child.querySelector('text')?.text.trim() ?? "";
+        } else if (child.localName == "pre") {
+          if (child.className == "mcq") {
+            currentQuestion.answerContent =
+                "${child.text[child.text.length - 1]} (MCQ)";
+          } else {
+            currentQuestion.answerContent = child.text;
+          }
+        }
+      }
+
+      _isSearching = false;
+      notifyListeners();
+    }).catchError((error) {
+      _isSearching = false;
       if (kDebugMode) {
         print(error);
       }
