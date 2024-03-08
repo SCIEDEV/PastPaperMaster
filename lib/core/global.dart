@@ -8,12 +8,7 @@ late BuildContext globalContext;
 const String kAppStage = 'Beta Version';
 
 const String kReleaseNotes = '''
-- **Search Questions** is now available! Features:
-  - Filtering by subjects and / or by levels
-  - Checking answers with one click
-  - Previewing original question papers and mark schemes
-- Enhances application performance
-- Fixes update check dialog
+- Adds paper preview in **Checkout** page.
 
 **Note:** Past Paper Master is still in beta test, and there are still many features to be added and bugs to be fixed. Please report any issues you encounter to SCIE.DEV. Thank you for your support!
 
@@ -21,13 +16,13 @@ See [full changelog](https://github.com/SCIEDEV/PastPaperMaster/releases) and [c
 ''';
 
 const String kAppStageShort = 'β ';
-const String kVersionTag = 'v0.2.1-beta+77';
+const String kVersionTag = 'v0.2.2-beta+79';
 const int kMajorVersion = 0;
 const int kMinorVersion = 2;
-const int kPatchVersion = 1;
-const int kBuildNumber = 77;
+const int kPatchVersion = 2;
+const int kBuildNumber = 79;
 const int kDatabaseVersion = 1;
-const String kLastCommitHash = '95bd791b0de68adebcea532880ca21dadced0bb4';
+const String kLastCommitHash = 'b97e47be0c1e0b1839708acde87420b585ec4e16';
 
 const String kBundledDataPath = 'assets/json/';
 const String kLocalDataPath = '/json/';

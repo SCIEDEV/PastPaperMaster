@@ -116,6 +116,26 @@ class CheckoutItem {
 
   CheckoutItem(this.name, this.path);
 
+  String getItemUrl() {
+    final StringBuffer url = StringBuffer("https://papers.gceguide.com/");
+    if (path.isEmpty) {
+      return url.toString();
+    }
+    if (path[0] == "IGCSE") {
+      url.write("Cambridge%20IGCSE/");
+    } else if (path[0] == "A(S) Level") {
+      url.write("A%20Levels/");
+    } else {
+      // Hopefully we won't reach here :(
+      throw Exception("Invalid document path: ${path[0]}");
+    }
+    for (var i = 1; i < path.length; i++) {
+      url.write("${path[i]}/");
+    }
+    url.write(name);
+    return url.toString();
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is CheckoutItem && name == other.name;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/components/dialogs.dart';
 import 'package:past_paper_master/core/box_decorations.dart';
@@ -6,6 +7,7 @@ import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
+import 'package:pdfrx/pdfrx.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
@@ -168,6 +170,28 @@ class CheckoutEntryRow extends StatelessWidget {
                 style: MTextStyles.smRgGrey500,
               ),
             ),
+            SizedBox(
+              width: 28,
+              height: 28,
+              child: RawMaterialButton(
+                onPressed: () {
+                  showPdfPreview(
+                    context,
+                    item.name,
+                    item.getItemUrl(),
+                  );
+                },
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                ),
+                child: Icon(
+                  FeatherIcons.eye,
+                  color: MColors.grey.shade500,
+                  size: 16,
+                ),
+              ),
+            ),
+            const SizedBox(width: 4),
             if (isSelected)
               Icon(
                 Icons.square_rounded,
@@ -182,6 +206,111 @@ class CheckoutEntryRow extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  void showPdfPreview(
+    BuildContext context,
+    String viewingPdfName,
+    String viewingPdfUrl,
+  ) {
+    viewingPdfName = 'File Preview · $viewingPdfName';
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(viewingPdfName),
+              elevation: 8.0,
+              shadowColor: const Color(0x19101828),
+              titleTextStyle: MTextStyles.lgMdGrey900,
+              shape: Border(
+                bottom: BorderSide(
+                  color: MColors.grey.shade200,
+                ),
+              ),
+              backgroundColor: MColors.white,
+              // add a back button
+              leading: RawMaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  FeatherIcons.chevronLeft,
+                  color: MColors.grey.shade700,
+                  size: 24,
+                ),
+              ),
+              centerTitle: false,
+            ),
+            body: PdfViewer.uri(
+              params: PdfViewerParams(
+                enableTextSelection: true,
+                maxScale: 10.0,
+                backgroundColor: MColors.grey.shade50,
+                errorBannerBuilder: (context, error, stackTrace, documentRef) =>
+                    Container(
+                  decoration: BoxDecoration(
+                    color: MColors.white,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                    border: Border.all(
+                      color: MColors.grey.shade200,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 48,
+                    horizontal: 24,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 64,
+                        height: 64,
+                        child: RiveAnimation.asset(
+                          'assets/rive/empty_folder.riv',
+                          artboard: 'empty download',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                        width: double.infinity,
+                      ),
+                      Text(
+                        'Cannot view document',
+                        style: MTextStyles.mdMdGrey900,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                        width: double.infinity,
+                      ),
+                      Text(
+                        'The document is not a PDF, or a network error occurred.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                      Text(
+                        'If you believe that this should not have happened, screenshot this page and report it to SCIE.DEV.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                      Text(
+                        error.toString(),
+                        style: MTextStyles.smRgGrey200,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Uri.parse(viewingPdfUrl),
+            ),
+          );
+        },
       ),
     );
   }
@@ -217,7 +346,7 @@ class CheckoutTableHeader extends StatelessWidget {
               style: MTextStyles.xsMdGrey500,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 48),
         ],
       ),
     );
