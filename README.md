@@ -15,7 +15,7 @@ Past Paper Master is the successor of [Past Paper Finder](https://github.com/SCI
 
 ## Installing
 
-You may download Past Paper Finder from [GitHub releases](https://github.com/SCIEDEV/PastPaperMaster/releases), or you can build from source as well ;)
+You may download Past Paper Master from [GitHub releases](https://github.com/SCIEDEV/PastPaperMaster/releases), or you can build from source as well ;)
 
 ## Screenshots
 
