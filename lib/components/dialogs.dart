@@ -3,10 +3,8 @@ import 'package:markdown_widget/widget/all.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
 import 'package:past_paper_master/core/global.dart';
-import 'package:past_paper_master/core/provider.dart';
 import 'package:past_paper_master/core/textstyle.dart';
 import 'package:past_paper_master/pages/about.dart';
-import 'package:provider/provider.dart';
 
 class MAlertDialogNoDownloadPath extends StatelessWidget {
   const MAlertDialogNoDownloadPath({
@@ -63,7 +61,8 @@ Future<dynamic> showReleaseNotesDialog(BuildContext context) {
   );
 }
 
-Future<dynamic> showUpdateDialog(BuildContext context, String versionTag) {
+Future<dynamic> showUpdateDialog(
+    BuildContext context, String versionTag, String releaseUrl) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -103,7 +102,7 @@ Future<dynamic> showUpdateDialog(BuildContext context, String versionTag) {
           title: 'Download on GitHub',
           primary: true,
           onPressed: () {
-            safeLaunchUrl(context.read<SettingsCN>().latestReleaseUrl);
+            safeLaunchUrl(releaseUrl);
           },
         ),
       ],

@@ -121,6 +121,7 @@ class MyHomePage extends StatelessWidget {
             showUpdateDialog(
               context,
               '${context.read<SettingsCN>().latestVersion} (${DateFormat('yyyy-MM-dd').format(context.read<SettingsCN>().latestReleaseDate)})',
+              context.read<SettingsCN>().latestReleaseUrl,
             );
           }
         },
