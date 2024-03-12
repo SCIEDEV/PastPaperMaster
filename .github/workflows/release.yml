@@ -40,14 +40,11 @@ jobs:
       uses: actions/checkout@v3
       
     - name: set version number (unix)
-      run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
       if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner != 'windows-latest' }}
+      run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
     - name: set version number (windows)
-      run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
       if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner == 'windows-latest' }}
-    - name: set version number (dev build)
-      run: echo "VERSION_NUM=dev" >> $GITHUB_ENV
-      if: ${{ github.event_name != 'tags' }}
+      run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
     
 
     - name: Install Flutter
@@ -89,7 +86,7 @@ jobs:
     - name: Zip artifact (MacOS)
       if: ${{ matrix.runner == 'macos-latest' }}
       shell: bash
-      run: brew install create-dmg && create-dmg --icon "$(basename ${{ matrix.artifact }})" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" ${{ matrix.artifact }}
+      run: brew install create-dmg && create-dmg --icon "$(basename ${{ matrix.artifact }})" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" "${{ matrix.artifact }}"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
