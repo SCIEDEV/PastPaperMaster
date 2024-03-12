@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - "v*"
+    branches:
+    - main
+    - rc
+    - beta
+    - nightly
+    - hotfix
+    - "*.x"
 
 jobs:
   build:
@@ -34,10 +41,14 @@ jobs:
       
     - name: set version number (unix)
       run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
-      if: ${{ matrix.runner == 'ubuntu-latest' }} or ${{ matrix.runner == 'macos-latest' }}
+      if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner != 'windows-latest' }}
     - name: set version number (windows)
       run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
-      if: ${{ matrix.runner == 'windows-latest' }}
+      if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner == 'windows-latest' }}
+    - name: set version number (dev build)
+      run: echo "VERSION_NUM=dev" >> $GITHUB_ENV
+      if: ${{ github.event_name != 'tags' }}
+    
 
     - name: Install Flutter
       uses: subosito/flutter-action@v2.10.0
@@ -86,6 +97,7 @@ jobs:
         name: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}
         path: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
     - uses: ncipollo/release-action@v1
+      if: ${{ github.event_name == 'tags' }}
       with:
         artifacts: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
         token: ${{ secrets.GITHUB_TOKEN }}
