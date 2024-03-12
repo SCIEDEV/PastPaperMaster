@@ -89,7 +89,7 @@ jobs:
     - name: Zip artifact (MacOS)
       if: ${{ matrix.runner == 'macos-latest' }}
       shell: bash
-      run: tar -C "$(dirname "${{ matrix.artifact }}")" -czf "ppm-${{ matrix.target }}-${VERSION_NUM}.tar.gz" "$(basename "${{ matrix.artifact }}")"
+      run: brew install create-dmg && create-dmg --icon "$(basename ${{ matrix.artifact }})" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" ${{ matrix.artifact }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
