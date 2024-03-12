@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: set version number (unix)
         if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner != 'windows-latest' }}
@@ -47,13 +47,10 @@ jobs:
         run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
 
       - name: Install Flutter
-        uses: subosito/flutter-action@v2.10.0
+        uses: subosito/flutter-action@v2.13.0
         with:
           channel: ${{ matrix.channel }}
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
-          architecture: x64 # action no current support for arm64
 
       - name: Install Dependencies (windows)
         if: ${{ matrix.runner == 'windows-latest' }}
@@ -85,13 +82,14 @@ jobs:
       - name: Zip artifact (MacOS)
         if: ${{ matrix.runner == 'macos-latest' }}
         shell: bash
-        run: brew install create-dmg && create-dmg --icon "$(basename ${{ matrix.artifact }})" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" "${{ matrix.artifact }}"
+        run: brew install create-dmg && create-dmg --icon "Past Paper Master.app" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" "${{ matrix.artifact }}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}
           path: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
+
       - uses: ncipollo/release-action@v1
         if: ${{ github.event_name == 'tags' }}
         with:
