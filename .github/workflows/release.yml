@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - "v*"
+    branches:
+      - main
+      - rc
+      - beta
+      - nightly
+      - hotfix
+      - "*.x"
 
 jobs:
   build:
@@ -11,84 +18,83 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [ windows, linux, macos]
+        target: [windows, linux, macos]
         include:
           - target: windows
             runner: windows-latest
-            channel: 'beta'  
+            channel: "beta"
             artifact: build/windows/x64/runner/Release
           - target: linux
             runner: ubuntu-latest
-            channel: 'stable'  
+            channel: "stable"
             artifact: build/linux/x64/release/bundle
           - target: macos
             runner: macos-latest
-            channel: 'stable'  
+            channel: "stable"
             artifact: "build/macos/Build/Products/Release/Past Paper Master.app"
     runs-on: ${{ matrix.runner }}
     environment: ${{ github.ref_name }}
     timeout-minutes: 20
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      
-    - name: set version number (unix)
-      run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
-      if: ${{ matrix.runner == 'ubuntu-latest' }} or ${{ matrix.runner == 'macos-latest' }}
-    - name: set version number (windows)
-      run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
-      if: ${{ matrix.runner == 'windows-latest' }}
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install Flutter
-      uses: subosito/flutter-action@v2.10.0
-      with:
-        channel: ${{ matrix.channel }}
-        cache: true
-        cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
-        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
-        architecture: x64 # action no current support for arm64
+      - name: set version number (unix)
+        if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner != 'windows-latest' }}
+        run: echo "VERSION_NUM=$(echo ${{ github.ref }} | cut -d / -f 3)" >> $GITHUB_ENV
+      - name: set version number (windows)
+        if: ${{ github.event_name == 'tags' }} and ${{ matrix.runner == 'windows-latest' }}
+        run: echo "VERSION_NUM=$(Split-Path -Leaf ${{ github.ref }})" >> $env:GITHUB_ENV
 
-    - name: Install Dependencies (windows)
-      if: ${{ matrix.runner == 'windows-latest' }}
-      run: |
-        flutter config --enable-windows-desktop
-    - name: Install Dependencies (linux)
-      if: ${{ matrix.runner == 'ubuntu-latest' }}
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y ninja-build libgtk-3-dev
-        flutter config --enable-linux-desktop
-    - name: Install Dependencies (macos)
-      if: ${{ matrix.runner == 'macos-latest' }}
-      run: |
-        flutter config --enable-macos-desktop
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.13.0
+        with:
+          channel: ${{ matrix.channel }}
+          cache: true
 
-    - name: Build Flutter ${{ matrix.target }}
-      run: |
-        make build ${{ matrix.target }}
+      - name: Install Dependencies (windows)
+        if: ${{ matrix.runner == 'windows-latest' }}
+        run: |
+          flutter config --enable-windows-desktop
+      - name: Install Dependencies (linux)
+        if: ${{ matrix.runner == 'ubuntu-latest' }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+          flutter config --enable-linux-desktop
+      - name: Install Dependencies (macos)
+        if: ${{ matrix.runner == 'macos-latest' }}
+        run: |
+          flutter config --enable-macos-desktop
 
-    - name: Zip artifact (Windows)
-      if: ${{ matrix.runner == 'windows-latest' }}
-      shell: pwsh
-      run: Compress-Archive "${{ matrix.artifact }}" "ppm-${{ matrix.target }}-$Env:VERSION_NUM.zip"
-    - name: Zip artifact (Linux)
-      if: ${{ matrix.runner == 'ubuntu-latest' }}
-      shell: bash
-      run: tar -C "$(dirname ${{ matrix.artifact }})" -czf "ppm-${{ matrix.target }}-${VERSION_NUM}.tar.gz" "$(basename ${{ matrix.artifact }})" --transform "s/$(basename ${{ matrix.artifact }})/PastPaperMaster/"
-    - name: Zip artifact (MacOS)
-      if: ${{ matrix.runner == 'macos-latest' }}
-      shell: bash
-      run: tar -C "$(dirname "${{ matrix.artifact }}")" -czf "ppm-${{ matrix.target }}-${VERSION_NUM}.tar.gz" "$(basename "${{ matrix.artifact }}")"
+      - name: Build Flutter ${{ matrix.target }}
+        run: |
+          make build ${{ matrix.target }}
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}
-        path: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
-        token: ${{ secrets.GITHUB_TOKEN }}
-        allowUpdates: true
-        draft: true
-        bodyFile: ".github/docs/release-notes.md"
+      - name: Zip artifact (Windows)
+        if: ${{ matrix.runner == 'windows-latest' }}
+        shell: pwsh
+        run: Compress-Archive "${{ matrix.artifact }}" "ppm-${{ matrix.target }}-$Env:VERSION_NUM.zip"
+      - name: Zip artifact (Linux)
+        if: ${{ matrix.runner == 'ubuntu-latest' }}
+        shell: bash
+        run: tar -C "$(dirname ${{ matrix.artifact }})" -czf "ppm-${{ matrix.target }}-${VERSION_NUM}.tar.gz" "$(basename ${{ matrix.artifact }})" --transform "s/$(basename ${{ matrix.artifact }})/PastPaperMaster/"
+      - name: Zip artifact (MacOS)
+        if: ${{ matrix.runner == 'macos-latest' }}
+        shell: bash
+        run: brew install create-dmg && create-dmg --icon "Past Paper Master.app" 200 190  --app-drop-link 600 185 --volname "PastPaperMaster" "ppm-${{ matrix.target }}-${VERSION_NUM}.dmg" "${{ matrix.artifact }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}
+          path: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
+
+      - uses: ncipollo/release-action@v1
+        if: ${{ github.event_name == 'tags' }}
+        with:
+          artifacts: ppm-${{ matrix.target }}-${{ env.VERSION_NUM }}.*
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          draft: true
+          bodyFile: ".github/docs/release-notes.md"
