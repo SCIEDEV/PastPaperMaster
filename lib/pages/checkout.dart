@@ -250,6 +250,13 @@ class CheckoutEntryRow extends StatelessWidget {
                 enableTextSelection: true,
                 maxScale: 10.0,
                 backgroundColor: MColors.grey.shade50,
+                loadingBannerBuilder: (context, bytesDownloaded, totalBytes) {
+                  return Center(
+                      child: Text(
+                    'Loading document...',
+                    style: MTextStyles.smRgGrey500,
+                  ));
+                },
                 errorBannerBuilder: (context, error, stackTrace, documentRef) =>
                     Container(
                   decoration: BoxDecoration(
