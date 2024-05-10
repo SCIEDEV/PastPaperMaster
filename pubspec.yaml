@@ -6,23 +6,23 @@ publish_to: "none"
 version: 0.2.3+90
 
 environment:
-  sdk: ">=2.18.2 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  window_manager: ^0.2.8
+  window_manager: ^0.3.8
   ionicons: ^0.2.1
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.0.10+1
   provider: ^6.0.5
   flutter_feather_icons: ^2.0.0
-  rive: ^0.11.17
-  dropdown_button2: ^1.9.4
+  rive: ^0.13.4
+  dropdown_button2: ^2.3.9
   path_provider: ^2.0.11
   shared_preferences: ^2.0.16
   uuid: ^4.3.3
-  file_picker: ^5.0.1
+  file_picker: ^8.0.3
   dio: ^5.0.3
   url_launcher: ^6.1.5
 
@@ -35,7 +35,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
