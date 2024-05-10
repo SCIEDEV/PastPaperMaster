@@ -246,7 +246,7 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
     final String? selectedValue = widget.value;
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
-        searchInnerWidgetHeight: 20,
+
         isExpanded: true,
         customButton: RawMaterialButton(
           onPressed: null,
@@ -316,32 +316,45 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
         value: selectedValue,
         onChanged: (value) {
           setState(() {
-            widget.onChanged(context, value);
+            widget.onChanged(context, value as String?);
           });
         },
-        buttonHeight: 40,
-        dropdownElevation: 0,
-        itemHeight: 40,
-        dropdownMaxHeight: 360,
-        dropdownDecoration: BoxDecoration(
-          color: MColors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: MColors.grey.shade200),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x19101828),
-              offset: Offset(0, 4),
-              blurRadius: 8,
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: Color(0x10101828),
-              offset: Offset(0, 2),
-              blurRadius: 4,
-              spreadRadius: -2,
-            ),
-          ],
+        buttonStyleData: const ButtonStyleData(height: 40),
+        onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            textEditingController.clear();
+          }
+        },
+        dropdownStyleData: DropdownStyleData(
+          elevation: 0,
+          maxHeight: 360,
+          padding: const EdgeInsets.only(bottom: 6),
+
+          decoration: BoxDecoration(
+            color: MColors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: MColors.grey.shade200),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x19101828),
+                offset: Offset(0, 4),
+                blurRadius: 8,
+                spreadRadius: -2,
+              ),
+              BoxShadow(
+                color: Color(0x10101828),
+                offset: Offset(0, 2),
+                blurRadius: 4,
+                spreadRadius: -2,
+              ),
+            ],
+          ),
         ),
+        menuItemStyleData: const MenuItemStyleData(height: 40),
+
+
+      dropdownSearchData: DropdownSearchData(
+        searchInnerWidgetHeight: 20,
         searchController: textEditingController,
         searchInnerWidget: Padding(
           padding: const EdgeInsets.only(
@@ -374,12 +387,8 @@ class _MLongDropdownButtonState extends State<MLongDropdownButton> {
               .toLowerCase()
               .contains(searchValue.toLowerCase());
         },
-        dropdownPadding: const EdgeInsets.only(bottom: 6),
-        onMenuStateChange: (isOpen) {
-          if (!isOpen) {
-            textEditingController.clear();
-          }
-        },
+
+      )
       ),
     );
   }
@@ -425,7 +434,9 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
-        scrollbarAlwaysShow: true,
+        // FIXME: Fix this:
+        // scrollbarAlwaysShow: true,
+
         customButton: RawMaterialButton(
           onPressed: null,
           constraints: const BoxConstraints(),
@@ -519,33 +530,47 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
             )
             .toList(),
         value: selectedValue.isEmpty ? null : selectedValue.last,
-        selectedItemHighlightColor: MColors.transparent,
+        // FIXME: Fix this
+        // selectedItemHighlightColor: MColors.transparent,
         onChanged: (value) {},
-        buttonHeight: 40,
-        dropdownElevation: 0,
-        itemHeight: 40,
-        dropdownMaxHeight: 360,
-        dropdownDecoration: BoxDecoration(
-          color: MColors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: MColors.grey.shade200),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x19101828),
-              offset: Offset(0, 4),
-              blurRadius: 8,
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: Color(0x10101828),
-              offset: Offset(0, 2),
-              blurRadius: 4,
-              spreadRadius: -2,
-            ),
+        buttonStyleData: const ButtonStyleData(
+          height: 40,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          scrollbarTheme: ScrollbarThemeData(
+            // I think this does the right thing...
+            thumbVisibility: MaterialStateProperty.all(true)
+          ),
+          elevation: 0,
+          padding: const EdgeInsets.only(bottom: 6),
+          maxHeight: 360,
+          decoration: BoxDecoration(
+            color: MColors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: MColors.grey.shade200),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x19101828),
+                offset: Offset(0, 4),
+                blurRadius: 8,
+                spreadRadius: -2,
+              ),
+              BoxShadow(
+                color: Color(0x10101828),
+                offset: Offset(0, 2),
+                blurRadius: 4,
+                spreadRadius: -2,
+              ),
           ],
         ),
-        itemPadding: EdgeInsets.zero,
-        dropdownPadding: const EdgeInsets.only(bottom: 6),
+      ),
+        menuItemStyleData: const MenuItemStyleData(
+          height: 40,
+          padding: EdgeInsets.zero
+        ),
+
+
+
         onMenuStateChange: (isOpen) {},
       ),
     );
