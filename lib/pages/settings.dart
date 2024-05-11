@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -49,8 +50,11 @@ class SettingsPage extends StatelessWidget {
               flex: 7,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+
                     children: [
                       MButton(
                         onPressed: () {
@@ -102,6 +106,9 @@ class SettingsPage extends StatelessWidget {
                             ),
                         ],
                       ),
+                      const SizedBox(
+                        width: 8,
+                      )
                     ],
                   ),
                   if (context.watch<SettingsCN>().updateAvailable == true) ...[
@@ -142,7 +149,6 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Container()),
           ],
         ),
         Divider(
@@ -151,6 +157,7 @@ class SettingsPage extends StatelessWidget {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               flex: 4,
@@ -192,7 +199,91 @@ class SettingsPage extends StatelessWidget {
                 placeholder: context.read<DownloadCN>().downloadPath == '',
               ),
             ),
-            Expanded(child: Container()),
+          ],
+        ),
+        Divider(
+          color: MColors.grey.shade300,
+          height: 60
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Automatic concurrent download count',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Text(
+                      'Automatically determines how many papers will be downloaded at once',
+                      style: MTextStyles.smRgGrey500,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+                child:
+                    Switch(value: context.read<SettingsCN>().concurrentDownloads != null, onChanged: (value) {
+                      if (value == false) { context.read<SettingsCN>().concurrentDownloads = null; }
+                      else { context.read<SettingsCN>().concurrentDownloads = context.read<SettingsCN>().defaultConcurrentDownloads; }
+                    }),
+                ),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+
+          children: [
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Concurrent download count',
+                      style: globalContext.read<SettingsCN>().concurrentDownloads != null ? MTextStyles.smMdGrey700 : MTextStyles.smMdGrey500,
+                    ),
+                    Text(
+                      'How many papers to download at once',
+                      style: globalContext.read<SettingsCN>().concurrentDownloads != null ? MTextStyles.smRgGrey500 : MTextStyles.smRgGrey300,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: TextFormField(
+                controller: TextEditingController(
+                  text: globalContext.read<SettingsCN>().concurrentDownloads == null ? "" : globalContext.read<SettingsCN>().concurrentDownloads.toString()
+                ),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: MColors.grey.shade300)
+                  ),
+                  isDense: true,
+                  suffixText: "/${Platform.numberOfProcessors}"
+                ),
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                enabled: globalContext.read<SettingsCN>().concurrentDownloads != null,
+                ),
+              )
           ],
         ),
         Divider(

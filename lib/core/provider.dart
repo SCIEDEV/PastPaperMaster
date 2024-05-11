@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -606,7 +607,18 @@ class SettingsCN extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  // TODO: Change this to a sealed interface once upgrade to Dart 3 is complete.
+  int? _concurrentDownloads;
+  int? get concurrentDownloads => _concurrentDownloads;
+  set concurrentDownloads(int? value) {
+    _concurrentDownloads = value;
+    notifyListeners();
+  }
+
+  int defaultConcurrentDownloads = Platform.numberOfProcessors ~/ 4;
 }
+
 
 class QuestionResult {
   String questionNo = '';
