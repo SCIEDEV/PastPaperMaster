@@ -541,6 +541,20 @@ class SettingsCN extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _specialTheme = false;
+  bool get specialTheme => _specialTheme;
+  set specialTheme(bool value) {
+    _specialTheme = value;
+    notifyListeners();
+  }
+
+  int _specialThemeBg = 0;
+  int get specialThemeBg => _specialThemeBg;
+  set specialThemeBg(int value) {
+    _specialThemeBg = value;
+    notifyListeners();
+  }
+
   String _latestVersion = "";
   String get latestVersion => _latestVersion;
   set latestVersion(String value) {

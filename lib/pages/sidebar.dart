@@ -75,7 +75,9 @@ class PublicBetaTestBlock extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Public Beta Test',
+            context.watch<SettingsCN>().specialTheme
+                ? 'Surtr'
+                : 'Public Beta Test',
             style: TextStyle(
               color: MColors.accent.shade700,
               fontSize: 14,
@@ -84,7 +86,9 @@ class PublicBetaTestBlock extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Thank you for participating in Past Paper Master public beta test!',
+            context.watch<SettingsCN>().specialTheme
+                ? 'These memories of Rhodes Island are completely different from those before. They have a sense of realism about them. For the first time, I\'m able to feel that I am truly myself. All of this is thanks to you, and all of Rhodes Island. ...What? I am capable of giving thanks where it is deserved, all right?'
+                : 'Thank you for participating in Past Paper Master public beta test!',
             style: TextStyle(
               color: MColors.accent.shade600,
               fontSize: 14,
@@ -136,7 +140,8 @@ class SidebarItem extends StatelessWidget {
       onPressed: () {
         context.read<GeneralCN>().selectedTab = index;
       },
-      fillColor: isActive ? MColors.accent.shade50 : MColors.white,
+      fillColor: (isActive ? MColors.accent.shade50 : MColors.white)
+          .withAlpha(context.watch<SettingsCN>().specialTheme ? 200 : 255),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       elevation: 0,
       hoverElevation: 0,

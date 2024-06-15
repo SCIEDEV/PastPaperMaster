@@ -140,12 +140,27 @@ class MyHomePage extends StatelessWidget {
                 right: BorderSide(color: MColors.grey.shade200),
               ),
               color: MColors.white,
+              image: context.watch<SettingsCN>().specialTheme
+                  ? const DecorationImage(
+                      image: AssetImage("assets/images/surtr-sidebar.png"),
+                      fit: BoxFit.cover,
+                      opacity: 0.2)
+                  : null,
             ),
             child: const SidebarView(),
           ),
           Expanded(
             child: Container(
-              color: MColors.grey.shade50,
+              decoration: BoxDecoration(
+                image: context.watch<SettingsCN>().specialTheme
+                    ? DecorationImage(
+                        image: AssetImage(
+                            "assets/images/surtr-${context.read<SettingsCN>().specialThemeBg + 1}.jpg"),
+                        fit: BoxFit.cover,
+                        opacity: 0.2)
+                    : null,
+                color: MColors.grey.shade50,
+              ),
               child: selectedTab != 4
                   ? ListView(
                       children: [

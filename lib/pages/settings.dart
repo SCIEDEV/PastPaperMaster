@@ -195,6 +195,132 @@ class SettingsPage extends StatelessWidget {
             Expanded(child: Container()),
           ],
         ),
+        Divider(
+          color: MColors.grey.shade300,
+          height: 60,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Theme selection',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    if (context.watch<SettingsCN>().specialTheme) ...[
+                      Text(
+                        'Happy birthday, my friend.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                    ] else ...[
+                      Text(
+                        'Choose a theme that suits you.',
+                        style: MTextStyles.smRgGrey500,
+                      ),
+                    ]
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 7,
+              child: MButtonGroup(
+                titles: const ['Default', 'Surtr'],
+                selected: context.watch<SettingsCN>().specialTheme ? 1 : 0,
+                onPressed: (context, index) {
+                  context.read<SettingsCN>().specialTheme = index == 1;
+                },
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        if (context.watch<SettingsCN>().specialTheme) ...[
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Theme background',
+                          style: MTextStyles.smMdGrey700,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: MButtonGroup(
+                    titles: const ['#01', '#02', '#03', '#04', '#05'],
+                    selected: context.watch<SettingsCN>().specialThemeBg,
+                    onPressed: (context, index) {
+                      context.read<SettingsCN>().specialThemeBg = index;
+                    },
+                  ),
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
+          ),
+          Divider(
+            color: MColors.grey.shade300,
+            height: 60,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Happy birthday to ',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/images/jkl-avatar.jpg',
+                        width: 128,
+                        height: 128,
+                      ),
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        safeLaunchUrl(
+                            'https://steamcommunity.com/profiles/76561198405632554/');
+                      },
+                      textColor: MColors.accent.shade700,
+                      child: Text(
+                        '@jkl',
+                        style: MTextStyles.smMdAccent700,
+                      ),
+                    ),
+                    Text(
+                      'on 2024-06-16',
+                      style: MTextStyles.smMdGrey500,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

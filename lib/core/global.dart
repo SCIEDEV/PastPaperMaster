@@ -16,13 +16,13 @@ See [full changelog](https://github.com/SCIEDEV/PastPaperMaster/releases) and [c
 ''';
 
 const String kAppStageShort = 'β ';
-const String kVersionTag = 'v0.2.2-beta+79';
+const String kVersionTag = 'v0.2.3-beta+90';
 const int kMajorVersion = 0;
 const int kMinorVersion = 2;
-const int kPatchVersion = 2;
-const int kBuildNumber = 79;
+const int kPatchVersion = 3;
+const int kBuildNumber = 90;
 const int kDatabaseVersion = 1;
-const String kLastCommitHash = 'b97e47be0c1e0b1839708acde87420b585ec4e16';
+const String kLastCommitHash = '7dd0dc3cfe71c109b13e3ef85f3cbd7b6c98c861';
 
 const String kBundledDataPath = 'assets/json/';
 const String kLocalDataPath = '/json/';
