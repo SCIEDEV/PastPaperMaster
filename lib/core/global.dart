@@ -8,7 +8,7 @@ late BuildContext globalContext;
 const String kAppStage = 'Beta Version';
 
 const String kReleaseNotes = '''
-- Adds paper preview in **Checkout** page.
+- Special theme added.
 
 **Note:** Past Paper Master is still in beta test, and there are still many features to be added and bugs to be fixed. Please report any issues you encounter to SCIE.DEV. Thank you for your support!
 

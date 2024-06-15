@@ -22,7 +22,7 @@ jobs:
         include:
           - target: windows
             runner: windows-latest
-            channel: "beta"
+            channel: "stable"
             artifact: build/windows/x64/runner/Release
           - target: linux
             runner: ubuntu-latest
