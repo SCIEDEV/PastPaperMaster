@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:past_paper_master/components/button.dart';
 import 'package:past_paper_master/core/colors.dart';
@@ -231,12 +232,17 @@ class SettingsPage extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-                child:
-                    Switch(value: context.read<SettingsCN>().concurrentDownloads != null, onChanged: (value) {
-                      if (value == false) { context.read<SettingsCN>().concurrentDownloads = null; }
-                      else { context.read<SettingsCN>().concurrentDownloads = context.read<SettingsCN>().defaultConcurrentDownloads; }
-                    }),
-                ),
+              child: Switch(
+                  value: context.read<SettingsCN>().concurrentDownloads == null,
+                  onChanged: (automaticConcurrentDownloadCount) {
+                    var settingsCN = context.read<SettingsCN>();
+                    if (automaticConcurrentDownloadCount) {
+                      settingsCN.concurrentDownloads = null;
+                    } else {
+                      settingsCN.concurrentDownloads = settingsCN.defaultConcurrentDownloads;
+                    }
+                  }),
+            ),
           ],
         ),
         const Padding(padding: EdgeInsets.only(top: 10)),
@@ -244,7 +250,6 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
-
           children: [
             Expanded(
               flex: 4,
@@ -265,24 +270,9 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
+            const Expanded(
               flex: 1,
-              child: TextFormField(
-                controller: TextEditingController(
-                  text: globalContext.read<SettingsCN>().concurrentDownloads == null ? "" : globalContext.read<SettingsCN>().concurrentDownloads.toString()
-                ),
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: MColors.grey.shade300)
-                  ),
-                  isDense: true,
-                  suffixText: "/${Platform.numberOfProcessors}"
-                ),
-                maxLines: 1,
-                keyboardType: TextInputType.number,
-                enabled: globalContext.read<SettingsCN>().concurrentDownloads != null,
-                ),
+              child: ConcurrentDownloadSettingForm()
               )
           ],
         ),
@@ -414,5 +404,81 @@ class SettingsPage extends StatelessWidget {
         ],
       ],
     );
+  }
+}
+
+
+class ConcurrentDownloadSettingForm extends StatefulWidget {
+  const ConcurrentDownloadSettingForm({super.key});
+
+  @override
+  ConcurrentDownloadSettingFormState createState() {
+    return ConcurrentDownloadSettingFormState();
+  }
+}
+
+class ConcurrentDownloadSettingFormState extends State<ConcurrentDownloadSettingForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _textFieldController = TextEditingController(text: globalContext.read<SettingsCN>().concurrentDownloads?.toString());
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.always,
+      onChanged: () {
+        if (_formKey.currentState!.validate()) {
+          var concurrentDownloadCount = int.parse(_textFieldController.text);
+          globalContext.read<SettingsCN>().concurrentDownloads = concurrentDownloadCount;
+          final snackBar = SnackBar(content: Text("Concurrent download count set to: $concurrentDownloadCount"));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      child: Column(
+        children: <Widget>[
+          Consumer<SettingsCN>(
+            builder: (context, settings, child) {
+              return TextFormField(
+                  maxLines: 1,
+                  keyboardType: TextInputType.number,
+                  controller: _textFieldController,
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: MColors.grey.shade300)
+                      ),
+                      isDense: true,
+                      suffixText: "/${Platform.numberOfProcessors}"
+                  ),
+                  enabled: settings
+                      .concurrentDownloads != null,
+                  validator: (value) {
+                    if (value == null) {
+                      return "A number of concurrent downloads is required";
+                    }
+                    int? parsedValue = int.tryParse(value);
+                    if (parsedValue == null) {
+                      return "Provide a number of concurrent downloads";
+                    }
+
+                    if (parsedValue > Platform.numberOfProcessors) {
+                      return "Max supported number of concurrent downloads on your device is ${Platform
+                          .numberOfProcessors}";
+                    }
+
+                    return null;
+                  }
+              );
+            }
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _textFieldController.dispose();
+    super.dispose();
   }
 }

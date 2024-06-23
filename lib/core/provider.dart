@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/pages/browse.dart';
+import 'package:provider/provider.dart';
 
 class GeneralCN extends ChangeNotifier {
   int _selectedTab = 0;
@@ -429,7 +430,7 @@ class DownloadCN extends ChangeNotifier {
       return;
     }
     _completeSnackbarShown = false;
-    if (_currentThreads >= kMaxThreads) {
+    if (_currentThreads >= (globalContext.read<SettingsCN>().concurrentDownloads ?? globalContext.read<SettingsCN>().defaultConcurrentDownloads)) {
       return;
     }
     final DownloadItem item = _downloadQueue.removeFirst();
