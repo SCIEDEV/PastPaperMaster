@@ -81,7 +81,7 @@ class _MButtonGroupState extends State<MButtonGroup> {
     selected = widget.selected;
     return Row(
       children: [
-        for (var i = 0; i < widget.titles.length; i++)
+        for (final (i, title) in widget.titles.indexed)
           RawMaterialButton(
             onPressed: () {
               setState(() {
@@ -131,7 +131,7 @@ class _MButtonGroupState extends State<MButtonGroup> {
                       ),
               ),
               child: Text(
-                widget.titles[i],
+                title,
                 style: TextStyle(
                   color: selected == i ? MColors.white : MColors.grey.shade700,
                   fontSize: 14,
@@ -539,7 +539,7 @@ class _MLongComboDropdownButtonState extends State<MLongComboDropdownButton> {
         dropdownStyleData: DropdownStyleData(
           scrollbarTheme: ScrollbarThemeData(
             // I think this does the right thing...
-            thumbVisibility: MaterialStateProperty.all(true)
+            thumbVisibility: WidgetStateProperty.all(true)
           ),
           elevation: 0,
           padding: const EdgeInsets.only(bottom: 6),

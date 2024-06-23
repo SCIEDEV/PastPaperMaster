@@ -16,13 +16,14 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var checkoutItems = context.watch<CheckoutCN>().items;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.watch<CheckoutCN>().items.isEmpty
+          checkoutItems.isEmpty
               ? 'Checkout'
-              : "Checkout - ${context.watch<CheckoutCN>().items.length} item${context.read<CheckoutCN>().items.length == 1 ? '' : 's'}",
+              : "Checkout - ${checkoutItems.length} item${context.read<CheckoutCN>().items.length == 1 ? '' : 's'}",
           style: MTextStyles.dsmMdGrey900,
         ),
         const SizedBox(height: 24),
@@ -38,7 +39,7 @@ class CheckoutPage extends StatelessWidget {
                 }
               },
               title: (context.watch<CheckoutCN>().selected.length ==
-                      context.watch<CheckoutCN>().items.length)
+                      checkoutItems.length)
                   ? "Select None"
                   : "Select All",
             ),
@@ -52,7 +53,7 @@ class CheckoutPage extends StatelessWidget {
             const Spacer(),
             MButton(
               onPressed: () {
-                if (context.read<DownloadCN>().downloadPath == '') {
+                if (context.read<DownloadCN>().downloadPath.isEmpty) {
                   // show alertdialog
                   showDialog(
                     context: context,
@@ -92,21 +93,20 @@ class CheckoutPage extends StatelessWidget {
           child: Column(
             children: [
               const CheckoutTableHeader(),
-              if (context.watch<CheckoutCN>().items.isEmpty)
+              if (checkoutItems.isEmpty)
                 const NoCheckoutPlaceholder(),
-              for (var i = 0, l = context.watch<CheckoutCN>().items;
-                  i < l.length;
-                  i++) ...[
+              for (final (i, item) in checkoutItems.indexed)...[
                 CheckoutEntryRow(
-                  item: l.elementAt(i),
+                  item: item,
                   documentType: "Document",
                   isSelected: context
                       .watch<CheckoutCN>()
                       .selected
-                      .contains(l.elementAt(i)),
-                  isLast: i == l.length - 1,
+                      .contains(item),
+                  isLast: i == checkoutItems.length - 1,
                 ),
-              ],
+              ]
+              ,
             ],
           ),
         ),
