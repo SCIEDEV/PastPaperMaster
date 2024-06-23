@@ -1,4 +1,4 @@
-package com.example.past_paper_master
+package dev.scie.PastPaperMaster
 
 import io.flutter.embedding.android.FlutterActivity
 
