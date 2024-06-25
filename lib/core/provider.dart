@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:past_paper_master/core/global.dart';
 import 'package:past_paper_master/pages/browse.dart';
+import 'package:provider/provider.dart';
 
 class GeneralCN extends ChangeNotifier {
   int _selectedTab = 0;
@@ -428,7 +430,7 @@ class DownloadCN extends ChangeNotifier {
       return;
     }
     _completeSnackbarShown = false;
-    if (_currentThreads >= kMaxThreads) {
+    if (_currentThreads >= (globalContext.read<SettingsCN>().concurrentDownloads ?? globalContext.read<SettingsCN>().defaultConcurrentDownloads)) {
       return;
     }
     final DownloadItem item = _downloadQueue.removeFirst();
@@ -606,7 +608,18 @@ class SettingsCN extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  // TODO: Change this to a sealed interface once upgrade to Dart 3 is complete.
+  int? _concurrentDownloads;
+  int? get concurrentDownloads => _concurrentDownloads;
+  set concurrentDownloads(int? value) {
+    _concurrentDownloads = value;
+    notifyListeners();
+  }
+
+  int defaultConcurrentDownloads = Platform.numberOfProcessors ~/ 4;
 }
+
 
 class QuestionResult {
   String questionNo = '';

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -51,6 +54,7 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MButton(
                         onPressed: () {
@@ -102,6 +106,9 @@ class SettingsPage extends StatelessWidget {
                             ),
                         ],
                       ),
+                      const SizedBox(
+                        width: 8,
+                      )
                     ],
                   ),
                   if (context.watch<SettingsCN>().updateAvailable == true) ...[
@@ -142,7 +149,6 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Container()),
           ],
         ),
         Divider(
@@ -151,6 +157,7 @@ class SettingsPage extends StatelessWidget {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               flex: 4,
@@ -192,7 +199,87 @@ class SettingsPage extends StatelessWidget {
                 placeholder: context.read<DownloadCN>().downloadPath == '',
               ),
             ),
-            Expanded(child: Container()),
+          ],
+        ),
+        Divider(color: MColors.grey.shade300, height: 60),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Automatic concurrent download count',
+                      style: MTextStyles.smMdGrey700,
+                    ),
+                    Text(
+                      context.read<SettingsCN>().concurrentDownloads == null
+                          ? "PastPaperMaster will automatically determine the number of concurrent downloads"
+                          : "",
+                      style: MTextStyles.smRgGrey500,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Switch(
+                  value: context.read<SettingsCN>().concurrentDownloads == null,
+                  onChanged: (automaticConcurrentDownloadCount) {
+                    final settingsCN = context.read<SettingsCN>();
+                    if (automaticConcurrentDownloadCount) {
+                      settingsCN.concurrentDownloads = null;
+                    } else {
+                      settingsCN.concurrentDownloads =
+                          settingsCN.defaultConcurrentDownloads;
+                    }
+                  }),
+            ),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Concurrent download count',
+                      style: globalContext
+                                  .read<SettingsCN>()
+                                  .concurrentDownloads !=
+                              null
+                          ? MTextStyles.smMdGrey700
+                          : MTextStyles.smMdGrey500,
+                    ),
+                    Text(
+                      'How many papers to download at once',
+                      style: globalContext
+                                  .read<SettingsCN>()
+                                  .concurrentDownloads !=
+                              null
+                          ? MTextStyles.smRgGrey500
+                          : MTextStyles.smRgGrey300,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Expanded(flex: 1, child: ConcurrentDownloadSettingForm())
           ],
         ),
         Divider(
@@ -323,5 +410,100 @@ class SettingsPage extends StatelessWidget {
         ],
       ],
     );
+  }
+}
+
+class ConcurrentDownloadSettingForm extends StatefulWidget {
+  const ConcurrentDownloadSettingForm({super.key});
+
+  @override
+  ConcurrentDownloadSettingFormState createState() {
+    return ConcurrentDownloadSettingFormState();
+  }
+}
+
+class ConcurrentDownloadSettingFormState
+    extends State<ConcurrentDownloadSettingForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _textFieldController = TextEditingController(
+      text: globalContext.read<SettingsCN>().concurrentDownloads?.toString());
+  Timer? _debounceTimer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      onChanged: () {
+        if (_debounceTimer?.isActive == true) {
+          _debounceTimer?.cancel();
+        }
+        _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+          if (_formKey.currentState!.validate()) {
+            setConcurrentDownloadCountAndShowSnackbar(context);
+          }
+        });
+      },
+      child: Column(
+        children: <Widget>[
+          Consumer<SettingsCN>(builder: (context, settings, child) {
+            return TextFormField(
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                controller: _textFieldController,
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: MColors.grey.shade300)),
+                    isDense: true,
+                    suffixText: "/${Platform.numberOfProcessors}"),
+                enabled: settings.concurrentDownloads != null,
+                onEditingComplete: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Cancel the debounce timer so that it doesn't trigger the snackbar a second time.
+                    _debounceTimer?.cancel();
+                    setConcurrentDownloadCountAndShowSnackbar(context);
+                  }
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return "A number of concurrent downloads is required";
+                  }
+                  int? parsedValue = int.tryParse(value);
+                  if (parsedValue == null) {
+                    return "Provide a number of concurrent downloads";
+                  }
+
+                  if (parsedValue > Platform.numberOfProcessors) {
+                    return "Max supported number of concurrent downloads on your device is ${Platform.numberOfProcessors}";
+                  }
+
+                  return null;
+                });
+          })
+        ],
+      ),
+    );
+  }
+
+  void setConcurrentDownloadCountAndShowSnackbar(BuildContext context) {
+    final concurrentDownloadCount = int.parse(_textFieldController.text);
+    globalContext.read<SettingsCN>().concurrentDownloads =
+        concurrentDownloadCount;
+    final snackBar = SnackBar(
+      content:
+          Text("Concurrent download count set to: $concurrentDownloadCount"),
+      duration: const Duration(seconds: 1),
+    );
+    // Remove the current snackbar, so the user isn't flooded with confirmations about having changed the concurrent download count.
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  void dispose() {
+    _textFieldController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
   }
 }
