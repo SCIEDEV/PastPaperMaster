@@ -6,10 +6,10 @@ from tqdm import tqdm
 syllabus = "IGCSE"
 
 if syllabus == "IGCSE":
-    url = "https://papers.gceguide.com/Cambridge%20IGCSE/"
+    url = "https://papers.gceguide.cc/cambridge-IGCSE/"
     filename = "igcse.json"
 else:
-    url = "https://papers.gceguide.com/A%20Levels/"
+    url = "https://papers.gceguide.cc/a-levels/"
     filename = "alevel.json"
 
 result = {}

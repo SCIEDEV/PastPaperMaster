@@ -117,14 +117,14 @@ class CheckoutItem {
   CheckoutItem(this.name, this.path);
 
   String getItemUrl() {
-    final StringBuffer url = StringBuffer("https://papers.gceguide.com/");
+    final StringBuffer url = StringBuffer("https://papers.gceguide.cc/");
     if (path.isEmpty) {
       return url.toString();
     }
     if (path[0] == "IGCSE") {
-      url.write("Cambridge%20IGCSE/");
+      url.write("cambridge-IGCSE/");
     } else if (path[0] == "A(S) Level") {
-      url.write("A%20Levels/");
+      url.write("a-levels/");
     } else {
       // Hopefully we won't reach here :(
       throw Exception("Invalid document path: ${path[0]}");
@@ -146,14 +146,14 @@ class CheckoutItem {
 
 class BrowseCN extends ChangeNotifier {
   String getViewingDocumentUrl() {
-    final StringBuffer url = StringBuffer("https://papers.gceguide.com/");
+    final StringBuffer url = StringBuffer("https://papers.gceguide.cc/");
     if (_path.isEmpty) {
       return url.toString();
     }
     if (_path[0] == "IGCSE") {
-      url.write("Cambridge%20IGCSE/");
+      url.write("cambridge-IGCSE/");
     } else if (_path[0] == "A(S) Level") {
-      url.write("A%20Levels/");
+      url.write("a-levels/");
     } else {
       // Hopefully we won't reach here :(
       throw Exception("Invalid document path: ${_path[0]}");
@@ -498,11 +498,11 @@ class DownloadCN extends ChangeNotifier {
       final newDownload = DownloadItem("", [], "");
       newDownload.name = item.name;
       newDownload.path = item.path;
-      newDownload.url = "https://papers.gceguide.com/";
+      newDownload.url = "https://papers.gceguide.cc/";
       if (item.path[0] == "IGCSE") {
-        newDownload.url += "Cambridge%20IGCSE/";
+        newDownload.url += "cambridge-IGCSE/";
       } else if (item.path[0] == "A(S) Level") {
-        newDownload.url += "A%20Levels/";
+        newDownload.url += "a-levels/";
       } else {
         // Hopefully we won't reach here :(
         throw Exception("Invalid document path: ${item.path[0]}");
