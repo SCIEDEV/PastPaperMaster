@@ -29,7 +29,6 @@ const String kLocalDataPath = '/json/';
 late String appSupportPath;
 
 String kDownloadPath = '';
-const int kMaxThreads = 3;
 
 const Map<String, String> kSearchSubjects = {
   "All Subjects": "",
